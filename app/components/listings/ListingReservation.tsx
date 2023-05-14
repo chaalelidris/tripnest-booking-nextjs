@@ -26,43 +26,43 @@ const ListingReservation: React.FC<
   disabled,
   disabledDates
 }) => {
-  return ( 
-    <div 
-      className="
+    return (
+      <div
+        className="
       bg-white 
         rounded-xl 
         border-[1px]
       border-neutral-200 
         overflow-hidden
       "
-    >
-      <div className="
+      >
+        <div className="
       flex flex-row items-center gap-1 p-4">
-        <div className="text-2xl font-semibold">
-          $ {price}
+          <div className="text-2xl font-semibold">
+            DA {price}
+          </div>
+          <div className="font-light text-neutral-600">
+            night
+          </div>
         </div>
-        <div className="font-light text-neutral-600">
-          night
-        </div>
-      </div>
-      <hr />
-      <Calendar
-        value={dateRange}
-        disabledDates={disabledDates}
-        onChange={(value) => 
-          onChangeDate(value.selection)}
-      />
-      <hr />
-      <div className="p-4">
-        <Button 
-          disabled={disabled} 
-          label="Reserve" 
-          onClick={onSubmit}
+        <hr />
+        <Calendar
+          value={dateRange}
+          disabledDates={disabledDates}
+          onChange={(value) =>
+            onChangeDate(value.selection)}
         />
-      </div>
-      <hr />
-      <div 
-        className="
+        <hr />
+        <div className="p-4">
+          <Button
+            disabled={disabled}
+            label="Reserve"
+            onClick={onSubmit}
+          />
+        </div>
+        <hr />
+        <div
+          className="
           p-4 
           flex 
           flex-row 
@@ -71,16 +71,16 @@ const ListingReservation: React.FC<
           font-semibold
           text-lg
         "
-      >
-        <div>
-          Total
-        </div>
-        <div>
-          $ {totalPrice}
+        >
+          <div>
+            Total
+          </div>
+          <div>
+            DA {totalPrice}
+          </div>
         </div>
       </div>
-    </div>
-   );
-}
- 
+    );
+  }
+
 export default ListingReservation;
