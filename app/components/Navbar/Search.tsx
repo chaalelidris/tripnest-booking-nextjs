@@ -13,10 +13,10 @@ const Search = () => {
   const params = useSearchParams();
   const { getByValue } = useCountries();
 
-  const  locationValue = params?.get('locationValue'); 
-  const  startDate = params?.get('startDate');
-  const  endDate = params?.get('endDate');
-  const  guestCount = params?.get('guestCount');
+  const locationValue = params?.get('locationValue');
+  const startDate = params?.get('startDate');
+  const endDate = params?.get('endDate');
+  const guestCount = params?.get('guestCount');
 
   const locationLabel = useMemo(() => {
     if (locationValue) {
@@ -50,7 +50,7 @@ const Search = () => {
     return 'Add Guests';
   }, [guestCount]);
 
-  return ( 
+  return (
     <div
       onClick={searchModal.onOpen}
       className="
@@ -65,7 +65,7 @@ const Search = () => {
         cursor-pointer
       "
     >
-      <div 
+      <div
         className="
           flex 
           flex-row 
@@ -73,7 +73,7 @@ const Search = () => {
           justify-between
         "
       >
-        <div 
+        <div
           className="
             text-sm 
             font-semibold 
@@ -82,7 +82,7 @@ const Search = () => {
         >
           {locationLabel}
         </div>
-        <div 
+        <div
           className="
             hidden 
             sm:block 
@@ -96,7 +96,7 @@ const Search = () => {
         >
           {durationLabel}
         </div>
-        <div 
+        <div
           className="
             text-sm 
             pl-6 
@@ -109,10 +109,10 @@ const Search = () => {
           "
         >
           <div className="hidden sm:block">{guestLabel}</div>
-          <div 
+          <div
             className="
               p-2 
-              bg-rose-500 
+              bg-primary
               rounded-full 
               text-white
             "
@@ -124,5 +124,5 @@ const Search = () => {
     </div>
   );
 }
- 
+
 export default Search;

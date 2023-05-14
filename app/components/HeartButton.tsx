@@ -12,7 +12,7 @@ interface HeartButtonProps {
   currentUser?: SafeUser | null
 }
 
-const HeartButton: React.FC<HeartButtonProps> = ({ 
+const HeartButton: React.FC<HeartButtonProps> = ({
   listingId,
   currentUser
 }) => {
@@ -22,7 +22,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({
   });
 
   return (
-    <div 
+    <div
       onClick={toggleFavorite}
       className="
         relative
@@ -47,7 +47,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({
         }
       />
     </div>
-   );
+  );
 }
- 
+
 export default HeartButton;
