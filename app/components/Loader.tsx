@@ -1,11 +1,12 @@
 'use client';
 
 import { PuffLoader } from "react-spinners";
+import LogoLoader from "@/app/components/Logo-loader";
 
 const Loader = () => {
-  return ( 
+  return (
     <div
-    className="
+      className="
       h-[70vh]
       flex 
       flex-col 
@@ -13,12 +14,13 @@ const Loader = () => {
       items-center 
     "
     >
-      <PuffLoader
+      {/* <PuffLoader
         size={100}
         color="red"
-      />
+      /> */}
+      <LogoLoader />
     </div>
-   );
+  );
 }
- 
+
 export default Loader;

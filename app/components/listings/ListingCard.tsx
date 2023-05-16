@@ -40,6 +40,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   const location = getByValue(data.locationValue);
 
+  const title = data.title;
+
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -107,6 +109,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
               currentUser={currentUser}
             />
           </div>
+        </div>
+        <div className="font-extrabold text-black overflow-ellipsis whitespace-nowrap overflow-hidden text-lg">
+          {title}
         </div>
         <div className="font-semibold text-lg">
           {location?.region}, {location?.label}
