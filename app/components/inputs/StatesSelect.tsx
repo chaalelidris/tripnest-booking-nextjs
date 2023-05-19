@@ -1,45 +1,44 @@
-'use client';
+import useWilayas from '@/app/hooks/useWilayas';
+import React from 'react';
+import Select from 'react-select';
 
-import Select from 'react-select'
 
-import useCountries from '@/app/hooks/useCountries';
 
-export type CountrySelectValue = {
-  flag: string;
-  label: string;
-  latlng: number[],
-  region: string;
-  value: string
+export type WilayaSelectValue = {
+  id: string;
+  name: string;
+  longName: string;
+  latitude: number;
+  longitude: number
 }
 
-interface CountrySelectProps {
-  value?: CountrySelectValue;
-  onChange: (value: CountrySelectValue) => void;
+interface WilayaSelectProps {
+  value?: WilayaSelectValue;
+  onChange: (value: WilayaSelectValue) => void;
 }
 
-const CountrySelect: React.FC<CountrySelectProps> = ({
+const WilayaSelect: React.FC<WilayaSelectProps> = ({
   value,
   onChange
 }) => {
-  const { getAll } = useCountries();
-
+  const { getAll } = useWilayas();
 
   return (
     <div>
       <Select
-        placeholder="Anywhere"
+        placeholder="Select a wilaya"
         isClearable
         options={getAll()}
         value={value}
-        onChange={(value) => onChange(value as CountrySelectValue)}
+        onChange={(value) => onChange(value as WilayaSelectValue)}
         formatOptionLabel={(option: any) => (
           <div className="
           flex flex-row items-center gap-3">
-            <div>{option.flag}</div>
+            <div>{option.id}</div>
             <div>
-              {option.label},
+              {option.name},
               <span className="text-neutral-500 ml-1">
-                {option.region}
+                {option.longName}
               </span>
             </div>
           </div>
@@ -59,8 +58,11 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
           }
         })}
       />
+
     </div>
   );
-}
+};
 
-export default CountrySelect;
+
+
+export default WilayaSelect;

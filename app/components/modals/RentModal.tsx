@@ -17,18 +17,21 @@ import Modal from "./Modal";
 import Counter from "../inputs/Counter";
 import CategoryInput from '../inputs/CategoryInput';
 import CountrySelect from "../inputs/CountrySelect";
+import StatesSelect from "../inputs/StatesSelect";
 import { categories } from '@/app/components/Navbar/Categories';
 import ImageUpload from '../inputs/ImageUpload';
 import Input from '../inputs/Input';
 import Heading from '../Heading';
 
+
 enum STEPS {
   CATEGORY = 0,
   LOCATION = 1,
-  INFO = 2,
-  IMAGES = 3,
-  DESCRIPTION = 4,
-  PRICE = 5,
+  WILAYA = 2,
+  INFO = 3,
+  IMAGES = 4,
+  DESCRIPTION = 5,
+  PRICE = 6,
 }
 
 const RentModal = () => {
@@ -51,6 +54,7 @@ const RentModal = () => {
     defaultValues: {
       category: '',
       location: null,
+      wilayaLocation: null,
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
@@ -61,8 +65,9 @@ const RentModal = () => {
     }
   });
 
-  const location = watch('location');
   const category = watch('category');
+  const location = watch('location');
+  const wilayaLocation = watch('wilayaLocation');
   const guestCount = watch('guestCount');
   const roomCount = watch('roomCount');
   const bathroomCount = watch('bathroomCount');
@@ -72,6 +77,9 @@ const RentModal = () => {
     ssr: false
   }), [location]);
 
+  const WilayaMap = useMemo(() => dynamic(() => import('../Wilaya-map'), {
+    ssr: false
+  }), [wilayaLocation]);
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -170,9 +178,39 @@ const RentModal = () => {
           value={location}
           onChange={(value) => setCustomValue('location', value)}
         />
+        <hr />
         <Map center={location?.latlng} />
       </div>
     );
+  }
+
+  if (step === STEPS.WILAYA) {
+    let center = wilayaLocation && [wilayaLocation?.latitude, wilayaLocation?.longitude];
+
+    location?.label == "Algeria" ? (bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Where is your wilaya located?"
+          subtitle="Help guests find you!"
+        />
+        <hr />
+        <StatesSelect
+          value={wilayaLocation}
+          onChange={(value) => setCustomValue('wilayaLocation', value)} />
+
+        <WilayaMap center={center} />
+      </div>
+    )) : (bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Ooops! Currently we are providing rental servises only for Algeria country"
+          subtitle=""
+        />
+        <hr />
+        <p className='text-rose-500'>Please click back and select algeria country</p>
+
+      </div>
+    ));
   }
 
   if (step === STEPS.INFO) {
