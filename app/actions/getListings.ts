@@ -8,6 +8,7 @@ export interface IListingsParams {
   startDate?: string;
   endDate?: string;
   locationValue?: string;
+  wilayaLocationValue?: string;
   category?: string;
 }
 
@@ -17,10 +18,11 @@ export default async function getListings(
   try {
     const {
       userId,
-      roomCount, 
-      guestCount, 
-      bathroomCount, 
+      roomCount,
+      guestCount,
+      bathroomCount,
       locationValue,
+      wilayaLocationValue,
       startDate,
       endDate,
       category,
@@ -56,6 +58,10 @@ export default async function getListings(
 
     if (locationValue) {
       query.locationValue = locationValue;
+    }
+
+    if (wilayaLocationValue) {
+      query.wilayaLocationValue = wilayaLocationValue;
     }
 
     if (startDate && endDate) {

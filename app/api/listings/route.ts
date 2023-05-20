@@ -4,7 +4,7 @@ import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function POST(
-  request: Request, 
+  request: Request,
 ) {
   const currentUser = await getCurrentUser();
 
@@ -13,7 +13,7 @@ export async function POST(
   }
 
   const body = await request.json();
-  const { 
+  const {
     title,
     description,
     imageSrc,
@@ -22,8 +22,9 @@ export async function POST(
     bathroomCount,
     guestCount,
     location,
+    wilayaLocation,
     price,
-   } = body;
+  } = body;
 
   Object.keys(body).forEach((value: any) => {
     if (!body[value]) {
@@ -41,8 +42,9 @@ export async function POST(
       bathroomCount,
       guestCount,
       locationValue: location.value,
-      price: parseInt(price, 10),
-      userId: currentUser.id
+      wilayaLocationValue: wilayaLocation.label,
+      userId: currentUser.id,
+      price: parseInt(price, 10)
     }
   });
 

@@ -15,6 +15,7 @@ import {
 import HeartButton from "../HeartButton";
 import Button from "../Button";
 import ClientOnly from "../ClientOnly";
+import useWilayas from "@/app/hooks/useWilayas";
 
 interface ListingCardProps {
   data: SafeListing;
@@ -37,8 +38,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
   const router = useRouter();
   const { getByValue } = useCountries();
+  const { getWilayaByValue } = useWilayas();
 
   const location = getByValue(data.locationValue);
+  const wilayaLocation = getWilayaByValue(data.wilayaLocationValue);
 
   const title = data.title;
 
@@ -114,7 +117,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
           {title}
         </div>
         <div className="font-semibold text-lg">
-          {location?.region}, {location?.label}
+          {location?.region}, {location?.label},
+          <span className="font-semibold text-neutral-500"> {wilayaLocation?.label}</span>
         </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}

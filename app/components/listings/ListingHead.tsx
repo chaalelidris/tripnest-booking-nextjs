@@ -7,10 +7,12 @@ import { SafeUser } from "@/app/types";
 
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
+import useWilayas from "@/app/hooks/useWilayas";
 
 interface ListingHeadProps {
   title: string;
   locationValue: string;
+  wilayaLocationValue: string;
   imageSrc: string;
   id: string;
   currentUser?: SafeUser | null
@@ -19,19 +21,22 @@ interface ListingHeadProps {
 const ListingHead: React.FC<ListingHeadProps> = ({
   title,
   locationValue,
+  wilayaLocationValue,
   imageSrc,
   id,
   currentUser
 }) => {
   const { getByValue } = useCountries();
+  const { getWilayaByValue } = useWilayas();
 
   const location = getByValue(locationValue);
+  const wilayaLocation = getWilayaByValue(wilayaLocationValue);
 
-  return ( 
+  return (
     <>
       <Heading
         title={title}
-        subtitle={`${location?.region}, ${location?.label}`}
+        subtitle={`${location?.region}, ${location?.label}, ${wilayaLocation?.label}`}
       />
       <div className="
           w-full
@@ -54,14 +59,14 @@ const ListingHead: React.FC<ListingHeadProps> = ({
             right-5
           "
         >
-          <HeartButton 
+          <HeartButton
             listingId={id}
             currentUser={currentUser}
           />
         </div>
       </div>
     </>
-   );
+  );
 }
- 
+
 export default ListingHead;

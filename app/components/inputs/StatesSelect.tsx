@@ -1,13 +1,14 @@
+'use client';
+
 import useWilayas from '@/app/hooks/useWilayas';
-import React from 'react';
 import Select from 'react-select';
 
 
 
 export type WilayaSelectValue = {
   id: string;
-  name: string;
-  longName: string;
+  label: string;
+  value: string;
   latitude: number;
   longitude: number
 }
@@ -36,9 +37,9 @@ const WilayaSelect: React.FC<WilayaSelectProps> = ({
           flex flex-row items-center gap-3">
             <div>{option.id}</div>
             <div>
-              {option.name},
+              {option.label},
               <span className="text-neutral-500 ml-1">
-                {option.longName}
+                {option.value}
               </span>
             </div>
           </div>

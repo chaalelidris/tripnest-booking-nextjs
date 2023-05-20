@@ -53,8 +53,8 @@ let wilayas: { id: string; name: string; longName: string; latitude: number; lon
 
 const formattedWilayas = wilayas.map((wilaya) => ({
   id: wilaya.id,
-  name: wilaya.name,
-  longName: wilaya.longName,
+  label: wilaya.name,
+  value: wilaya.longName,
   latitude: wilaya.latitude,
   longitude: wilaya.longitude,
 }));
@@ -64,14 +64,14 @@ const useWilayas = () => {
 
   const getAll = () => formattedWilayas;
 
-  const getByValue = (value: string) => {
-    return formattedWilayas.find((item) => item.name === value);
+  const getWilayaByValue = (value: string) => {
+    return formattedWilayas.find((item) => item.label === value);
   }
 
 
   return {
     getAll,
-    getByValue,
+    getWilayaByValue,
   };
 };
 

@@ -8,9 +8,10 @@ import { SafeUser } from "@/app/types";
 
 import Avatar from "../Avatar";
 import ListingCategory from "./ListingCategory";
+import useWilayas from "@/app/hooks/useWilayas";
 
-const Map = dynamic(() => import('../Map'), { 
-  ssr: false 
+const Map = dynamic(() => import('../Map'), {
+  ssr: false
 });
 
 interface ListingInfoProps {
@@ -25,6 +26,7 @@ interface ListingInfoProps {
     description: string;
   } | undefined
   locationValue: string;
+  wilayaLocationValue: string;
 }
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
@@ -35,15 +37,18 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   bathroomCount,
   category,
   locationValue,
+  wilayaLocationValue,
 }) => {
   const { getByValue } = useCountries();
+  const { getWilayaByValue } = useWilayas();
 
   const coordinates = getByValue(locationValue)?.latlng
+  const wilayaCoordinates = [getWilayaByValue(wilayaLocationValue)?.latitude, getWilayaByValue(wilayaLocationValue)?.longitude]
 
-  return ( 
+  return (
     <div className="col-span-4 flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <div 
+        <div
           className="
             text-xl 
             font-semibold 
@@ -79,9 +84,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       <hr />
       {category && (
         <ListingCategory
-          icon={category.icon} 
+          icon={category.icon}
           label={category?.label}
-          description={category?.description} 
+          description={category?.description}
         />
       )}
       <hr />
@@ -92,7 +97,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       <hr />
       <Map center={coordinates} />
     </div>
-   );
+  );
 }
- 
+
 export default ListingInfo;
