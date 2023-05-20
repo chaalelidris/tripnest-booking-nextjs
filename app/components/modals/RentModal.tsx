@@ -77,7 +77,7 @@ const RentModal = () => {
     ssr: false
   }), [location]);
 
-  const WilayaMap = useMemo(() => dynamic(() => import('../Wilaya-map'), {
+  const WilayaMap = useMemo(() => dynamic(() => import('../Map'), {
     ssr: false
   }), [wilayaLocation]);
 
@@ -179,7 +179,7 @@ const RentModal = () => {
           onChange={(value) => setCustomValue('location', value)}
         />
         <hr />
-        <Map center={location?.latlng} />
+        <Map center={location?.latlng} zoom={4} />
       </div>
     );
   }
@@ -198,7 +198,7 @@ const RentModal = () => {
           value={wilayaLocation}
           onChange={(value) => setCustomValue('wilayaLocation', value)} />
 
-        <WilayaMap center={center} />
+        <WilayaMap center={center} zoom={10} />
       </div>
     )) : (bodyContent = (
       <div className="flex flex-col gap-8">

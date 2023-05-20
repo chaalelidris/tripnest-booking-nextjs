@@ -57,6 +57,7 @@ const formattedWilayas = wilayas.map((wilaya) => ({
   value: wilaya.longName,
   latitude: wilaya.latitude,
   longitude: wilaya.longitude,
+  latlng: [wilaya.latitude, wilaya.longitude],
 }));
 
 

@@ -43,7 +43,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   const { getWilayaByValue } = useWilayas();
 
   const coordinates = getByValue(locationValue)?.latlng
-  const wilayaCoordinates = [getWilayaByValue(wilayaLocationValue)?.latitude, getWilayaByValue(wilayaLocationValue)?.longitude]
+  const wilayaCoordinates = getWilayaByValue(wilayaLocationValue)?.latlng
 
   return (
     <div className="col-span-4 flex flex-col gap-8">
@@ -95,7 +95,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         {description}
       </div>
       <hr />
-      <Map center={coordinates} />
+      <Map center={wilayaCoordinates} zoom={10} />
     </div>
   );
 }
