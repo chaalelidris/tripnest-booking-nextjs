@@ -8,8 +8,14 @@ import EmptyState from "@/app/components/EmptyState";
 
 import ListingClient from "./ListingClient";
 
+
 interface IParams {
   listingId?: string;
+}
+
+export const metadata = {
+  title: 'Listing | Tripnest ',
+  description: `Tripnest booking listing `,
 }
 
 const ListingPage = async ({ params }: { params: IParams }) => {
@@ -36,5 +42,7 @@ const ListingPage = async ({ params }: { params: IParams }) => {
     </ClientOnly>
   );
 }
- 
+
+
+
 export default ListingPage;

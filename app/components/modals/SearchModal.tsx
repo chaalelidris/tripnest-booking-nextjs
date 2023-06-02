@@ -12,7 +12,7 @@ import useSearchModal from "@/app/hooks/useSearchModal";
 import Modal from "./Modal";
 import Calendar from "../inputs/Calendar";
 import Counter from "../inputs/Counter";
-import CountrySelect, { 
+import CountrySelect, {
   CountrySelectValue
 } from "../inputs/CountrySelect";
 import Heading from '../Heading';
@@ -40,8 +40,8 @@ const SearchModal = () => {
     key: 'selection'
   });
 
-  const Map = useMemo(() => dynamic(() => import('../Map'), { 
-    ssr: false 
+  const Map = useMemo(() => dynamic(() => import('../Map'), {
+    ssr: false
   }), [location]);
 
   const onBack = useCallback(() => {
@@ -87,19 +87,19 @@ const SearchModal = () => {
     setStep(STEPS.LOCATION);
     searchModal.onClose();
     router.push(url);
-  }, 
-  [
-    step, 
-    searchModal, 
-    location, 
-    router, 
-    guestCount, 
-    roomCount,
-    dateRange,
-    onNext,
-    bathroomCount,
-    params
-  ]);
+  },
+    [
+      step,
+      searchModal,
+      location,
+      router,
+      guestCount,
+      roomCount,
+      dateRange,
+      onNext,
+      bathroomCount,
+      params
+    ]);
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.INFO) {
@@ -123,13 +123,13 @@ const SearchModal = () => {
         title="Where do you wanna go?"
         subtitle="Find the perfect location!"
       />
-      <CountrySelect 
-        value={location} 
-        onChange={(value) => 
-          setLocation(value as CountrySelectValue)} 
+      <CountrySelect
+        value={location}
+        onChange={(value) =>
+          setLocation(value as CountrySelectValue)}
       />
       <hr />
-      <Map center={location?.latlng} />
+      <Map center={location?.latlng} zoom={4} />
     </div>
   )
 
@@ -155,21 +155,21 @@ const SearchModal = () => {
           title="More information"
           subtitle="Find your perfect place!"
         />
-        <Counter 
+        <Counter
           onChange={(value) => setGuestCount(value)}
           value={guestCount}
-          title="Guests" 
+          title="Guests"
           subtitle="How many guests are coming?"
         />
         <hr />
-        <Counter 
+        <Counter
           onChange={(value) => setRoomCount(value)}
           value={roomCount}
-          title="Rooms" 
+          title="Rooms"
           subtitle="How many rooms do you need?"
-        />        
+        />
         <hr />
-        <Counter 
+        <Counter
           onChange={(value) => {
             setBathroomCount(value)
           }}

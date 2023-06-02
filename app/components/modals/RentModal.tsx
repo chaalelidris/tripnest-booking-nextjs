@@ -59,9 +59,9 @@ const RentModal = () => {
       roomCount: 1,
       bathroomCount: 1,
       imageSrc: '',
-      price: 1,
-      title: '',
+      listingTitle: '',
       description: '',
+      price: 1,
     }
   });
 
@@ -267,7 +267,7 @@ const RentModal = () => {
           subtitle="Short and sweet works best!"
         />
         <Input
-          id="title"
+          id="listingTitle"
           label="Title"
           disabled={isLoading}
           register={register}
@@ -292,7 +292,7 @@ const RentModal = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Now, set your price"
-          subtitle="How much do you charge per mounth?"
+          subtitle="How much do you charge per night?"
         />
         <Input
           id="price"

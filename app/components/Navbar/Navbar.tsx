@@ -22,15 +22,13 @@ const Navbar: React.FC<NavbarProps> = ({
         "
       >
         <Container>
-          <div
-            className="
-            flex 
-            flex-row 
-            items-center 
-            justify-between
-            gap-3
-            md:gap-0
-          "
+          <div className="flex 
+                          flex-row 
+                          items-center 
+                          justify-between
+                          gap-3
+                          md:gap-0
+                          z-20"
           >
             <Logo />
             <Search />

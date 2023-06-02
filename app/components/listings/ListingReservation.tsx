@@ -42,7 +42,7 @@ const ListingReservation: React.FC<
             DZD {price}
           </div>
           <div className="font-light text-neutral-600">
-            mounth
+            night
           </div>
         </div>
         <hr />
