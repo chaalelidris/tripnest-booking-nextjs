@@ -14,18 +14,17 @@ model User {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
   email          String?   @unique
-  age            Int?
-  bio            String?
-  phonenumber    String?
-  address        String?
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
+  walletId       String?
+  income         Int       @default(0)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   favoriteIds    String[]  @db.ObjectId
 
   accounts     Account[]
+  sessions     Session[]
   listings     Listing[]
   reservations Reservation[]
 }
@@ -49,23 +48,38 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Listing {
-  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
-  title               String
-  description         String
-  imageSrc            String
-  createdAt           DateTime @default(now())
-  category            String
-  roomCount           Int
-  bathroomCount       Int
-  guestCount          Int
-  locationValue       String
-  wilayaLocationValue String
-  userId              String   @db.ObjectId
-  price               Int
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  images        Image[]
+  category      String
+  roomCount     Int
+  bathroomCount Int
+  guestCount    Int
+  locationValue String
+  price         Int
+  userId        String   @db.ObjectId
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
+}
+
+model Image {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  src       String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId String  @db.ObjectId
 }
 
 model Reservation {
@@ -79,4 +93,13 @@ model Reservation {
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
