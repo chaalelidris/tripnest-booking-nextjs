@@ -8,7 +8,7 @@ import Avatar from '../components/Avatar';
 import Button from '../components/Button';
 import Container from '../components/Container';
 import Heading from '../components/Heading';
-import { SafeUser } from '../types';
+import { SafeUser } from '../../types';
 
 interface UserClientProps {
   currentUser?: SafeUser | null;

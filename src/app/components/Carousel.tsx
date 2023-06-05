@@ -7,7 +7,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import HeartButton from '@/app/components/HeartButton';
-import { SafeUser } from '@/app/types';
+import { SafeUser } from '@/types';
 
 import { useState } from 'react';
 

@@ -6,7 +6,7 @@ import Button from '@/app/components/Button';
 import BookingModal from '@/app/components/modals/BookingModal';
 import useBookModal from '@/hooks/useBookModal';
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
-import { SafeUser } from '@/app/types';
+import { SafeUser } from '@/types';
 import useLoginModal from '@/hooks/useLoginModal';
 
 type ListingReservationProps = {

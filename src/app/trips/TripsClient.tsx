@@ -7,7 +7,7 @@ import { useCallback, useState } from 'react';
 import Container from '../components/Container';
 import Heading from '../components/Heading';
 
-import { SafeReservation, SafeUser } from '../types';
+import { SafeReservation, SafeUser } from '../../types';
 import ListingCard from '../components/listings/ListingCard';
 
 type TripsClientProps = {

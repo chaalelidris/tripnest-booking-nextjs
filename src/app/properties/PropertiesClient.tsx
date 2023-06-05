@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { SafeListing, SafeUser } from '@/app/types';
+import { SafeListing, SafeUser } from '@/types';
 
 import Heading from '@/app/components/Heading';
 import Container from '@/app/components/Container';

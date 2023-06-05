@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 /* utils */
-import { ImgType, imagesUpload } from '@/app/utils/ImagesUpload';
+import { ImgType, imagesUpload } from '@/utils/ImagesUpload';
 
 /* components */
 import Modal from '@/app/components/modals/Modal';
@@ -74,17 +74,17 @@ const RentModal: React.FC = () => {
   const roomCount = watch('roomCount');
   // const imageSrc: string[] = watch('imageSrc');
 
-  const Map = useMemo(
-    () =>
-      dynamic(() => import('@/app/components/Map'), {
-        ssr: false,
-      }),
+  const Map = useMemo(() => dynamic(() => import('@/app/components/Map'),
+    {
+      ssr: false,
+    }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
   );
 
   const WilayaMap = useMemo(() => dynamic(() => import('@/app/components/Map'), {
     ssr: false
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [wilayaLocation]);
 
   const setCustomValue = (id: string, value: any) => {
