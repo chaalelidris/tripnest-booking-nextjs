@@ -39,7 +39,7 @@ const Button: React.FC<ButtonProps> = ({
         ${edit && 'bg-green-600 border-black text-white'}
         ${primary && 'bg-primary border-primary text-white'}
         ${small ? 'text-sm' : 'text-md'}
-        ${small ? 'py-1' : 'py-3'}
+        ${small ? 'py-1 px-2' : 'py-3 px-6'}
         ${small ? 'font-light' : 'font-semibold'}
         ${small ? 'border-[1px]' : 'border-2'}
       `}

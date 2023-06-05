@@ -20,15 +20,15 @@ type ModalsProps = {
 
 const Modal: React.FC<ModalsProps> = ({
   isOpen,
-  actionLabel,
+  disabled,
   onClose,
   onSubmit,
+  title,
   body,
-  disabled,
   footer,
+  actionLabel,
   secondaryAction,
   secondaryActionLabel,
-  title,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -62,7 +62,15 @@ const Modal: React.FC<ModalsProps> = ({
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={onClose}>
+        <Dialog
+          as='div'
+          className=' relative 
+                      z-10 
+                    '
+          onClose={onClose}
+
+        >
+
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -86,41 +94,47 @@ const Modal: React.FC<ModalsProps> = ({
                 leaveFrom='translate-y-0'
                 leaveTo='translate-y-full'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-lg bg-white  text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className=' w-full 
+                                          max-w-md 
+                                          transform 
+                                          overflow-hidden 
+                                          rounded-xl 
+                                          bg-white  
+                                          text-left 
+                                          align-middle 
+                                          shadow-xl 
+                                          transition-all
+                                        '
+                >
                   <Dialog.Title
                     as='h3'
                     className='text-lg font-medium leading-6 text-gray-900'
                   >
                     {/* HEADER */}
-                    <div
-                      className='
-                  flex
-                  items-center
-                  p-4
-                  rounded-t
-                  justify-center
-                  relative
-                  border-b-[1px]
-                  '
+                    <div className='flex
+                                    items-center
+                                    p-4
+                                    rounded-t
+                                    justify-center
+                                    relative
+                                    border-b-[1px]
+                                  '
                     >
                       <button
                         onClick={onClose}
                         className='
-                    p-1
-                    border-0
-                    hover:opacity-70
-                    transtion
-                    absolute
-                    left-9
-                '
+                                    p-1
+                                    border-0
+                                    hover:opacity-70
+                                    transtion
+                                    absolute
+                                    left-9
+                                  '
                       >
                         <IoMdClose size={18} />
                       </button>
-                      <div
-                        className='
-                    text-lg
-                    font-semibold
-                '
+                      <div className='text-lg
+                                      font-semibold'
                       >
                         {title}
                       </div>
