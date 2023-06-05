@@ -9,6 +9,7 @@ import { SafeListing, SafeUser } from '@/types';
 
 import Avatar from '@/app/components/Avatar';
 import ListingCategory from '@/app/components/listings/ListingCategory';
+import useWilayas from '@/hooks/useWilayas';
 
 const Map = dynamic(() => import('@/app/components/Map'), {
   ssr: false,
@@ -28,6 +29,7 @@ type ListingInfoProps = {
   guestCount: number;
   bathroomCount: number;
   locationValue: string;
+  wilayaLocationValue: string;
 };
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
@@ -38,10 +40,13 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   guestCount,
   bathroomCount,
   locationValue,
+  wilayaLocationValue,
 }) => {
   const { getByValue } = useContries();
+  const { getWilayaByValue } = useWilayas();
 
   const coordinates = getByValue(locationValue)?.latlng;
+  const wilayaCoordinates = getWilayaByValue(wilayaLocationValue)?.latlng
   return (
     <div className='col-span-4 flex flex-col gap-8'>
       <div className='flex flex-col gap-2'>
@@ -66,7 +71,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       <hr />
       <div className='text-lg font-light text-neutral-500'>{description}</div>
       <hr />
-      <Map center={coordinates} />
+      <Map center={wilayaCoordinates} zoom={10} />
     </div>
   );
 };
