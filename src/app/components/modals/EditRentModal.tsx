@@ -213,7 +213,7 @@ const RentModal: React.FC = () => {
     )) : (bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Ooops! Currently we are providing rental servises only for Algeria country"
+          title="Ooops! Currently we are providing rental services only for Algeria country"
           subtitle=""
         />
         <hr />
