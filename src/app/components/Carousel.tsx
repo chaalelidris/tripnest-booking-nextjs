@@ -10,6 +10,7 @@ import HeartButton from '@/app/components/HeartButton';
 import { SafeUser } from '@/types';
 
 import { useState } from 'react';
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 type SliderProps = {
   images: string[];
@@ -34,9 +35,9 @@ const Slider: React.FC<SliderProps> = ({ id, images, currentUser }) => {
               type="button"
               onClick={onClickHandler}
               title={label}
-              className="absolute top-10 left-10 z-10 rounded-full bg-black text-white p-2 w-8 h-8"
+              className="absolute top-1/2 left-2 transform -translate-y-1/2 z-10 bg-gray-50 rounded-full w-7 h-7 hover:h-8 hover:w-8 flex justify-center items-center text-gray-700 focus:outline-none opacity-80 hover:opacity-95"
             >
-              @
+             <BiChevronLeft />
             </button>
           )
         }
@@ -46,9 +47,9 @@ const Slider: React.FC<SliderProps> = ({ id, images, currentUser }) => {
               type="button"
               onClick={onClickHandler}
               title={label}
-              className="absolute rounded-full bg-black text-white p-2 w-8 h-8"
+              className="absolute top-1/2 right-2 transform -translate-y-1/2 z-10 bg-gray-50 rounded-full w-7 h-7 hover:h-8 hover:w-8 flex justify-center items-center text-gray-700 focus:outline-none opacity-80 hover:opacity-95"
             >
-              Next
+              <BiChevronRight />
             </button>
           )
         }
