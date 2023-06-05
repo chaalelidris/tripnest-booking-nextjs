@@ -141,6 +141,8 @@ const RentModal: React.FC = () => {
       return onNext();
     }
 
+    
+
     if (step !== STEPS.PRICE) {
       return onNext();
     }

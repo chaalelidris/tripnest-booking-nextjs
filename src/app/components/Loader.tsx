@@ -1,6 +1,6 @@
 'use client';
 
-import { PuffLoader } from "react-spinners";
+import { PulseLoader } from "react-spinners";
 import LogoLoader from "@/app/components/Logo-loader";
 
 const Loader = () => {
@@ -14,10 +14,7 @@ const Loader = () => {
       items-center 
     "
     >
-      {/* <PuffLoader
-        size={100}
-        color="red"
-      /> */}
+      
       <LogoLoader />
     </div>
   );

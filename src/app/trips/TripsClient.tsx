@@ -4,11 +4,11 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
-import Container from '../components/Container';
-import Heading from '../components/Heading';
+import Container from '@/app/components/Container';
+import Heading from '@/app/components/Heading';
 
 import { SafeReservation, SafeUser } from '../../types';
-import ListingCard from '../components/listings/ListingCard';
+import ListingCard from '@/app/components/listings/ListingCard';
 
 type TripsClientProps = {
   reservations: SafeReservation[];

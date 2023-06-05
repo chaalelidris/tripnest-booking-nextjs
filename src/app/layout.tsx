@@ -1,13 +1,24 @@
 import { Nunito } from 'next/font/google';
 import './globals.css';
-import Navbar from './components/navbar/Navbar';
-import RegisterModal from './components/modals/RegisterModal';
-import ToastProvider from './providers/ToasterProvider';
-import LoginModal from './components/modals/LoginModal';
-import getCurrentUser from './functions/getCurrentUser';
-import RentModal from './components/modals/RentModal';
-import SearchModal from './components/modals/SearchModal';
-import GoogleAnalytics from './components/GoogleAnalytics';
+
+import ToastProvider from '@/app/providers/ToasterProvider';
+
+import getCurrentUser from '@/app/functions/getCurrentUser';
+
+/* React */
+import { Suspense } from 'react';
+
+/* Components */
+import Navbar from '@/app/components/navbar/Navbar';
+import Provider from '@/app/components/Provider';
+import RentModal from '@/app/components/modals/RentModal';
+import LoginModal from '@/app/components/modals/LoginModal';
+import SearchModal from '@/app/components/modals/SearchModal';
+import RegisterModal from '@/app/components/modals/RegisterModal';
+import GoogleAnalytics from '@/app/components/GoogleAnalytics';
+
+import { NavigationEvents } from '@/app/components/navigation-events';
+
 
 export const metadata = {
   title: 'Tripnest',
@@ -24,17 +35,23 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
+
   return (
     <html lang='en'>
       <GoogleAnalytics GA_TRACKING_ID={process.env.GA_TRACKING_ID!} />
       <body className={font.className}>
-        <Navbar currentUser={currentUser} />
-        <ToastProvider />
-        <RegisterModal />
-        <LoginModal />
-        <RentModal />
-        <SearchModal />
-        <div className='pb-20 pt-28'>{children}</div>
+        <Provider>
+          <Navbar currentUser={currentUser} />
+          <ToastProvider />
+          <RegisterModal />
+          <LoginModal />
+          <RentModal />
+          <SearchModal />
+          <Suspense fallback={null}>
+            <NavigationEvents />
+          </Suspense>
+          <div className='pb-20 pt-28'>{children}</div>
+        </Provider>
       </body>
     </html>
   );

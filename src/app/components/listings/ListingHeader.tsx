@@ -10,7 +10,6 @@ import { SafeUser } from '@/types';
 /* components */
 import Heading from '@/app/components/Heading';
 import HeartButton from '@/app/components/HeartButton';
-import { components } from 'react-select';
 
 type ListingHeaderProps = {
   title: string;

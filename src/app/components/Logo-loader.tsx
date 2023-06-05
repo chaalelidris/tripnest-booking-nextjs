@@ -1,23 +1,30 @@
 'use client';
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { PulseLoader } from "react-spinners";
+
 
 const LogoLoader = () => {
-  const router = useRouter();
 
   return (
     <>
       <Image
-        onClick={() => router.push('/')}
-        className="hidden md:block cursor-pointer"
+        className=""
         src="/images/logo.png"
         width="180"
         height="180"
         alt="Logo"
       />
-      <div className="text-xl"> loading ...</div>
+      <div className="text-xl">
+        loading
 
+        <span>
+          <PulseLoader
+            size={10}
+            color="#3fd8ff"
+          />
+        </span>
+      </div>
     </>
   );
 }

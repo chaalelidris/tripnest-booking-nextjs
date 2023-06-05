@@ -4,10 +4,10 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import Avatar from '../components/Avatar';
-import Button from '../components/Button';
-import Container from '../components/Container';
-import Heading from '../components/Heading';
+import Avatar from '@/app/components/Avatar';
+import Button from '@/app/components/Button';
+import Container from '@/app/components/Container';
+import Heading from '@/app/components/Heading';
 import { SafeUser } from '../../types';
 
 interface UserClientProps {
