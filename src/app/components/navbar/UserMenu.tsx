@@ -14,7 +14,7 @@ import useRegisterModal from '@/hooks/useRegisterModal';
 import useLoginModal from '@/hooks/useLoginModal';
 import useRentModal from '@/hooks/useRentModal';
 
-import { SafeUser } from '@/app/types';
+import { SafeUser } from '@/types';
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;

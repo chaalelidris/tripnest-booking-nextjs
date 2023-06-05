@@ -1,6 +1,6 @@
 'use client';
 
-import { SafeListing, SafeUser } from '../types';
+import { SafeListing, SafeUser } from '../../types';
 
 import Heading from '../components/Heading';
 import Container from '../components/Container';

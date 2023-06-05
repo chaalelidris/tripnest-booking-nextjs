@@ -1,4 +1,4 @@
-import EmptyState from '../components/EmptyState';
+import EmptyState from '@/app/components/EmptyState';
 
 import getCurrentUser from '../functions/getCurrentUser';
 import getReservations from '../functions/getReservations';

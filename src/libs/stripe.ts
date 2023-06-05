@@ -1,5 +1,5 @@
 import stripe from "stripe";
-import { SafeUser } from "../app/types";
+import { SafeUser } from "../types";
 
 const client = new stripe(`${process.env.STRIPE_SECRET_KEY}`, {
     apiVersion: "2022-11-15",

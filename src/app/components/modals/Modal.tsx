@@ -64,11 +64,8 @@ const Modal: React.FC<ModalsProps> = ({
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as='div'
-          className=' relative 
-                      z-10 
-                    '
+          className='relative z-10'
           onClose={onClose}
-
         >
 
           <Transition.Child

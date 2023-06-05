@@ -5,7 +5,7 @@ import { type IconType } from 'react-icons';
 import dynamic from 'next/dynamic';
 
 import useContries from '@/hooks/useCountries';
-import { SafeListing, SafeUser } from '@/app/types';
+import { SafeListing, SafeUser } from '@/types';
 
 import Avatar from '@/app/components/Avatar';
 import ListingCategory from '@/app/components/listings/ListingCategory';

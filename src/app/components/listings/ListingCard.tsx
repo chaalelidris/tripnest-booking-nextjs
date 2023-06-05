@@ -1,7 +1,7 @@
 'use client';
 
 import useContries from '@/hooks/useCountries';
-import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
+import { SafeListing, SafeReservation, SafeUser } from '@/types';
 
 import { format } from 'date-fns';
 import { useCallback, useMemo } from 'react';

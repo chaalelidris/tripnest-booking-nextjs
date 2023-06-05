@@ -2,7 +2,7 @@
 
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
-import { SafeUser } from '@/app/types';
+import { SafeUser } from '@/types';
 import useFavorite from '@/hooks/useFavorite';
 
 interface HeartButtonProps {

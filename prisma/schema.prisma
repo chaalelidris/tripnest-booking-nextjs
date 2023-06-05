@@ -75,7 +75,7 @@ model Listing {
   price         Int
 
   createdAt     DateTime @default(now())
-  updatedAt     DateTime? @updatedAt @default(now())
+  updatedAt     DateTime @updatedAt @default(now())
 
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]

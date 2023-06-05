@@ -11,7 +11,7 @@ import {
   useForm
 } from 'react-hook-form';
 
-import { SafeListing, SafeUser } from "@/app/types";
+import { SafeListing, SafeUser } from "@/types";
 
 
 import Image from "next/image";

@@ -15,7 +15,7 @@ import ListingInfo from '@/app/components/listings/ListingInfo';
 import ListingReservation from '@/app/components/listings/ListingReservation';
 import { categories } from '@/app/components/navbar/Categories';
 
-import { SafeListing, SafeUser, SafeReservation } from '@/app/types';
+import { SafeListing, SafeUser, SafeReservation } from '@/types';
 
 import useLoginModal from '@/hooks/useLoginModal';
 import useBookModal from '@/hooks/useBookModal';

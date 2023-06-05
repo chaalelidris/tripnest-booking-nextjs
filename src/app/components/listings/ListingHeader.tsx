@@ -5,7 +5,7 @@ import { Image as ImageType } from '@prisma/client';
 import Image from 'next/image';
 
 import useContries from '@/hooks/useCountries';
-import { SafeUser } from '@/app/types';
+import { SafeUser } from '@/types';
 
 /* components */
 import Heading from '@/app/components/Heading';
@@ -65,8 +65,8 @@ const ListingHeader: React.FC<ListingHeaderProps> = ({
       <div
         onClick={() => openImageViewer(0)}
         className={`w-full h-[60vh] overflow-hidden  hidden md:block  rounded-xl relative cursor-pointer ${images.length === 1 || images.length >= 5
-            ? 'grid-cols-1'
-            : 'grid-cols-2'
+          ? 'grid-cols-1'
+          : 'grid-cols-2'
           } grid  gap-2`}
       >
         {images.length <= 4 && (
