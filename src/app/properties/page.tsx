@@ -1,9 +1,9 @@
 import EmptyState from '../components/EmptyState';
 
-import getCurrentUser from '../actions/getCurrentUser';
-import getReservations from '../actions/getReservations';
+import getCurrentUser from '../functions/getCurrentUser';
+import getReservations from '../functions/getReservations';
 import PropertiesClient from './PropertiesClient';
-import getListings from '../actions/getListings';
+import getListings from '../functions/getListings';
 
 const PropertiesPage = async () => {
   const currentUser = await getCurrentUser();

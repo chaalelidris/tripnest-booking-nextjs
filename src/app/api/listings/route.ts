@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 
-import prisma from '@/app/libs/prismadb';
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from '@/app/functions/getCurrentUser';
+import prisma from '@/libs/prismadb';
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) return NextResponse.error();
 
-  const body = await request.json();
 
+  const body = await request.json();
   const {
     title,
     description,
@@ -20,6 +20,7 @@ export async function POST(request: Request) {
     price,
     bathroomCount,
     location,
+    wilayaLocation,
   } = body;
 
   const listing = await prisma.listing.create({
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
       bathroomCount,
       price: parseInt(price, 10),
       locationValue: location.value,
+      wilayaLocationValue: wilayaLocation.label,
       userId: currentUser.id,
       images: {
         createMany: {

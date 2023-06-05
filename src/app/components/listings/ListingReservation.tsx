@@ -4,10 +4,10 @@ import { Range } from 'react-date-range';
 import Calendar from '../inputs/Calendar';
 import Button from '../Button';
 import BookingModal from '../modals/BookingModal';
-import useBookModal from '@/app/hooks/useBookModal';
+import useBookModal from '@/hooks/useBookModal';
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { SafeUser } from '@/app/types';
-import useLoginModal from '@/app/hooks/useLoginModal';
+import useLoginModal from '@/hooks/useLoginModal';
 
 type ListingReservationProps = {
   price: number;
@@ -47,15 +47,15 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
       return loginModal.onOpen();
     }
 
-   
+
     bookingModal.onOpen();
   }, [loginModal, bookingModal, currentUser]);
 
   const isDisabled = disabledDates.some((date) => {
     return dateRange.startDate && date.getTime() === dateRange.startDate.getTime();
   });
-  
-  
+
+
   return (
     <div className='bg-white rounded-xl border-[1px] border-neutral-200 overflow-hidden'>
       <div className='flex flex-row items-center gap-1 p-4'>
@@ -71,6 +71,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
       <hr />
       <div className='p-4'>
         <Button
+          primary
           label='Reserve'
           disabled={isDisabled}
           onClick={onClickReservation}

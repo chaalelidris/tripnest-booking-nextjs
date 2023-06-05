@@ -140,6 +140,7 @@ const Modal: React.FC<ModalsProps> = ({
                         />
                       )}
                       <Button
+                        primary
                         label={actionLabel}
                         disabled={disabled}
                         onClick={handleSubmit}

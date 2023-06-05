@@ -1,4 +1,4 @@
-import prisma from '@/app/libs/prismadb';
+import prisma from '@/libs/prismadb';
 
 interface IParams {
   listingId?: string;
@@ -46,7 +46,7 @@ export default async function getReservations(params: IParams) {
       listing: {
         ...reservation.listing,
         createdAt: reservation.listing.createdAt.toISOString(),
-        updatedAt: reservation.listing.updatedAt.toISOString(),
+        updatedAt: reservation.listing.updatedAt?.toISOString(),
       },
     }));
 

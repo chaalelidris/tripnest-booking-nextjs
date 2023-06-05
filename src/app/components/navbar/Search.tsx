@@ -3,8 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { BiSearch } from 'react-icons/bi';
 
-import useSearchModal from '@/app/hooks/useSearchModal';
-import useContries from '@/app/hooks/useCountries';
+import useSearchModal from '@/hooks/useSearchModal';
+import useContries from '@/hooks/useCountries';
 import { useMemo } from 'react';
 import { differenceInDays } from 'date-fns';
 
@@ -23,7 +23,7 @@ const Search = () => {
       return getByValue(locationValue as string)?.label;
     }
 
-    return 'Anywhere';
+    return 'Location';
   }, [getByValue, locationValue]);
 
   const durationLabel = useMemo(() => {
@@ -52,25 +52,24 @@ const Search = () => {
   return (
     <div
       onClick={searchModal.onOpen}
-      className='
-    border-[1px]
-    w-full
-    md:w-auto
-    py-2
-    rounded-full
-    shadow-sm
-    hover:shadow-md
-    transition
-    cursor-pointer
-    '
+      className=' border-[1px]
+                  w-full
+                  md:w-auto
+                  py-2
+                  rounded-full
+                  shadow-sm
+                  hover:shadow-md
+                  transition
+                  cursor-pointer
+                  ml-2
+                '
     >
       <div
-        className='
-        flex
-        flex-row
-        items-center
-        justify-between
-      '
+        className=' flex
+                    flex-row
+                    items-center
+                    justify-between
+                  '
       >
         <div
           className='
@@ -111,7 +110,7 @@ const Search = () => {
           <div
             className='
             p-2
-            bg-rose-500
+            bg-primary
             rounded-full
             text-white
 

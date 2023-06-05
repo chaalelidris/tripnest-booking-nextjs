@@ -58,6 +58,7 @@ model Session {
 
 model Listing {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
   title         String
   description   String
   images        Image[]
@@ -66,10 +67,11 @@ model Listing {
   bathroomCount Int
   guestCount    Int
   locationValue String
+  wilayaLocationValue String
   price         Int
-  userId        String   @db.ObjectId
+
   createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  updatedAt     DateTime? @updatedAt @default(now())
 
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]

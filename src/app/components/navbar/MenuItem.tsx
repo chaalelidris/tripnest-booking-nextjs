@@ -12,9 +12,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ onClick, label }) => {
       {({ active }) => (
         <div
           onClick={onClick}
-          className={`${
-            active ? 'bg-gray-100 ' : ''
-          }  px-3 py-2 flex text-xs text-black  hover:bg-neutral-100 dark:text-white `}
+          className={`${active ? 'bg-gray-100' : ''
+            }  px-3 py-2 flex text-xs text-black hover:bg-neutral-100 `}
         >
           {label}
         </div>

@@ -17,8 +17,8 @@ import { categories } from '@/app/components/navbar/Categories';
 
 import { SafeListing, SafeUser, SafeReservation } from '@/app/types';
 
-import useLoginModal from '@/app/hooks/useLoginModal';
-import useBookModal from '@/app/hooks/useBookModal';
+import useLoginModal from '@/hooks/useLoginModal';
+import useBookModal from '@/hooks/useBookModal';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -61,20 +61,20 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
     return dates;
   }, [reservations]);
- 
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
-  const findNextAvailableDate = (date:Date, disabledDates:Date[]) => {
+  const findNextAvailableDate = (date: Date, disabledDates: Date[]) => {
     let nextDate = new Date(date);
     while (disabledDates.some(disabledDate => isSameDay(disabledDate, nextDate))) {
       nextDate = addDays(nextDate, 1);
     }
     return nextDate;
   };
-  
+
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -91,27 +91,27 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }
   }, [dateRange, listing.price]);
 
- useEffect(() => {
-  const isStartDateDisabled = disabledDates.some(disabledDate =>
-    isSameDay(disabledDate, initialDateRange.startDate)
-  );
-  const isEndDateDisabled = disabledDates.some(disabledDate =>
-    isSameDay(disabledDate, initialDateRange.endDate)
-  );
+  useEffect(() => {
+    const isStartDateDisabled = disabledDates.some(disabledDate =>
+      isSameDay(disabledDate, initialDateRange.startDate)
+    );
+    const isEndDateDisabled = disabledDates.some(disabledDate =>
+      isSameDay(disabledDate, initialDateRange.endDate)
+    );
 
-  if (isStartDateDisabled || isEndDateDisabled) {
-    const nextStartDate = findNextAvailableDate(initialDateRange.startDate, disabledDates);
-    const nextEndDate = findNextAvailableDate(addDays(nextStartDate, 2), disabledDates);
+    if (isStartDateDisabled || isEndDateDisabled) {
+      const nextStartDate = findNextAvailableDate(initialDateRange.startDate, disabledDates);
+      const nextEndDate = findNextAvailableDate(addDays(nextStartDate, 2), disabledDates);
 
-    setDateRange({
-      ...initialDateRange,
-      startDate: nextStartDate,
-      endDate: nextEndDate,
-    });
-  }
-}, [disabledDates]);
+      setDateRange({
+        ...initialDateRange,
+        startDate: nextStartDate,
+        endDate: nextEndDate,
+      });
+    }
+  }, [disabledDates]);
 
- 
+
   const category = useMemo(() => {
     return categories.find((item) => item.label === listing.category);
   }, [listing.category]);

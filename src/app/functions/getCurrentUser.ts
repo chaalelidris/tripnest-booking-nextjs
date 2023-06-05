@@ -1,8 +1,8 @@
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import prisma from '@/app/libs/prismadb';
-import { Stripe } from '../libs/stripe';
+import prisma from '@/libs/prismadb';
+import { Stripe } from '../../libs/stripe';
 
 export async function getSession() {
   return await getServerSession(authOptions);

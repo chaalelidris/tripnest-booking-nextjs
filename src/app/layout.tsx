@@ -4,14 +4,14 @@ import Navbar from './components/navbar/Navbar';
 import RegisterModal from './components/modals/RegisterModal';
 import ToastProvider from './providers/ToasterProvider';
 import LoginModal from './components/modals/LoginModal';
-import getCurrentUser from './actions/getCurrentUser';
+import getCurrentUser from './functions/getCurrentUser';
 import RentModal from './components/modals/RentModal';
 import SearchModal from './components/modals/SearchModal';
 import GoogleAnalytics from './components/GoogleAnalytics';
 
 export const metadata = {
-  title: 'Airbnb clone',
-  description: 'Airbnb clone',
+  title: 'Tripnest',
+  description: 'Tripnest booking your trip home',
 };
 
 const font = Nunito({

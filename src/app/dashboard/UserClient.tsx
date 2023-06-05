@@ -58,7 +58,11 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
           Income Earned:{' '}
           <span className='font-semibold'>$ {currentUser.income}</span>
         </div>
-        <Button label='Disconnect Stripe' onClick={onCancel} />
+        <Button
+          primary
+          label='Disconnect Stripe'
+          onClick={onCancel}
+        />
         <div className='text-xs text-neutral-500 '>
           By disconnecting, you won&apos;t be able to receive
           <span className='font-semibold'>any further payments</span> . This
@@ -71,7 +75,11 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
     <>
       {/* <hr /> */}
       <div className='my-6 space-y-4 font-light'>
-        <Button label='Connect with Stripe' onClick={onClick} />
+        <Button
+          primary
+          label='Connect with Stripe'
+          onClick={onClick}
+        />
 
         <div className='text-xs text-neutral-500 '>
           When redirected to the Stripe account activation form, fill out test information and use a test card or bank account and use a test document.
@@ -104,7 +112,7 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
             <div className='my-6 space-y-4 font-light'>
               <Heading
                 title='Additional Details'
-                // subtitle='Interested in becoming a Groundbnb host? Register with your Stripe account!'
+              // subtitle='Interested in becoming a Groundbnb host? Register with your Stripe account!'
               />
 
               {additionalDetails}

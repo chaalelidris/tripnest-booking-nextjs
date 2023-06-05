@@ -1,6 +1,6 @@
 'use client';
 
-import useCountries from '@/app/hooks/useCountries';
+import useCountries from '@/hooks/useCountries';
 import Select from 'react-select';
 import ReactCountryFlag from 'react-country-flag';
 
@@ -23,7 +23,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
   return (
     <div>
       <Select
-        placeholder='Anywhere'
+        placeholder='Location'
         isClearable
         options={getAll()}
         value={value}
