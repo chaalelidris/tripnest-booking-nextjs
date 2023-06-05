@@ -1,18 +1,21 @@
 'use client';
 import { AiFillGithub } from 'react-icons/ai';
-import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
 import { useCallback, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import useRegisterModal from '@/hooks/useRegisterModal';
-import Modal from '@/app/components/modals/Modal';
-import Heading from '../Heading';
-import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
-import Button from '../Button';
-import useLoginModal from '@/hooks/useLoginModal';
 import { useRouter } from 'next/navigation';
+
+/* Hooks */
+import useRegisterModal from '@/hooks/useRegisterModal';
+import useLoginModal from '@/hooks/useLoginModal';
+
+/* Components */
+import Modal from '@/app/components/modals/Modal';
+import Heading from '@/app/components/Heading';
+import Input from '@/app/components/inputs/Input';
+import Button from '@/app/components/Button';
 
 type RegisterModalProps = {};
 

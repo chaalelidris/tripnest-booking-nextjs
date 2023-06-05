@@ -76,14 +76,14 @@ const RentModal: React.FC = () => {
 
   const Map = useMemo(
     () =>
-      dynamic(() => import('../Map'), {
+      dynamic(() => import('@/app/components/Map'), {
         ssr: false,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
   );
 
-  const WilayaMap = useMemo(() => dynamic(() => import('../Map'), {
+  const WilayaMap = useMemo(() => dynamic(() => import('@/app/components/Map'), {
     ssr: false
   }), [wilayaLocation]);
 

@@ -9,11 +9,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import useSearchModal from '@/hooks/useSearchModal';
 
+/* Components */
 import Modal from '@/app/components/modals/Modal';
-import Calendar from '../inputs/Calendar';
-import Counter from '../inputs/Counter';
-import CountrySelect, { CountrySelectValue } from '../inputs/CountrySelect';
-import Heading from '../Heading';
+import Calendar from '@/app/components/inputs/Calendar';
+import Counter from '@/app/components/inputs/Counter';
+import CountrySelect, { CountrySelectValue } from '@/app/components/inputs/CountrySelect';
+import Heading from '@/app/components/Heading';
 
 enum STEPS {
   LOCATION = 0,
@@ -40,7 +41,7 @@ const SearchModal = () => {
 
   const Map = useMemo(
     () =>
-      dynamic(() => import('../Map'), {
+      dynamic(() => import('@/app/components/Map'), {
         ssr: false,
       }),
     [location],

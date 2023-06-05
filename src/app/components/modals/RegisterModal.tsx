@@ -6,10 +6,10 @@ import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useRegisterModal from '@/hooks/useRegisterModal';
 import Modal from '@/app/components/modals/Modal';
-import Heading from '../Heading';
-import Input from '../inputs/Input';
+import Heading from '@/app/components/Heading';
+import Input from '@/app/components/inputs/Input';
 import { toast } from 'react-hot-toast';
-import Button from '../Button';
+import Button from '@/app/components/Button';
 import { signIn } from 'next-auth/react';
 import useLoginModal from '@/hooks/useLoginModal';
 

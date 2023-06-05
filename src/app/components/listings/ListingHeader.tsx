@@ -6,8 +6,11 @@ import Image from 'next/image';
 
 import useContries from '@/hooks/useCountries';
 import { SafeUser } from '@/app/types';
-import Heading from '../Heading';
-import HeartButton from '../HeartButton';
+
+/* components */
+import Heading from '@/app/components/Heading';
+import HeartButton from '@/app/components/HeartButton';
+import { components } from 'react-select';
 
 type ListingHeaderProps = {
   title: string;

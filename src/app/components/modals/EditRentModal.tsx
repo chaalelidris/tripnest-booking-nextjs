@@ -79,11 +79,11 @@ const EditRentModal = ({ listingId }: EditRentModalProps) => {
   const bathroomCount = watch('bathroomCount');
   const imageSrc = watch('imageSrc');
 
-  const Map = useMemo(() => dynamic(() => import('../Map'), {
+  const Map = useMemo(() => dynamic(() => import('@/app/components/Map'), {
     ssr: false
   }), [location]);
 
-  const WilayaMap = useMemo(() => dynamic(() => import('../Map'), {
+  const WilayaMap = useMemo(() => dynamic(() => import('@/app/components/Map'), {
     ssr: false
   }), [wilayaLocation]);
 

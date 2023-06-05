@@ -2,13 +2,15 @@
 
 import { type IconType } from 'react-icons';
 
-import useContries from '@/hooks/useCountries';
-import { SafeListing, SafeUser } from '@/app/types';
-import Avatar from '../Avatar';
-import ListingCategory from './ListingCategory';
 import dynamic from 'next/dynamic';
 
-const Map = dynamic(() => import('../Map'), {
+import useContries from '@/hooks/useCountries';
+import { SafeListing, SafeUser } from '@/app/types';
+
+import Avatar from '@/app/components/Avatar';
+import ListingCategory from '@/app/components/listings/ListingCategory';
+
+const Map = dynamic(() => import('@/app/components/Map'), {
   ssr: false,
 });
 

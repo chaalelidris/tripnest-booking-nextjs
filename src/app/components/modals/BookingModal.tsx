@@ -1,17 +1,11 @@
 'use client';
-import { AiFillGithub } from 'react-icons/ai';
 import axios from 'axios';
-import { FcGoogle } from 'react-icons/fc';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import useRegisterModal from '@/hooks/useRegisterModal';
 import Modal from '@/app/components/modals/Modal';
-import Heading from '../Heading';
-import Input from '../inputs/Input';
+import Heading from '@/app/components/Heading';
 import { toast } from 'react-hot-toast';
 import { Range } from 'react-date-range';
-import { signIn } from 'next-auth/react';
 import useLoginModal from '@/hooks/useLoginModal';
 import useBookModal from '@/hooks/useBookModal';
 import { useRouter } from 'next/navigation';

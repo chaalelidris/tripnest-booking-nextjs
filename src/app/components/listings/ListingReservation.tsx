@@ -1,9 +1,9 @@
 'use client';
 
 import { Range } from 'react-date-range';
-import Calendar from '../inputs/Calendar';
-import Button from '../Button';
-import BookingModal from '../modals/BookingModal';
+import Calendar from '@/app/components/inputs/Calendar';
+import Button from '@/app/components/Button';
+import BookingModal from '@/app/components/modals/BookingModal';
 import useBookModal from '@/hooks/useBookModal';
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { SafeUser } from '@/app/types';

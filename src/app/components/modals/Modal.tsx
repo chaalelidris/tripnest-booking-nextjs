@@ -3,7 +3,7 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { Dialog, Transition } from '@headlessui/react';
-import Button from '../Button';
+import Button from '@/app/components/Button';
 
 type ModalsProps = {
   isOpen: boolean;
