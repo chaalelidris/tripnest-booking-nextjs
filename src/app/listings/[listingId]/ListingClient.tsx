@@ -1,9 +1,7 @@
 'use client';
 
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {  useEffect, useMemo, useState } from 'react';
 import { addDays, differenceInCalendarDays, eachDayOfInterval, isSameDay } from 'date-fns';
 import { Range } from 'react-date-range';
 import { Elements } from '@stripe/react-stripe-js';
@@ -136,6 +134,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               guestCount={listing.guestCount}
               bathroomCount={listing.bathroomCount}
               locationValue={listing.locationValue}
+              wilayaLocationValue={listing.wilayaLocationValue}
             />
             <div className='order-first mb-10 md:order-last md:col-span-3'>
               <Elements stripe={stripePromise}>
