@@ -189,7 +189,7 @@ const RentModal: React.FC = () => {
           value={location}
           onChange={(value) => setCustomValue('location', value)}
         />
-        <Map center={location?.latlng} />
+        <Map center={location?.latlng} zoom={4} />
       </div>
     );
   }

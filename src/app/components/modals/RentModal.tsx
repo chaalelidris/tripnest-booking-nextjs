@@ -36,6 +36,8 @@ enum STEPS {
 }
 
 const RentModal: React.FC = () => {
+  
+  const [categoryError, setCategoryError] = useState(false)
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -54,7 +56,16 @@ const RentModal: React.FC = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       category: '',
-      lacation: null,
+      location: {
+        "value": "DZ",
+        "label": "Algeria",
+        "flag": "🇩🇿",
+        "latlng": [
+          28,
+          3
+        ],
+        "region": "Africa"
+      },
       wilayaLocation: null,
       guestCount: 1,
       bathroomCount: 1,
@@ -104,6 +115,32 @@ const RentModal: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    if (step === STEPS.CATEGORY) {
+      if (category === '') {
+        toast.error("Please pick a category !");
+        setCategoryError(true)
+        return
+      }
+
+      return onNext();
+    }
+
+    if (step === STEPS.LOCATION) {
+      if (!location) {
+        toast.error("Please choose a location !");
+        return
+      }
+      return onNext();
+    }
+
+    if (step === STEPS.WILAYA) {
+      if (!wilayaLocation) {
+        toast.error("Please choose a wilaya !");
+        return
+      }
+      return onNext();
+    }
+
     if (step !== STEPS.PRICE) {
       return onNext();
     }
@@ -169,8 +206,13 @@ const RentModal: React.FC = () => {
             <CategoryInput
               icon={item.icon}
               label={item.label}
-              onClick={(category) => setCustomValue('category', category)}
+              onClick={(category) => {
+                setCategoryError(false);
+                setCustomValue('category', category)
+              }
+              }
               selected={category === item.label}
+              categoryError={categoryError}
             />
           </div>
         ))}
@@ -179,6 +221,8 @@ const RentModal: React.FC = () => {
   );
 
   if (step === STEPS.LOCATION) {
+    console.log(location);
+
     bodyContent = (
       <div className='flex flex-col gap-8'>
         <Heading
@@ -189,7 +233,7 @@ const RentModal: React.FC = () => {
           value={location}
           onChange={(value) => setCustomValue('location', value)}
         />
-        <Map center={location?.latlng} />
+        <Map center={location?.latlng} zoom={4} />
       </div>
     );
   }

@@ -29,7 +29,17 @@ const SearchModal = () => {
 
   const [step, setStep] = useState(STEPS.LOCATION);
 
-  const [location, setLocation] = useState<CountrySelectValue>();
+  const [location, setLocation] = useState<CountrySelectValue>(
+    {
+      "value": "DZ",
+      "label": "Algeria",
+      "flag": "🇩🇿",
+      "latlng": [
+        28,
+        3
+      ],
+      "region": "Africa"
+    });
   const [guestCount, setGuestCount] = useState(1);
   const [roomCount, setRoomCount] = useState(1);
   const [bathroomCount, setBathroomCount] = useState(1);
@@ -39,11 +49,11 @@ const SearchModal = () => {
     key: 'selection',
   });
 
-  const Map = useMemo( () =>
-      dynamic(() => import('@/app/components/Map'), {
-        ssr: false,
-      }),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+  const Map = useMemo(() =>
+    dynamic(() => import('@/app/components/Map'), {
+      ssr: false,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [location],
   );
 
@@ -133,7 +143,7 @@ const SearchModal = () => {
         onChange={(value) => setLocation(value as CountrySelectValue)}
       />
       <hr />
-      <Map center={location?.latlng} />
+      <Map center={location?.latlng} zoom={4} />
     </div>
   );
 

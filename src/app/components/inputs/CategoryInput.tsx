@@ -1,4 +1,8 @@
 'use client';
+import type {
+  FieldErrors,
+} from 'react-hook-form';
+
 import { type IconType } from 'react-icons';
 
 interface CategoryInputProps {
@@ -6,6 +10,7 @@ interface CategoryInputProps {
   selected?: boolean;
   label: string;
   icon: IconType;
+  categoryError?: boolean;
 }
 
 const CategoryInput: React.FC<CategoryInputProps> = ({
@@ -13,6 +18,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
   onClick,
   label,
   selected,
+  categoryError,
 }) => {
   return (
     <div
@@ -28,6 +34,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
             transition
             cursor-pointer
             ${selected ? 'border-black' : 'border-neutral-200'}
+            ${categoryError && 'text-rose-500' }
     `}
     >
       <Icon size={30} />
