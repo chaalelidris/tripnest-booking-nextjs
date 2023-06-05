@@ -5,15 +5,15 @@ import { FcGoogle } from 'react-icons/fc';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import useRegisterModal from '@/app/hooks/useRegisterModal';
-import Modal from './Modal';
+import useRegisterModal from '@/hooks/useRegisterModal';
+import Modal from '@/app/components/modals/Modal';
 import Heading from '../Heading';
 import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
 import { Range } from 'react-date-range';
 import { signIn } from 'next-auth/react';
-import useLoginModal from '@/app/hooks/useLoginModal';
-import useBookModal from '@/app/hooks/useBookModal';
+import useLoginModal from '@/hooks/useLoginModal';
+import useBookModal from '@/hooks/useBookModal';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 
@@ -75,7 +75,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
       } else {
         toast.error(
           error?.message ??
-            "Sorry! We weren't able to book the listing. Please try again later.",
+          "Sorry! We weren't able to book the listing. Please try again later.",
         );
       }
     }
@@ -93,7 +93,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
         cardElement,
       );
 
-     const res =  axios
+      const res = axios
         .post(`/api/reservations`, {
           totalPrice,
           startDate: dateRange.startDate,
@@ -110,18 +110,18 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
         .catch((error) => {
           console.log(error);
-        
+
           toast.error(error.response.data.message);
         })
         .finally(() => {
           bookingModal.onClose()
         });
 
-        toast.promise(res, {
-          loading:'Creating booking...',
-          success: "Listing Reserved🎉",
-          error:"Something went wrong"
-        })
+      toast.promise(res, {
+        loading: 'Creating booking...',
+        success: "Listing Reserved🎉",
+        error: "Something went wrong"
+      })
     }
   }, [
     totalPrice,
@@ -138,21 +138,21 @@ const BookingModal: React.FC<BookingModalProps> = ({
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <Heading center title='Book your Reservation'
-       subtitle={`Enter your payment information to book the listing from the dates between ${format(dateRange.startDate!, 'PP')} - ${format(dateRange.endDate!, 'PP')}, inclusive.`}
-        />
-        <hr />
-        {/* <div className='flex flex-col gap-2 text-sm items-center'>
+        subtitle={`Enter your payment information to book the listing from the dates between ${format(dateRange.startDate!, 'PP')} - ${format(dateRange.endDate!, 'PP')}, inclusive.`}
+      />
+      <hr />
+      {/* <div className='flex flex-col gap-2 text-sm items-center'>
           <p>$ {listingPrice} * {dateRange.endDate!.getDate() - dateRange.startDate!.getDate()} nights</p>
           <p>GroundBnb fee:   $ {Math.ceil(totalPrice * 0.05)}</p>
         </div> */}
-          <p className="text-semibold text-center">Total: <span className="font-medium">${totalPrice}</span> </p>
+      <p className="text-semibold text-center">Total: <span className="font-medium">${totalPrice}</span> </p>
       <CardElement
-        
+
         options={{ hidePostalCode: true }}
       />
     </div>
   );
-  
+
   const footerContent = (
     <div>
       <p className="text-xs text-center mt-10">Test using the credit card number: 4242 4242 4242 4242, a future expiry date, and any 3 digits for the CVC code.</p>

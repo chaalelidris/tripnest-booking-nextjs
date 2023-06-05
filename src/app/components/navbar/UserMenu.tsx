@@ -10,9 +10,9 @@ import { Menu, Transition } from '@headlessui/react';
 import Avatar from '../Avatar';
 import MenuItem from './MenuItem';
 
-import useRegisterModal from '@/app/hooks/useRegisterModal';
-import useLoginModal from '@/app/hooks/useLoginModal';
-import useRentModal from '@/app/hooks/useRentModal';
+import useRegisterModal from '@/hooks/useRegisterModal';
+import useLoginModal from '@/hooks/useLoginModal';
+import useRentModal from '@/hooks/useRentModal';
 
 import { SafeUser } from '@/app/types';
 
@@ -31,9 +31,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       return loginModal.onOpen();
     }
 
-    if(!currentUser.hasWallet) {
+    if (currentUser.hasWallet) {
       toast.success("You need to connect stripe before hosting a listing")
-     return router.push('/dashboard')
+      return router.push('/dashboard')
     }
 
     //open rent modal
@@ -61,28 +61,29 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         '
           onClick={onRent}
         >
-          Airbnb your home
+          Tripnest your trip home
         </div>
         <Menu as='div' className='relative'>
           <Menu.Button>
             <div
               className='
-        p-4
-        md:py-1
-        md:px-2
-        border-[1px]
-        border-neutral-100
-        flex
-        flex-row
-        items-center
-        gap-3
-        rounded-full
-        cursor-pointer
-        hover:shadow-md
-        transition
+              p-4
+              md:py-1
+              md:px-2
+              border-[1px]
+              border-neutral-100
+              flex
+              flex-row
+              items-center
+              gap-3
+              rounded-full
+              cursor-pointer
+              hover:shadow-md
+              transition
         '
             >
               <AiOutlineMenu />
+              {currentUser?.name}
               <div className='hidden md:block'>
                 <Avatar src={currentUser?.image} />
               </div>
@@ -96,9 +97,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               leaveFrom='transform opacity-100 scale-100'
               leaveTo='transform opacity-0 scale-95'
             >
-              <Menu.Items className='absolute right-0 mt-2 w-40 md:w-52 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+              <Menu.Items className='absolute right-0 mt-2 w-40 md:w-52 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-red-600 ring-opacity-5 focus:outline-none'>
                 {currentUser ? (
                   <>
+                    <MenuItem
+                      onClick={() => router.push('/profile')}
+                      label='My Profile'
+                    />
                     <MenuItem
                       onClick={() => router.push('/dashboard')}
                       label='My Dashboard'
@@ -121,7 +126,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     />
                     <MenuItem
                       onClick={onRent}
-                      label='Airbnb my home'
+                      label='Tripnest my home'
                     />
                     <hr />
                     <MenuItem onClick={() => signOut()} label='Logout' />

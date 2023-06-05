@@ -10,7 +10,7 @@ declare global {
   var cloudinary: any;
 }
 
-const uploadPreset = 'airbnb';
+const uploadPreset = "tnhtuesa";
 
 interface ImageUploadProps {
   images: File[];
@@ -20,7 +20,8 @@ interface ImageUploadProps {
 const ImageUpload: React.FC<ImageUploadProps> = ({ images, setImages }) => {
   const [isFileNearBy, setIsFileNearBy] = useState<boolean>(false);
   const [isFileOver, setIsFileOver] = useState(false);
-  // const [close, setClose] = useState(false);
+  
+  // const [close, setClose] = useState(false); 
   let extraClasses = '';
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {

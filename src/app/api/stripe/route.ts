@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-import getCurrentUser from "@/app/actions/getCurrentUser";
-import prisma from "@/app/libs/prismadb";
-import { Stripe } from "@/app/libs/stripe";
+import getCurrentUser from "@/app/functions/getCurrentUser";
+import prisma from "@/libs/prismadb";
+import { Stripe } from "@/libs/stripe";
 
 export async function POST(request: Request) {
     try {

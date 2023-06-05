@@ -2,7 +2,7 @@
 
 import { type IconType } from 'react-icons';
 
-import useContries from '@/app/hooks/useCountries';
+import useContries from '@/hooks/useCountries';
 import { SafeListing, SafeUser } from '@/app/types';
 import Avatar from '../Avatar';
 import ListingCategory from './ListingCategory';
@@ -15,12 +15,12 @@ const Map = dynamic(() => import('../Map'), {
 type ListingInfoProps = {
   user: SafeUser;
   category:
-    | {
-        icon: IconType;
-        label: string;
-        description: string;
-      }
-    | undefined;
+  | {
+    icon: IconType;
+    label: string;
+    description: string;
+  }
+  | undefined;
   description: string;
   roomCount: number;
   guestCount: number;

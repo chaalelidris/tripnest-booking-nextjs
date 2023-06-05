@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 export interface ImgType {
   src: string;
 }
+const uploadPreset = "tripnest";
 
 export const imagesUpload = async (images: File[]) => {
   const promise = toast.promise(
@@ -11,11 +12,13 @@ export const imagesUpload = async (images: File[]) => {
         const formData = new FormData();
 
         formData.append('file', item);
-        formData.append('upload_preset', 'airbnb');
-        formData.append('cloud_name', 'mamsheikh');
+        formData.append('upload_preset', uploadPreset);
+        formData.append('cloud_name', String(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME));
 
+        console.log(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME);
+        
         const res = await fetch(
-          'https://api.cloudinary.com/v1_1/mamsheikh/upload',
+          'https://api.cloudinary.com/v1_1/dq5tup69v/upload',
           {
             method: 'POST',
             body: formData,

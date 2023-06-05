@@ -5,13 +5,13 @@ import { FcGoogle } from 'react-icons/fc';
 import { useCallback, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import useRegisterModal from '@/app/hooks/useRegisterModal';
-import Modal from './Modal';
+import useRegisterModal from '@/hooks/useRegisterModal';
+import Modal from '@/app/components/modals/Modal';
 import Heading from '../Heading';
 import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
 import Button from '../Button';
-import useLoginModal from '@/app/hooks/useLoginModal';
+import useLoginModal from '@/hooks/useLoginModal';
 import { useRouter } from 'next/navigation';
 
 type RegisterModalProps = {};
@@ -99,7 +99,7 @@ const LoginModal: React.FC<RegisterModalProps> = () => {
       />
       <div className='text-neutral-500 text-center mt-4 font-light'>
         <div className='flex flex-row items-center gap-2 justify-center'>
-          <div>First time using Airbnb?</div>
+          <div>First time using Tripnest?</div>
           <button
             onClick={toggle}
             className='text-neutral-800 cursor-pointer hover:underline'
