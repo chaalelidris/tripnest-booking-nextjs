@@ -28,9 +28,34 @@ const Slider: React.FC<SliderProps> = ({ id, images, currentUser }) => {
   return (
     <div className='relative'>
       <Carousel
+        renderArrowPrev={(onClickHandler, hasPrev, label) =>
+          hasPrev && (
+            <button
+              type="button"
+              onClick={onClickHandler}
+              title={label}
+              className="absolute top-10 left-10 z-10 rounded-full bg-black text-white p-2 w-8 h-8"
+            >
+              @
+            </button>
+          )
+        }
+        renderArrowNext={(onClickHandler, hasNext, label) =>
+          hasNext && (
+            <button
+              type="button"
+              onClick={onClickHandler}
+              title={label}
+              className="absolute rounded-full bg-black text-white p-2 w-8 h-8"
+            >
+              Next
+            </button>
+          )
+        }
         infiniteLoop
         autoPlay
         showArrows
+        useKeyboardArrows
         // renderIndicator={customRenderIndicator}
         showIndicators={true}
         showThumbs={false}
