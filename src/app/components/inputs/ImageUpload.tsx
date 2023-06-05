@@ -10,8 +10,6 @@ declare global {
   var cloudinary: any;
 }
 
-const uploadPreset = "tnhtuesa";
-
 interface ImageUploadProps {
   images: File[];
   setImages: Dispatch<SetStateAction<File[]>>;

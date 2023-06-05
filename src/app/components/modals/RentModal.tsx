@@ -72,7 +72,7 @@ const RentModal: React.FC = () => {
   const guestCount = watch('guestCount');
   const bathroomCount = watch('bathroomCount');
   const roomCount = watch('roomCount');
-  // const imageSrc: string[] = watch('imageSrc');
+  //const images: string[] = watch('images');
 
   const Map = useMemo(() => dynamic(() => import('@/app/components/Map'),
     {
