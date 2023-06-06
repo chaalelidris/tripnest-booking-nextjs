@@ -89,7 +89,7 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
   );
   return (
     <Container>
-      <div className='max-w-sm h-full mx-auto border shadow-md px-4 py-3'>
+      <div className='max-w-sm h-full mx-auto border shadow-md px-4 py-3 rounded-2xl'>
         <div className='flex items center justify-center mb-4'>
           <Avatar src={currentUser?.image} size='lg' />
         </div>
@@ -112,9 +112,8 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
             <div className='my-6 space-y-4 font-light'>
               <Heading
                 title='Additional Details'
-              // subtitle='Interested in becoming a Groundbnb host? Register with your Stripe account!'
+                subtitle='Interested in becoming host? Register with your Stripe account!'
               />
-
               {additionalDetails}
             </div>
           </>

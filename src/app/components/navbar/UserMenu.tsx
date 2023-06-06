@@ -58,6 +58,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         hover:bg-neutral-100
         transition
         cursor-pointer
+        overflow-ellipsis 
+        whitespace-nowrap 
+        overflow-hidden
         '
           onClick={onRent}
         >
@@ -80,6 +83,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               cursor-pointer
               hover:shadow-md
               transition
+              overflow-ellipsis 
+              whitespace-nowrap 
+              overflow-hidden
         '
             >
               <AiOutlineMenu />

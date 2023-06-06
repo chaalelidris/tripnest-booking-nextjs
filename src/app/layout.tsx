@@ -5,8 +5,7 @@ import ToastProvider from '@/app/providers/ToasterProvider';
 
 import getCurrentUser from '@/app/functions/getCurrentUser';
 
-/* React */
-import { Suspense } from 'react';
+
 
 /* Components */
 import Navbar from '@/app/components/navbar/Navbar';
@@ -16,8 +15,8 @@ import LoginModal from '@/app/components/modals/LoginModal';
 import SearchModal from '@/app/components/modals/SearchModal';
 import RegisterModal from '@/app/components/modals/RegisterModal';
 import GoogleAnalytics from '@/app/components/GoogleAnalytics';
+import Banner from './components/Banner';
 
-import { NavigationEvents } from '@/app/components/navigation-events';
 
 
 export const metadata = {
@@ -41,16 +40,14 @@ export default async function RootLayout({
       <GoogleAnalytics GA_TRACKING_ID={process.env.GA_TRACKING_ID!} />
       <body className={font.className}>
         <Provider>
+          <Banner />
           <Navbar currentUser={currentUser} />
           <ToastProvider />
           <RegisterModal />
           <LoginModal />
           <RentModal />
           <SearchModal />
-          <Suspense fallback={null}>
-            <NavigationEvents />
-          </Suspense>
-          <div className='pb-20 pt-28'>{children}</div>
+          <div className='pb-20'>{children}</div>
         </Provider>
       </body>
     </html>

@@ -202,6 +202,7 @@ const RentModal: React.FC = () => {
         title='Which of these best describes your place?'
         subtitle='Pick a category'
       />
+      
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3 overflow-y-auto max-h-[50vh]'>
         {categories.map((item) => (
           <div key={item.label} className='col-span-1'>

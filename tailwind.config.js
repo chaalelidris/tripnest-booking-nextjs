@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         primary: '#020570',
+        secondary: '#40dbfd',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -20,5 +21,7 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 }

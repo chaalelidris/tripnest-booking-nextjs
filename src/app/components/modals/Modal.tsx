@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { Dialog, Transition } from '@headlessui/react';
 import Button from '@/app/components/Button';
@@ -31,19 +31,12 @@ const Modal: React.FC<ModalsProps> = ({
   secondaryActionLabel,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
+  let modalBodyRef = useRef(null)
 
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);
 
-  // const handleClose = useCallback(() => {
-  //   if (disabled) return;
-
-  //   setShowModal(false);
-  //   // setTimeout(() => {
-  //   //   onClose();
-  //   // }, 300);
-  // }, [disabled, onClose]);
 
   const handleSubmit = useCallback(() => {
     if (disabled) return;
@@ -57,45 +50,48 @@ const Modal: React.FC<ModalsProps> = ({
     secondaryAction();
   }, [disabled, secondaryAction]);
 
-  if (!isOpen) return null;
-
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition
+        appear
+        show={showModal}
+        as={Fragment}
+      >
         <Dialog
           as='div'
           className='relative z-30'
           onClose={onClose}
+          initialFocus={modalBodyRef}
         >
 
           <Transition.Child
             as={Fragment}
-            enter='ease-out duration-300'
-            enterFrom='opacity-0'
-            enterTo='opacity-100'
-            leave='ease-in duration-200'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
-            <div className='fixed inset-0 bg-black bg-opacity-50' />
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
           <div className='fixed inset-0 overflow-y-auto'>
             <div className='flex min-h-full items-center justify-center p-4 text-center'>
-              <Transition.Child
+            <Transition.Child
                 as={Fragment}
-                enter='transform transition ease-out duration-500 sm:duration-700'
-                enterFrom='translate-y-full'
-                enterTo='translate-y-0'
-                leave='transform transition ease-in duration-500 sm:duration-700'
-                leaveFrom='translate-y-0'
-                leaveTo='translate-y-full'
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className=' w-full 
-                                          max-w-md 
+                                          max-w-lg 
                                           transform 
                                           overflow-hidden 
-                                          rounded-xl 
+                                          rounded-2xl
                                           bg-white  
                                           text-left 
                                           align-middle 
@@ -125,7 +121,7 @@ const Modal: React.FC<ModalsProps> = ({
                                     hover:opacity-70
                                     transtion
                                     absolute
-                                    left-9
+                                    left-6
                                   '
                       >
                         <IoMdClose size={18} />
@@ -137,8 +133,10 @@ const Modal: React.FC<ModalsProps> = ({
                       </div>
                     </div>
                   </Dialog.Title>
+
                   {/* BODY */}
-                  <div className='relative p-6 flex-'>{body}</div>
+                  <div ref={modalBodyRef} className='relative p-6 flex-'>{body}</div>
+
                   {/* FOOTER */}
                   <div className='flex flex-col gap-2 p-6'>
                     <div className='flex flex-row items-center gap-4  w-full'>
@@ -155,6 +153,7 @@ const Modal: React.FC<ModalsProps> = ({
                         label={actionLabel}
                         disabled={disabled}
                         onClick={handleSubmit}
+
                       />
                     </div>
                     {footer}

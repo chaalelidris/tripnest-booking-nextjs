@@ -35,10 +35,10 @@ const Search = () => {
       if (diffTime === 0) {
         diffTime = 1;
       }
-      return `${diffTime} Days`;
+      return `${diffTime} Duration`;
     }
 
-    return 'Any Week';
+    return 'Duration';
   }, [startDate, endDate]);
 
   const guestLabel = useMemo(() => {
@@ -95,18 +95,21 @@ const Search = () => {
           {durationLabel}
         </div>
         <div
-          className='
-        text-sm
-        pl-6
-        pr-2
-        text-gray-600
-        flex 
-        flex-row
-        items-center
-        gap-3
-        '
+          className=' text-sm
+                      pl-6
+                      pr-2
+                      text-gray-600
+                      flex 
+                      flex-row
+                      items-center
+                      gap-3
+                      '
         >
-          <div className='hidden sm:block'>{guestLabel}</div>
+          <div className='hidden 
+                          sm:block
+                          overflow-ellipsis 
+                          whitespace-nowrap 
+                          overflow-hidden'>{guestLabel}</div>
           <div
             className='
             p-2

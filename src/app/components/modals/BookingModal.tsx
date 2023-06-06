@@ -135,13 +135,30 @@ const BookingModal: React.FC<BookingModalProps> = ({
         subtitle={`Enter your payment information to book the listing from the dates between ${format(dateRange.startDate!, 'PP')} - ${format(dateRange.endDate!, 'PP')}, inclusive.`}
       />
       <hr />
-      {/* <div className='flex flex-col gap-2 text-sm items-center'>
-          <p>$ {listingPrice} * {dateRange.endDate!.getDate() - dateRange.startDate!.getDate()} nights</p>
-          <p>GroundBnb fee:   $ {Math.ceil(totalPrice * 0.05)}</p>
-        </div> */}
-      <p className="text-semibold text-center">Total: <span className="font-medium">${totalPrice}</span> </p>
-      <CardElement
 
+      <div className="flex flex-col gap-4 text-sm">
+        <div className="flex items-start">
+          <p className="text-gray-700 font-semibold">Nightly rate:</p>
+          <p className="ml-auto text-gray-900">
+            {listingPrice} DZD * {dateRange.endDate!.getDate() - dateRange.startDate!.getDate()} nights
+          </p>
+        </div>
+        <div className="flex items-start">
+          <p className="text-gray-700 font-semibold">Tripnest fee:</p>
+          <p className="ml-auto text-gray-900">{Math.ceil(totalPrice * 0.05)} DZD</p>
+        </div>
+        <div className="flex items-start">
+          <p className="text-gray-700 font-semibold">Total price:</p>
+          <p className="ml-auto text-gray-900">
+            {totalPrice + Math.ceil(totalPrice * 0.05)} DZD
+          </p>
+        </div>
+      </div>
+
+
+      <hr />
+      <p className="text-semibold text-center">Total: <span className="font-medium">{totalPrice + Math.ceil(totalPrice * 0.05)} <small>DZD</small></span> </p>
+      <CardElement
         options={{ hidePostalCode: true }}
       />
     </div>

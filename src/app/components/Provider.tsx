@@ -5,9 +5,6 @@ import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 
 
-
-
-
 interface ProviderProps {
   children?: ReactNode;
   session?: Session;
