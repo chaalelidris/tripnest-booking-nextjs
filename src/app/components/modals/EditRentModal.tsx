@@ -20,7 +20,7 @@ import Input from '@/app/components/inputs/Input';
 import Heading from '@/app/components/Heading';
 import Counter from '@/app/components/inputs/Counter';
 import ImageUpload from '@/app/components/inputs/ImageUpload';
-import StatesSelect from "@/app/components/inputs/StatesSelect";
+import WilayaSelect from "@/app/components/inputs/WilayaSelect";
 import CategoryInput from '@/app/components/inputs/CategoryInput';
 import CountrySelect from '@/app/components/inputs/CountrySelect';
 import { categories } from '@/app/components/navbar/Categories';
@@ -204,7 +204,7 @@ const RentModal: React.FC = () => {
           subtitle="Help guests find you!"
         />
         <hr />
-        <StatesSelect
+        <WilayaSelect
           value={wilayaLocation}
           onChange={(value) => setCustomValue('wilayaLocation', value)} />
 

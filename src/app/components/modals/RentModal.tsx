@@ -20,7 +20,7 @@ import Input from '@/app/components/inputs/Input';
 import Heading from '@/app/components/Heading';
 import Counter from '@/app/components/inputs/Counter';
 import ImageUpload from '@/app/components/inputs/ImageUpload';
-import StatesSelect from "@/app/components/inputs/StatesSelect";
+import WilayaSelect from "@/app/components/inputs/WilayaSelect";
 import CategoryInput from '@/app/components/inputs/CategoryInput';
 import CountrySelect from '@/app/components/inputs/CountrySelect';
 import { categories } from '@/app/components/navbar/Categories';
@@ -36,7 +36,7 @@ enum STEPS {
 }
 
 const RentModal: React.FC = () => {
-  
+
   const [categoryError, setCategoryError] = useState(false)
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [images, setImages] = useState<File[]>([]);
@@ -141,19 +141,27 @@ const RentModal: React.FC = () => {
       return onNext();
     }
 
-    
+    if (step === STEPS.IMAGES) {
+      if (images.length == 0) {
+        toast.error("Please add listing images !");
+        return
+      }
+      return onNext();
+    }
+
+
 
     if (step !== STEPS.PRICE) {
       return onNext();
     }
 
-    setLoading(true);
-
+    
     let media: ImgType[] = [];
     if (images.length > 0) {
       media = await imagesUpload(images);
     }
-
+    
+    setLoading(true);
     const res = axios
       .post('/api/listings', {
         ...data,
@@ -202,7 +210,7 @@ const RentModal: React.FC = () => {
         title='Which of these best describes your place?'
         subtitle='Pick a category'
       />
-      
+
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3 overflow-y-auto max-h-[50vh]'>
         {categories.map((item) => (
           <div key={item.label} className='col-span-1'>
@@ -251,7 +259,7 @@ const RentModal: React.FC = () => {
           subtitle="Help guests find you!"
         />
         <hr />
-        <StatesSelect
+        <WilayaSelect
           value={wilayaLocation}
           onChange={(value) => setCustomValue('wilayaLocation', value)} />
 

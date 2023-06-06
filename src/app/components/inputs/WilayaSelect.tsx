@@ -3,8 +3,6 @@
 import useWilayas from '@/hooks/useWilayas';
 import Select from 'react-select';
 
-
-
 export type WilayaSelectValue = {
   id: string;
   label: string;

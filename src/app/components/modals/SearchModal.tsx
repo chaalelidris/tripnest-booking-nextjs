@@ -11,15 +11,17 @@ import useSearchModal from '@/hooks/useSearchModal';
 
 /* Components */
 import Modal from '@/app/components/modals/Modal';
-import Calendar from '@/app/components/inputs/Calendar';
-import Counter from '@/app/components/inputs/Counter';
-import CountrySelect, { CountrySelectValue } from '@/app/components/inputs/CountrySelect';
 import Heading from '@/app/components/Heading';
+import Counter from '@/app/components/inputs/Counter';
+import Calendar from '@/app/components/inputs/Calendar';
+import WilayaSelect, { WilayaSelectValue } from '@/app/components/inputs/WilayaSelect';
+import CountrySelect, { CountrySelectValue } from '@/app/components/inputs/CountrySelect';
 
 enum STEPS {
   LOCATION = 0,
-  DATE = 1,
-  INFO = 2,
+  WILAYA = 1,
+  DATE = 2,
+  INFO = 3,
 }
 
 const SearchModal = () => {
@@ -40,6 +42,7 @@ const SearchModal = () => {
       ],
       "region": "Africa"
     });
+  const [wilayaLocation, setWilayaLocation] = useState<WilayaSelectValue>()
   const [guestCount, setGuestCount] = useState(1);
   const [roomCount, setRoomCount] = useState(1);
   const [bathroomCount, setBathroomCount] = useState(1);
@@ -50,11 +53,21 @@ const SearchModal = () => {
   });
 
   const Map = useMemo(() =>
-    dynamic(() => import('@/app/components/Map'), {
-      ssr: false,
-    }),
+    dynamic(() => import('@/app/components/Map'),
+      {
+        ssr: false,
+      }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location],
+  );
+
+  const WilayaMap = useMemo(() =>
+    dynamic(() => import('@/app/components/Map'),
+      {
+        ssr: false,
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [wilayaLocation],
   );
 
   const onBack = useCallback(() => {
@@ -79,6 +92,7 @@ const SearchModal = () => {
     const updatedQuery: any = {
       ...currentQuery,
       locationValue: location?.value,
+      wilayaLocationValue: wilayaLocation?.label,
       guestCount,
       roomCount,
       bathroomCount,
@@ -107,6 +121,7 @@ const SearchModal = () => {
     step,
     searchModal,
     location,
+    wilayaLocation,
     router,
     guestCount,
     roomCount,
@@ -146,6 +161,25 @@ const SearchModal = () => {
       <Map center={location?.latlng} zoom={4} />
     </div>
   );
+
+  if (step === STEPS.WILAYA) {
+    let center = wilayaLocation && [wilayaLocation?.latitude, wilayaLocation?.longitude];
+
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Where is your wilaya located?"
+          subtitle="Help guests find you!"
+        />
+        <hr />
+        <WilayaSelect
+          value={wilayaLocation}
+          onChange={(value) => setWilayaLocation(value as WilayaSelectValue)} />
+
+        <WilayaMap center={center} zoom={10} />
+      </div>
+    );
+  }
 
   if (step === STEPS.DATE) {
     bodyContent = (
