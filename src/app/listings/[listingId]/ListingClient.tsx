@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import {  useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { addDays, differenceInCalendarDays, eachDayOfInterval, isSameDay } from 'date-fns';
 import { Range } from 'react-date-range';
 import { Elements } from '@stripe/react-stripe-js';
@@ -82,7 +82,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
       );
 
       if (dayCount && listing.price) {
-        setTotalPrice(dayCount * listing.price);
+        setTotalPrice((dayCount) * listing.price);
       } else {
         setTotalPrice(listing.price);
       }
@@ -114,10 +114,47 @@ const ListingClient: React.FC<ListingClientProps> = ({
     return categories.find((item) => item.label === listing.category);
   }, [listing.category]);
 
+
+
+  const renderListingInfo = () => {
+    return (
+      <ListingInfo
+        user={listing.user}
+        category={category}
+        description={listing.description}
+        roomCount={listing.roomCount}
+        guestCount={listing.guestCount}
+        bathroomCount={listing.bathroomCount}
+        locationValue={listing.locationValue}
+        wilayaLocationValue={listing.wilayaLocationValue}
+      />
+    )
+  }
+
+  const renderReservationCalendar = () => {
+    return (
+      <Elements stripe={stripePromise}>
+        <ListingReservation
+          price={listing.price}
+          totalPrice={totalPrice}
+          onChangeDate={(value) => setDateRange(value)}
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+          initialDateRange={initialDateRange}
+          //disabled={isLoading}
+          disabledDates={disabledDates}
+          listingId={listing.id}
+          listingPrice={listing.price}
+          currentUser={currentUser}
+        />
+      </Elements>
+    )
+  }
+
   return (
     <Container>
       <div className='max-w-screen-lg mx-auto'>
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-6 mt-6'>
           <ListingHeader
             title={listing.title}
             images={listing.images}
@@ -125,33 +162,16 @@ const ListingClient: React.FC<ListingClientProps> = ({
             id={listing.id}
             currentUser={currentUser}
           />
-          <div className='grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6'>
-            <ListingInfo
-              user={listing.user}
-              category={category}
-              description={listing.description}
-              roomCount={listing.roomCount}
-              guestCount={listing.guestCount}
-              bathroomCount={listing.bathroomCount}
-              locationValue={listing.locationValue}
-              wilayaLocationValue={listing.wilayaLocationValue}
-            />
-            <div className='order-first mb-10 md:order-last md:col-span-3'>
-              <Elements stripe={stripePromise}>
-                <ListingReservation
-                  price={listing.price}
-                  totalPrice={totalPrice}
-                  onChangeDate={(value) => setDateRange(value)}
-                  dateRange={dateRange}
-                  setDateRange={setDateRange}
-                  initialDateRange={initialDateRange}
-                  // disabled={isLoading}
-                  disabledDates={disabledDates}
-                  listingId={listing.id}
-                  listingPrice={listing.price}
-                  currentUser={currentUser}
-                />
-              </Elements>
+
+          <div className='grid grid-cols-1 lg:grid-cols-7 md:gap-10 mt-6 '>
+            <div className='lg:col-span-4 flex flex-col gap-8'>
+              {renderListingInfo()}
+            </div>
+
+            <div className='order-first mb-10 md:order-last lg:col-span-3 '>
+              <div className='sticky top-28'>
+                {renderReservationCalendar()}
+              </div>
             </div>
           </div>
         </div>

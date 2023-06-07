@@ -11,6 +11,8 @@ interface ButtonProps {
   primary?: boolean;
   small?: boolean;
   icon?: IconType;
+  className?: string;
+  width?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,7 +23,9 @@ const Button: React.FC<ButtonProps> = ({
   edit,
   small,
   primary,
+  width,
   icon: Icon,
+  className,
 }) => {
   return (
     <button
@@ -34,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
         rounded-lg
         hover:opacity-80
         transition
-        w-full
+        
         ${outline && 'bg-white border-black text-black'}
         ${edit && 'bg-green-600 border-black text-white'}
         ${primary && 'bg-primary border-primary text-white'}
@@ -42,6 +46,8 @@ const Button: React.FC<ButtonProps> = ({
         ${small ? 'py-1 px-2' : 'py-3 px-6'}
         ${small ? 'font-light' : 'font-semibold'}
         ${small ? 'border-[1px]' : 'border-2'}
+        ${className ?? className}
+        ${width ? width : "w-full"}
       `}
     >
       {Icon && (

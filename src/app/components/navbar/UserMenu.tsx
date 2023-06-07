@@ -31,8 +31,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       return loginModal.onOpen();
     }
 
-    if (currentUser.hasWallet) {
-      toast.success("You need to connect stripe before hosting a listing")
+    if (!currentUser.hasWallet) {
+      toast.error("You need to connect stripe before hosting a listing")
       return router.push('/dashboard')
     }
 

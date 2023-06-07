@@ -8,6 +8,7 @@ import useContries from '@/hooks/useCountries';
 import { SafeListing, SafeUser } from '@/types';
 
 import Avatar from '@/app/components/Avatar';
+import Reviews from '@/app/components/reviews/Reviews';
 import ListingCategory from '@/app/components/listings/ListingCategory';
 import useWilayas from '@/hooks/useWilayas';
 
@@ -47,8 +48,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 
   const coordinates = getByValue(locationValue)?.latlng;
   const wilayaCoordinates = getWilayaByValue(wilayaLocationValue)?.latlng
+
   return (
-    <div className='col-span-4 flex flex-col gap-8'>
+    <>
       <div className='flex flex-col gap-2'>
         <div className='text-xl font-semibold flex flex-row items-center gap-2'>
           <div>Hosted by {user.name}</div>
@@ -72,7 +74,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       <div className='text-lg font-light text-neutral-500'>{description}</div>
       <hr />
       <Map center={wilayaCoordinates} zoom={10} />
-    </div>
+      <hr />
+      <Reviews />
+    </>
   );
 };
 export default ListingInfo;

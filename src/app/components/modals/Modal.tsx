@@ -89,7 +89,7 @@ const Modal: React.FC<ModalsProps> = ({
               >
                 <Dialog.Panel className=' w-full 
                                           max-w-lg 
-                                          transform 
+                                          transform-gpu
                                           overflow-hidden 
                                           rounded-2xl
                                           bg-white  

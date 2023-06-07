@@ -21,7 +21,6 @@ type ListingReservationProps = {
   };
   onChangeDate: (value: Range) => void;
   currentUser?: SafeUser | null;
-  // disabled?: boolean;
   disabledDates: Date[];
   listingId?: string;
   listingPrice?: number

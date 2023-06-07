@@ -36,7 +36,6 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
   const router = useRouter();
 
-  const loginModal = useLoginModal();
   const bookingModal = useBookModal();
 
   const stripe = useStripe();
@@ -102,8 +101,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
           router.push('/trips');
         })
         .catch((error) => {
-          console.log(error);
-          toast.error(error.response.data.message);
+          console.log("sqlgdhqs");
         })
         .finally(() => {
           bookingModal.onClose()

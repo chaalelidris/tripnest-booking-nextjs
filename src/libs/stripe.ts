@@ -7,10 +7,10 @@ const client = new stripe(`${process.env.STRIPE_SECRET_KEY}`, {
 
 export const Stripe = {
     connect: async (currentUser: SafeUser) => {
-        // const response = await client.oauth.token({
-        //     grant_type: "authorization_code",
-        //     code,
-        // });
+        /* const response = await client.oauth.token({
+            grant_type: "authorization_code",
+            code,
+        }); */
 
         const nameArray = currentUser.name!.split(" ");
         const first_name = nameArray[0];
@@ -51,19 +51,17 @@ export const Stripe = {
                     state: 'CA',
                     postal_code: '12345',
                 },
-                phone: '8133388986', 
+                phone: '8133388986',
 
                 business_profile: {
                     mcc: '5734', // Test industry code for computer software
-                  },
-                  tos_acceptance: {
+                },
+                tos_acceptance: {
                     date: Math.floor(Date.now() / 1000),
                     ip: '127.0.0.1',
-                  },*/
-
-
+                }, */
             }
-        })
+        });
 
         const accountId = accountParams.id
         const isProd = process.env.NODE_ENV === 'production';

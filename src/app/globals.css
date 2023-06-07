@@ -8,6 +8,20 @@ body,
   @apply h-fit
 }
 
+/* LISTING PAGE DETAIL */
+.listingSection__wrap {
+  @apply w-full 
+  flex 
+  flex-col 
+  sm:rounded-2xl  
+  space-y-6 
+  sm:space-y-8 
+  pb-10 
+  px-0 
+  sm:p-4 
+  xl:p-8;
+}
+
 
 .leaflet-bottom,
 .leaflet-control,

@@ -88,6 +88,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json(listingAndReservation);
   } catch (error: any) {
-    throw new Error(error)
+    return NextResponse.json({ message: error }, { status: 500 });
   }
 }
