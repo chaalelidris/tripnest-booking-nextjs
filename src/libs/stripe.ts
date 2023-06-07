@@ -1,5 +1,5 @@
 import stripe from "stripe";
-import { SafeUser } from "../types";
+import { SafeUser } from "@/types";
 
 const client = new stripe(`${process.env.STRIPE_SECRET_KEY}`, {
     apiVersion: "2022-11-15",
@@ -22,7 +22,7 @@ export const Stripe = {
             type: 'express',
             email: currentUser.email!,
             business_type: 'individual',
-            country: 'US',
+            country: 'FR',
 
             capabilities: {
                 card_payments: {
@@ -34,15 +34,12 @@ export const Stripe = {
             },
             business_profile: {
                 url,
-
-
             },
             individual: {
                 first_name,
                 last_name,
                 email: currentUser.email!, // Set the email
-                // phone: '+1 123-456-7890',
-                ssn_last_4: '1234',
+                /* ssn_last_4: '1234',
                 dob: {
                     day: 1,
                     month: 2,
@@ -54,15 +51,15 @@ export const Stripe = {
                     state: 'CA',
                     postal_code: '12345',
                 },
-                phone: '8133388986',
+                phone: '8133388986', 
 
-                // business_profile: {
-                //     mcc: '5734', // Test industry code for computer software
-                //   },
-                //   tos_acceptance: {
-                //     date: Math.floor(Date.now() / 1000),
-                //     ip: '127.0.0.1',
-                //   },
+                business_profile: {
+                    mcc: '5734', // Test industry code for computer software
+                  },
+                  tos_acceptance: {
+                    date: Math.floor(Date.now() / 1000),
+                    ip: '127.0.0.1',
+                  },*/
 
 
             }
@@ -70,9 +67,10 @@ export const Stripe = {
 
         const accountId = accountParams.id
         const isProd = process.env.NODE_ENV === 'production';
-        const refresh_url = isProd ? 'https://groundbnb.vercel.app' : 'http://localhost:3000/user';
-        const return_url = isProd ? 'https://groundbnb.vercel.app' : 'http://localhost:3000/user';
-        // Create an account link for the user's Stripe account
+        const refresh_url = isProd ? 'tripnest-idrischaalel.vercel.app' : 'http://localhost:3000/dashboard';
+        const return_url = isProd ? 'tripnest-idrischaalel.vercel.app' : 'http://localhost:3000/dashboard';
+
+        /* Create an account link for the user's Stripe account */
         const accountLink = await client.accountLinks.create({
             account: accountId,
             refresh_url,

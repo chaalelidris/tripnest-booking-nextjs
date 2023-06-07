@@ -21,35 +21,36 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
     axios
       .patch(`/api/stripe`)
       .then(() => {
-        toast.success('Stripe disconnected');
         router.refresh();
       })
       .catch((error) => {
         toast.error(error?.response?.data?.error);
+      })
+      .finally(() => {
+        toast.success('Stripe disconnected');
       });
-    // .finally(() => {
-
-    // });
   }, [router]);
+
+  const stripeUrl = `https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_STRIPE_OAUTH_CLIENT_ID}&scope=read_write&redirect_uri=http://localhost:3000/dashboard`;
 
   const onClick = useCallback(() => {
     axios
       .post(`/api/stripe`)
       .then((response) => {
         router.push(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         toast.error(error?.response?.data?.error);
       });
   }, [router]);
 
-  // useEffect(() => {
-  //   axios.get('/api/stripe').then((response) => {
-  //     console.log(response.data);
-  //   });
-  // }, []);
+  /* useEffect(() => {
+    axios.get('/api/stripe').then((response) => {
+      console.log(response.data);
+    });
+  }, []); */
 
-  const stripeUrl = `https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_STRIPE_OAUTH_CLIENT_ID}&scope=read_write&redirect_uri=http://localhost:3000/user`;
   const additionalDetails = currentUser?.hasWallet ? (
     <>
       {/* <hr /> */}
@@ -73,7 +74,6 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
     </>
   ) : (
     <>
-      {/* <hr /> */}
       <div className='my-6 space-y-4 font-light'>
         <Button
           primary
@@ -89,7 +89,7 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
   );
   return (
     <Container>
-      <div className='max-w-sm h-full mx-auto border shadow-md px-4 py-3 rounded-2xl'>
+      <div className='max-w-sm h-full mx-auto border shadow-md px-4 py-3 mt-6 rounded-2xl'>
         <div className='flex items center justify-center mb-4'>
           <Avatar src={currentUser?.image} size='lg' />
         </div>
@@ -103,6 +103,9 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
             </div>
             <div>
               Email: <span className='font-semibold'>{currentUser?.email}</span>
+            </div>
+            <div>
+              EmailVerified: <span className='font-semibold'>{currentUser?.emailVerified}</span>
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 /* utils */
-import { ImgType, imagesUpload } from '@/utils/ImagesUpload';
+import { ImgType, imagesUpload } from '@/libs/utils/ImagesUpload';
 
 /* components */
 import Modal from '@/app/components/modals/Modal';
@@ -155,12 +155,12 @@ const RentModal: React.FC = () => {
       return onNext();
     }
 
-    
+
     let media: ImgType[] = [];
     if (images.length > 0) {
       media = await imagesUpload(images);
     }
-    
+
     setLoading(true);
     const res = axios
       .post('/api/listings', {

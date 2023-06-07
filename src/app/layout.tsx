@@ -47,7 +47,10 @@ export default async function RootLayout({
           <LoginModal />
           <RentModal />
           <SearchModal />
-          <div className='pb-20'>{children}</div>
+          <div className='relative isolate pb-20'>
+
+            {children}
+          </div>
         </Provider>
       </body>
     </html>

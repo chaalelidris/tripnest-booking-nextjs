@@ -38,29 +38,23 @@ export async function POST(request: Request) {
 
 
 }
-// export async function GET(request: Request) {
-//     try {
-//         const currentUser = await getCurrentUser();
+/* export async function GET(request: Request) {
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser) {
+            return NextResponse.error()
+        }
+        if (!currentUser.walletId) {
+            return NextResponse.error()
+        }
+        const balance = await Stripe.balance('acct_1N4swnGa8Q0papfb')
+        return NextResponse.json(balance)
+    } catch (error: any) {
+        throw new Error(error)
+    }
 
-//         if (!currentUser) {
-//             return NextResponse.error()
-//         }
+} */
 
-//         // if (!currentUser.walletId) {
-//         //     return NextResponse.error()
-//         // }
-
-//         const balance = await Stripe.balance('acct_1N4swnGa8Q0papfb')
-
-
-//         return NextResponse.json(balance)
-//     } catch (error: any) {
-//         throw new Error(error)
-//     }
-
-
-
-// }
 export async function PATCH(request: Request) {
     try {
 
