@@ -45,8 +45,6 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
     if (!currentUser) {
       return loginModal.onOpen();
     }
-
-
     bookingModal.onOpen();
   }, [loginModal, bookingModal, currentUser]);
 
@@ -55,19 +53,19 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
   });
 
 
-  return (
-    <div className='bg-white rounded-xl border-[1px] border-neutral-200 overflow-hidden'>
+
+  /* Render */
+  const renderListingReservationHeader = () => {
+    return (
       <div className='flex flex-row items-center gap-1 p-4'>
-        <div className='text-2xl font-semibold'>$ {price}</div>
+        <div className='text-2xl font-semibold'>{price} <small>DZD</small></div>
         <div className='font-light text-neutral-600'>night</div>
       </div>
-      <hr />
-      <Calendar
-        value={dateRange}
-        disabledDates={disabledDates}
-        onChange={(value) => onChangeDate(value.selection)}
-      />
-      <hr />
+    )
+  }
+
+  const renderBookingModal = () => {
+    return (
       <div className='p-4'>
         <Button
           primary
@@ -84,10 +82,37 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
           initialDateRange={initialDateRange}
         />
       </div>
+    )
+  }
+
+
+  
+  return (
+    <div className='bg-white rounded-xl border-[1px] border-neutral-200 overflow-hidden'>
+
+      {/* Listing Reservation Header */}
+      {renderListingReservationHeader()}
+
+      <hr />
+
+      {/* Calendar */}
+      <Calendar
+        value={dateRange}
+        disabledDates={disabledDates}
+        onChange={(value) => onChangeDate(value.selection)}
+      />
+
+      <hr />
+
+      {/* Total Price display */}
       <div className='p-4 flex flex-row items-center justify-between font-semibold text-lg'>
         <div>Total</div>
         <div>$ {totalPrice}</div>
       </div>
+
+      {/* Button Shows Booking Modal */}
+      {renderBookingModal()}
+
     </div>
   );
 };

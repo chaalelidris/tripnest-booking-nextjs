@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { addDays, differenceInCalendarDays, eachDayOfInterval, isSameDay } from 'date-fns';
 import { Range } from 'react-date-range';
@@ -14,9 +13,6 @@ import ListingReservation from '@/app/components/listings/ListingReservation';
 import { categories } from '@/app/components/navbar/Categories';
 
 import { SafeListing, SafeUser, SafeReservation } from '@/types';
-
-import useLoginModal from '@/hooks/useLoginModal';
-import useBookModal from '@/hooks/useBookModal';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -37,12 +33,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
   currentUser,
   reservations = [],
 }) => {
-  const loginModal = useLoginModal();
-  const bookingModal = useBookModal();
-  const router = useRouter();
 
   const stripePromise = loadStripe(
-    'pk_test_51N34RGGyKqr6VuiPkMPTW8siqXFPzl70d0PdUaw4mtINjzuw040KXXdpLZMZwzOEh71L8Tvc8GCev1X2vblEMKff00pXT14gtR',
+    String(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
   );
 
   const disabledDates = useMemo(() => {
@@ -61,7 +54,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
   }, [reservations]);
 
 
-  const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
@@ -114,7 +106,17 @@ const ListingClient: React.FC<ListingClientProps> = ({
     return categories.find((item) => item.label === listing.category);
   }, [listing.category]);
 
-
+  const renderListingHeader = () => {
+    return (
+      <ListingHeader
+        title={listing.title}
+        images={listing.images}
+        locationValue={listing.locationValue}
+        id={listing.id}
+        currentUser={currentUser}
+      />
+    )
+  }
 
   const renderListingInfo = () => {
     return (
@@ -141,7 +143,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
           dateRange={dateRange}
           setDateRange={setDateRange}
           initialDateRange={initialDateRange}
-          //disabled={isLoading}
           disabledDates={disabledDates}
           listingId={listing.id}
           listingPrice={listing.price}
@@ -155,20 +156,16 @@ const ListingClient: React.FC<ListingClientProps> = ({
     <Container>
       <div className='max-w-screen-lg mx-auto'>
         <div className='flex flex-col gap-6 mt-6'>
-          <ListingHeader
-            title={listing.title}
-            images={listing.images}
-            locationValue={listing.locationValue}
-            id={listing.id}
-            currentUser={currentUser}
-          />
 
+          {/* Render Header */}
+          {renderListingHeader()}
+
+          {/* Render Grid */}
           <div className='grid grid-cols-1 lg:grid-cols-7 md:gap-10 mt-6 '>
             <div className='lg:col-span-4 flex flex-col gap-8'>
               {renderListingInfo()}
             </div>
-
-            <div className='order-first mb-10 md:order-last lg:col-span-3 '>
+            <div className='lg:col-span-3 order-first lg:order-last mb-10  '>
               <div className='sticky top-28'>
                 {renderReservationCalendar()}
               </div>

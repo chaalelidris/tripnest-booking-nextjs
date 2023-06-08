@@ -32,11 +32,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
   setDateRange,
   initialDateRange,
 }) => {
-  const [loading, setLoading] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const bookingModal = useBookModal();
   const router = useRouter();
 
-  const bookingModal = useBookModal();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -75,6 +74,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   const onCreateReservation = useCallback(async () => {
+    setIsLoading(true)
+
     if (!stripe || !elements) {
       return toast.error("Sorry! We weren't able to connect with Stripe");
     }
@@ -86,6 +87,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
         cardElement,
       );
 
+      isLoading ?? toast.loading("Creating booking...");
       const res = axios
         .post(`/api/reservations`, {
           totalPrice,
@@ -94,26 +96,23 @@ const BookingModal: React.FC<BookingModalProps> = ({
           source: stripeToken?.id,
           listingId,
         })
-        .then(() => {
-          // toast.success('Listing Reserved🎉');
+        .then((response) => {
+          toast.success("Listing Reserved🎉");
           setDateRange(initialDateRange);
-
           router.push('/trips');
         })
         .catch((error) => {
-          console.log("sqlgdhqs");
+          toast.error(error.response?.data?.error);
+          console.log(error.response?.data?.error);
         })
         .finally(() => {
-          bookingModal.onClose()
+          setIsLoading(false);
+          bookingModal.onClose();
         });
-
-      toast.promise(res, {
-        loading: 'Creating booking...',
-        success: "Listing Reserved🎉",
-        error: "Something went wrong"
-      })
+      
     }
   }, [
+    isLoading,
     totalPrice,
     dateRange,
     listingId,
@@ -128,7 +127,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <Heading center title='Book your Reservation'
-        subtitle={`Enter your payment information to book the listing from the dates between ${format(dateRange.startDate!, 'PP')} - ${format(dateRange.endDate!, 'PP')}, inclusive.`}
+        subtitle={`Enter your payment information to bookthe listing from the dates between 
+        ${format(dateRange.startDate!, 'PP')} - ${format(dateRange.endDate!, 'PP')}, inclusive.`}
       />
       <hr />
 
@@ -151,7 +151,6 @@ const BookingModal: React.FC<BookingModalProps> = ({
         </div>
       </div>
 
-
       <hr />
       <p className="text-semibold text-center">Total: <span className="font-medium">{totalPrice + Math.ceil(totalPrice * 0.05)} <small>DZD</small></span> </p>
       <CardElement
@@ -162,13 +161,17 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
   const footerContent = (
     <div>
-      <p className="text-xs text-center mt-10">Test using the credit card number: 4242 4242 4242 4242, a future expiry date, and any 3 digits for the CVC code.</p>
-
+      <p className="text-xs text-center mt-10">
+        Test using the credit card number: 4242 4242 4242 4242, a future expiry date,
+        and any 3 digits for the CVC code.
+      </p>
     </div>
   )
+
   return (
     <Modal
-      disabled={!stripe || !elements}
+      disabled={!stripe || !elements || isLoading}
+      loading={isLoading}
       isOpen={bookingModal.isOpen}
       title='Book you reservation'
       actionLabel='Reserve'
@@ -179,4 +182,5 @@ const BookingModal: React.FC<BookingModalProps> = ({
     />
   );
 };
+
 export default BookingModal;

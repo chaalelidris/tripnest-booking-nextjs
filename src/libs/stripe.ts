@@ -23,45 +23,53 @@ export const Stripe = {
             email: currentUser.email!,
             business_type: 'individual',
             country: 'FR',
-
             capabilities: {
-                card_payments: {
-                    requested: true
-                },
                 transfers: {
-                    requested: true
-                }
+                    requested: true,
+                },
+                card_payments: {
+                    requested: true,
+                },
             },
             business_profile: {
+                /* Test industry code for computer software 
+                mcc: '5734',*/
                 url,
             },
             individual: {
                 first_name,
                 last_name,
-                email: currentUser.email!, // Set the email
-                /* ssn_last_4: '1234',
-                dob: {
-                    day: 1,
-                    month: 2,
-                    year: 1980
+                email: currentUser.email!,
+                //ssn_last_4: '1234',
+                /* dob: {
+                    day: 20,
+                    month: 8,
+                    year: 1999,
                 },
                 address: {
-                    line1: '123 Main St',
-                    city: 'Anytown',
+                    line1: 'City 390 log',
+                    city: 'Guelma',
                     state: 'CA',
-                    postal_code: '12345',
+                    postal_code: '24000',
                 },
-                phone: '8133388986',
-
-                business_profile: {
-                    mcc: '5734', // Test industry code for computer software
-                },
-                tos_acceptance: {
-                    date: Math.floor(Date.now() / 1000),
-                    ip: '127.0.0.1',
-                }, */
-            }
+                phone: '4565789856', */
+            },
+            /* tos_acceptance: {
+                date: Math.floor(Date.now() / 1000),
+                ip: '127.0.0.1',
+            }, */
+            /* external_account: {
+                object: 'bank_account',
+                country: 'US',
+                currency: 'usd',
+                account_number: 'FR1420041010050500013M02606',
+                account_holder_name: 'Idris Chaalel',
+                account_holder_type: 'individual',
+            }, */
         });
+
+
+
 
         const accountId = accountParams.id
         const isProd = process.env.NODE_ENV === 'production';

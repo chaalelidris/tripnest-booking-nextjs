@@ -2,13 +2,14 @@
 
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Avatar from '@/app/components/Avatar';
 import Button from '@/app/components/Button';
 import Container from '@/app/components/Container';
 import Heading from '@/app/components/Heading';
 import { SafeUser } from '../../types';
+import { FaBalanceScaleRight } from 'react-icons/fa';
 
 interface UserClientProps {
   currentUser?: SafeUser | null;
@@ -16,8 +17,10 @@ interface UserClientProps {
 
 const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
   const router = useRouter();
+  const [isLoading, setisLoading] = useState(false)
 
   const onCancel = useCallback(() => {
+    setisLoading(true);
     axios
       .patch(`/api/stripe`)
       .then(() => {
@@ -27,6 +30,7 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
         toast.error(error?.response?.data?.error);
       })
       .finally(() => {
+        setisLoading(false);
         toast.success('Stripe disconnected');
       });
   }, [router]);
@@ -34,14 +38,21 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
   const stripeUrl = `https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_STRIPE_OAUTH_CLIENT_ID}&scope=read_write&redirect_uri=http://localhost:3000/dashboard`;
 
   const onClick = useCallback(() => {
+    setisLoading(true);
+
     axios
       .post(`/api/stripe`)
       .then((response) => {
+        toast.success("Connected with stripe")
         router.push(response.data);
         console.log(response.data);
       })
       .catch((error) => {
         toast.error(error?.response?.data?.error);
+        console.log(error?.response?.data?.error);
+      })
+      .finally(() => {
+        setisLoading(false);
       });
   }, [router]);
 
@@ -60,6 +71,8 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
           <span className='font-semibold'>$ {currentUser.income}</span>
         </div>
         <Button
+          disabled={isLoading}
+          loading={isLoading}
           primary
           label='Disconnect Stripe'
           onClick={onCancel}
@@ -76,6 +89,7 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
     <>
       <div className='my-6 space-y-4 font-light'>
         <Button
+          disabled={isLoading}
           primary
           label='Connect with Stripe'
           onClick={onClick}

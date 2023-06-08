@@ -10,6 +10,7 @@ export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
 
+
     if (!currentUser) {
       return NextResponse.error();
     }
@@ -30,13 +31,15 @@ export async function POST(request: Request) {
         reservations: true
       }
     })
+
     if (!listing) {
-      throw new Error("No listing found")
+      return NextResponse.json({ message: `No listing found` }, { status: 404 });
     }
 
     if (listing.userId === currentUser.id) {
       return NextResponse.json({ message: `You can't book your own listing` }, { status: 500 });
     }
+
     const host = await prisma.user.findUnique({
       where: {
         id: listing.userId
@@ -44,7 +47,7 @@ export async function POST(request: Request) {
     })
 
     if (!host) {
-      throw new Error('Host not found')
+      return NextResponse.json({ message: `Host not found` }, { status: 500 });
     }
 
     if (!host.walletId) {
@@ -61,8 +64,9 @@ export async function POST(request: Request) {
         }
       }
     }
-    await Stripe.charge(totalPrice, source, host.walletId);
 
+
+    await Stripe.charge(totalPrice, source, host.walletId);
 
     await prisma.user.update({
       where: {
@@ -72,6 +76,7 @@ export async function POST(request: Request) {
         income: { increment: totalPrice }
       }
     })
+
     const listingAndReservation = await prisma.listing.update({
       where: { id: listingId },
       data: {
@@ -87,7 +92,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(listingAndReservation);
-  } catch (error: any) {
-    return NextResponse.json({ message: error }, { status: 500 });
+  } catch (error) {
+    //throw new Error("Problem with host payment account !");
+    return NextResponse.json({ error: `${error}` }, { status: 500 });
   }
 }

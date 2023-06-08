@@ -6,19 +6,18 @@ import { Stripe } from "@/libs/stripe";
 
 export async function POST(request: Request) {
     try {
-        // const body = await request.json();
-
-        // const { code } = body;
+        /* const { code } = await request.json(); */
 
         const currentUser = await getCurrentUser();
 
         if (!currentUser) {
-            return NextResponse.error()
+            return NextResponse.json({ message: `User unavailable` }, { status: 500 });
         }
 
         const { accountId, accountLink } = await Stripe.connect(currentUser)
 
-        if (!accountId) {
+
+        if (!accountId || !accountLink) {
             throw new Error("stripe grant error");
         }
 
@@ -33,7 +32,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(accountLink.url)
     } catch (error: any) {
-        throw new Error(error)
+        throw new Error("Oops! Something went wrong");
     }
 
 
