@@ -86,8 +86,9 @@ const BookingModal: React.FC<BookingModalProps> = ({
       const { token: stripeToken, error } = await stripe.createToken(
         cardElement,
       );
-
-      isLoading ?? toast.loading("Creating booking...");
+      if (isLoading) {
+        toast.loading("Creating booking...");
+      }
       const res = axios
         .post(`/api/reservations`, {
           totalPrice,
@@ -109,7 +110,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
           setIsLoading(false);
           bookingModal.onClose();
         });
-      
+
     }
   }, [
     isLoading,

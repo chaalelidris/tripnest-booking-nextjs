@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
 
-
+    
     if (!currentUser) {
       return NextResponse.error();
     }

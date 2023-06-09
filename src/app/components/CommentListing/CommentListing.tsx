@@ -1,6 +1,7 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { FC } from "react";
 import Avatar from "../Avatar";
+import { format } from "date-fns";
 
 interface CommentListingDataType {
   name: string;
@@ -16,19 +17,49 @@ export interface CommentListingProps {
   hasListingTitle?: boolean;
 }
 
-const DEMO_DATA: CommentListingDataType = {
-  name: "Cody Fisher",
-  date: "May 20, 2021",
-  comment:
-    "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
-  starPoint: 5,
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return format(date, 'yyyy-MM-dd HH:mm:ss');
 };
 
 const CommentListing: FC<CommentListingProps> = ({
   className = "",
-  data = DEMO_DATA,
+  data,
   hasListingTitle,
 }) => {
+  if (!data) {
+    return (
+      <div
+        className={`nc-CommentListing flex space-x-4 ${className}`}
+        data-nc-id="CommentListing"
+      >
+        <div className="pt-0.5">
+          <Avatar
+            src="/images/placeholder.jpg"
+            size={60}
+          />
+        </div>
+        <div className="flex-grow">
+          <div className="flex justify-between space-x-3">
+            <div className="flex flex-col">
+              <div className="text-sm font-semibold">No Data Available</div>
+            </div>
+            <div className="flex text-yellow-500">
+              <StarIcon className="w-4 h-4" />
+              <StarIcon className="w-4 h-4" />
+              <StarIcon className="w-4 h-4" />
+              <StarIcon className="w-4 h-4" />
+              <StarIcon className="w-4 h-4" />
+            </div>
+          </div>
+          <span className="block mt-3 text-neutral-6000 dark:text-neutral-300">
+            No comment available
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`nc-CommentListing flex space-x-4 ${className}`}
@@ -36,7 +67,7 @@ const CommentListing: FC<CommentListingProps> = ({
     >
       <div className="pt-0.5">
         <Avatar
-          src="/images/placeholder.jpg"
+          src={data.avatar || "/images/placeholder.jpg"}
           size={60}
         />
       </div>
@@ -55,15 +86,15 @@ const CommentListing: FC<CommentListingProps> = ({
               )}
             </div>
             <span className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
-              {data.date}
+              {formatDate(data.date)}
             </span>
           </div>
-          <div className="flex text-yellow-500">
-            <StarIcon className="w-4 h-4" />
-            <StarIcon className="w-4 h-4" />
-            <StarIcon className="w-4 h-4" />
-            <StarIcon className="w-4 h-4" />
-            <StarIcon className="w-4 h-4" />
+          <div className="flex text-neutral-300">
+
+            {[1, 2, 3, 4, 5].map((item) => {
+              return (<StarIcon key={item} className={`${data.starPoint >= item ? "w-4 h-4 text-yellow-500":"w-4 h-4 "} `} />)
+            })}
+
           </div>
         </div>
         <span className="block mt-3 text-neutral-6000 dark:text-neutral-300">

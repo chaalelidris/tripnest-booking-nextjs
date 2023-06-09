@@ -90,6 +90,7 @@ const UserClient: React.FC<UserClientProps> = ({ currentUser }) => {
       <div className='my-6 space-y-4 font-light'>
         <Button
           disabled={isLoading}
+          loading={isLoading}
           primary
           label='Connect with Stripe'
           onClick={onClick}

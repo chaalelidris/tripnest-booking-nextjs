@@ -1,4 +1,4 @@
-import { User, Prisma, Reservation } from '@prisma/client';
+import { User, Prisma, Reservation, Review } from '@prisma/client';
 
 export type SafeUser = Omit<
   User,
@@ -10,6 +10,13 @@ export type SafeUser = Omit<
   hasWallet: boolean
   balance: number | null;
 };
+
+export type SafeReview = Omit<Review,
+  'createdAt' | 'updatedAt'> & {
+    createdAt: string;
+    updatedAt: string;
+    user: SafeUser;
+  };
 
 type ListingWithImages = Prisma.ListingGetPayload<{
   include: { images: true | Prisma.ImageFindManyArgs };

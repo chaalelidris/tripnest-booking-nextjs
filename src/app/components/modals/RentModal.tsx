@@ -162,6 +162,7 @@ const RentModal: React.FC = () => {
     }
 
     setLoading(true);
+    
     const res = axios
       .post('/api/listings', {
         ...data,

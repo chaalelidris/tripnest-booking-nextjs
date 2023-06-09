@@ -17,6 +17,7 @@ const Map = dynamic(() => import('@/app/components/Map'), {
 });
 
 type ListingInfoProps = {
+  id:string;
   user: SafeUser;
   category:
   | {
@@ -34,6 +35,7 @@ type ListingInfoProps = {
 };
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
+  id,
   user,
   category,
   description,
@@ -75,7 +77,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       <hr />
       <Map center={wilayaCoordinates} zoom={10} />
       <hr />
-      <Reviews />
+      <Reviews listingId={id}/>
     </>
   );
 };

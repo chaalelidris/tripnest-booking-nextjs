@@ -52,14 +52,16 @@ const ListingHeader: React.FC<ListingHeaderProps> = ({
         <HeartButton listingId={id} currentUser={currentUser} />
       </div>
       {isViewerOpen && (
-        <ImageViewer
-          src={images.map((i) => i.src)}
-          currentIndex={currentImage}
-          disableScroll={false}
-          closeOnClickOutside={true}
-          onClose={closeImageViewer}
-        // backgroundStyle={}
-        />
+        <div className='z-40'>
+          <ImageViewer
+            src={images.map((i) => i.src)}
+            currentIndex={currentImage}
+            disableScroll={false}
+            closeOnClickOutside={true}
+            onClose={closeImageViewer}
+          // backgroundStyle={}
+          />
+        </div>
       )}
       <div
         onClick={() => openImageViewer(0)}

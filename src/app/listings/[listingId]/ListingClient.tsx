@@ -121,6 +121,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const renderListingInfo = () => {
     return (
       <ListingInfo
+        id={listing.id}
         user={listing.user}
         category={category}
         description={listing.description}
