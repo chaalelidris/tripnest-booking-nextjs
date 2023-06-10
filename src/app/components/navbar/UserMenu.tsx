@@ -70,23 +70,23 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <Menu.Button>
             <div
               className='
-              p-4
-              md:py-1
-              md:px-2
-              border-[1px]
-              border-neutral-100
-              flex
-              flex-row
-              items-center
-              gap-3
-              rounded-full
-              cursor-pointer
-              hover:shadow-md
-              transition
-              overflow-ellipsis 
-              whitespace-nowrap 
-              overflow-hidden
-        '
+                          p-4
+                          md:py-1
+                          md:px-2
+                          border-[1px]
+                          border-neutral-100
+                          flex
+                          flex-row
+                          items-center
+                          gap-3
+                          rounded-full
+                          cursor-pointer
+                          hover:shadow-md
+                          transition
+                          overflow-ellipsis 
+                          whitespace-nowrap 
+                          overflow-hidden
+                          '
             >
               <AiOutlineMenu />
               {currentUser?.name}

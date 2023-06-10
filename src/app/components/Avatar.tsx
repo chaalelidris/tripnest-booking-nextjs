@@ -8,10 +8,10 @@ interface AvatarProps {
 const Avatar: React.FC<AvatarProps> = ({ src, size }) => {
   return (
     <Image
-      className='rounded-full'
+      className='rounded-full w-8 h-8'
       height={size ? size : 30}
       width={size ? size : 30}
-      src={src || '/images/placeholder.jpg'}
+      src={src || '/public/images/placeholder.jpg'}
       alt='Avatar'
     />
   );

@@ -73,8 +73,8 @@ export const Stripe = {
 
         const accountId = accountParams.id
         const isProd = process.env.NODE_ENV === 'production';
-        const refresh_url = isProd ? 'tripnest-idrischaalel.vercel.app' : 'http://localhost:3000/dashboard';
-        const return_url = isProd ? 'tripnest-idrischaalel.vercel.app' : 'http://localhost:3000/dashboard';
+        const refresh_url = isProd ? 'https://tripnest.me/dashboard' : 'http://localhost:3000/dashboard';
+        const return_url = isProd ? 'https://tripnest.me/dashboard' : 'http://localhost:3000/dashboard';
 
         /* Create an account link for the user's Stripe account */
         const accountLink = await client.accountLinks.create({

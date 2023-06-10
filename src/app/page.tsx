@@ -4,6 +4,7 @@ import EmptyState from '@/app/components/EmptyState';
 
 import getListings, { IListingParams } from '@/app/functions/getListings';
 import getCurrentUser from '@/app/functions/getCurrentUser';
+import RecommendationsSection from './components/sections/RecomendationsSection';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +22,8 @@ const Home = async ({ searchParams }: HomeProps) => {
 
   return (
     <Container>
+      <RecommendationsSection />
+      <hr />
       <div
         className='
             pt-10

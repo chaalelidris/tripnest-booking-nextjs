@@ -1,8 +1,8 @@
 import { Nunito } from 'next/font/google';
 import './globals.css';
+import "../styles/index.scss"
 
 import ToastProvider from '@/app/providers/ToasterProvider';
-
 import getCurrentUser from '@/app/functions/getCurrentUser';
 
 
@@ -16,7 +16,6 @@ import SearchModal from '@/app/components/modals/SearchModal';
 import RegisterModal from '@/app/components/modals/RegisterModal';
 import GoogleAnalytics from '@/app/components/GoogleAnalytics';
 import Banner from './components/Banner';
-
 
 
 export const metadata = {
@@ -48,7 +47,6 @@ export default async function RootLayout({
           <RentModal />
           <SearchModal />
           <div className='relative isolate pb-20'>
-
             {children}
           </div>
         </Provider>

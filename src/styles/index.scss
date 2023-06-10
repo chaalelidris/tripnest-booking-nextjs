@@ -1,0 +1,16 @@
+@import "./_theme_colors";
+/* @import "./_theme_font";
+@import "./_theme_custom";
+@import "./_dates";
+@import "./header"; */
+
+// Required Core Stylesheet
+@import "@glidejs/glide/src/assets/sass/glide.core";
+
+// Optional Theme Stylesheet
+@import "@glidejs/glide/src/assets/sass/glide.theme";
+
+
+.glide__arrow {
+    @apply rounded-full text-gray-900 bg-gray-50 
+}

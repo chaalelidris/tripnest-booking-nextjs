@@ -67,37 +67,36 @@ const CommentListing: FC<CommentListingProps> = ({
     >
       <div className="pt-0.5">
         <Avatar
-          src={data.avatar || "/images/placeholder.jpg"}
+          src={data.avatar }
           size={60}
         />
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow overflow-ellipsis overflow-hidden">
         <div className="flex justify-between space-x-3">
           <div className="flex flex-col">
             <div className="text-sm font-semibold">
               <span>{data.name}</span>
               {hasListingTitle && (
                 <>
-                  <span className="text-neutral-500 dark:text-neutral-400 font-normal">
+                  <span className="text-neutral-500 font-normal">
                     {` review in `}
                   </span>
                   <a href="/">The Lounge & Bar</a>
                 </>
               )}
             </div>
-            <span className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
+            <span className="text-sm text-neutral-500 mt-0.5">
               {formatDate(data.date)}
             </span>
           </div>
           <div className="flex text-neutral-300">
-
             {[1, 2, 3, 4, 5].map((item) => {
-              return (<StarIcon key={item} className={`${data.starPoint >= item ? "w-4 h-4 text-yellow-500":"w-4 h-4 "} `} />)
+              return (<StarIcon key={item} className={`${data.starPoint >= item ? "w-4 h-4 text-yellow-500" : "w-4 h-4 "} `} />)
             })}
 
           </div>
         </div>
-        <span className="block mt-3 text-neutral-6000 dark:text-neutral-300">
+        <span className="block mt-3 text-neutral-6000 ">
           {data.comment}
         </span>
       </div>

@@ -47,11 +47,6 @@ const Reviews = ({ listingId }: Ireviews) => {
         [setValue]
       );
       
-
-
-
-
-
     useEffect(() => {
         /* Get All Reviews */
         const fetchReviews = async () => {

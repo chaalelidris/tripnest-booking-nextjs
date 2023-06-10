@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
 
 html,
 body,
@@ -17,9 +18,7 @@ body,
   space-y-6 
   sm:space-y-8 
   pb-10 
-  px-0 
-  sm:p-4 
-  xl:p-8;
+  px-0;
 }
 
 
@@ -38,3 +37,5 @@ body,
   font-size: 16px !important;
   width: 100% !important
 }
+
+
