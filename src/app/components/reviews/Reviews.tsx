@@ -38,15 +38,15 @@ const Reviews = ({ listingId }: Ireviews) => {
 
     const setRatingValue = useCallback(
         (id: string, value: any) => {
-          setValue(id, value, {
-            shouldDirty: true,
-            shouldTouch: true,
-            shouldValidate: true,
-          });
+            setValue(id, value, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true,
+            });
         },
         [setValue]
-      );
-      
+    );
+
     useEffect(() => {
         /* Get All Reviews */
         const fetchReviews = async () => {
@@ -155,7 +155,7 @@ const Reviews = ({ listingId }: Ireviews) => {
                         className="py-8"
                         data={{
                             name: review.user.name || "Unknown",
-                            avatar: review.user?.image || "/public/images/placeholder.jpg",
+                            avatar: review.user?.image || "/images/placeholder.jpg",
                             date: review.createdAt,
                             comment: review.comment,
                             starPoint: review.rating,

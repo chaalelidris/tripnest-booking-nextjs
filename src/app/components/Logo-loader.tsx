@@ -11,8 +11,8 @@ const LogoLoader = () => {
       <Image
         className=""
         src="/images/logo.png"
-        width="180"
-        height="180"
+        width={180}
+        height={180}
         alt="Logo"
       />
       <div className="text-xl">

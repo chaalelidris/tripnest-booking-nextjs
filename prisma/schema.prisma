@@ -27,6 +27,8 @@ model User {
   updatedAt      DateTime  @updatedAt
   favoriteIds    String[]  @db.ObjectId
 
+  preferences String[] 
+
   accounts     Account[]
   sessions     Session[]
   listings     Listing[]

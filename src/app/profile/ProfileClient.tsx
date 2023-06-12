@@ -96,7 +96,7 @@ const ProfileClient: React.FC<ProfileClientProps> = ({
               {currentUser?.image ?
                 <Image src={currentUser?.image} width={58} height={58} alt="Profile image" className="w-full h-full object-cover" />
                 :
-                <Image src="/public/images/placeholder.png" width={58} height={58} alt="Profile image" className="w-full h-full object-cover" />
+                <Image src="/images/placeholder.jpg" width={58} height={58} alt="Profile image" className="w-full h-full object-cover" />
               }
             </div>
           </div>
@@ -207,7 +207,7 @@ const ProfileClient: React.FC<ProfileClientProps> = ({
           </form>
         ) : (
           <div className="border border-gray-300 rounded-xl p-4 mb-4 hover:shadow-lg hover:bg-gray-50">
-            <p className="mb-4 flex gap-2"><Avatar src={currentUser?.image} />{currentUser?.email}</p>
+            <p className="mb-4 flex gap-2"><Avatar src={currentUser?.image} size={100} />{currentUser?.email}</p>
             <p className="mb-4">{currentUser?.name}</p>
             {/* Display other account information here */}
             <div className="flex justify-end">

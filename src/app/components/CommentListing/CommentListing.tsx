@@ -67,7 +67,7 @@ const CommentListing: FC<CommentListingProps> = ({
     >
       <div className="pt-0.5">
         <Avatar
-          src={data.avatar }
+          src={data.avatar}
           size={60}
         />
       </div>

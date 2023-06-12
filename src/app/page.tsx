@@ -22,7 +22,7 @@ const Home = async ({ searchParams }: HomeProps) => {
 
   return (
     <Container>
-      <RecommendationsSection />
+      {currentUser && <RecommendationsSection currentUser={currentUser}  />}
       <hr />
       <div
         className='
