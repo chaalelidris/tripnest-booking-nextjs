@@ -147,6 +147,7 @@ const Modal: React.FC<ModalsProps> = ({
                           label={secondaryActionLabel}
                           outline
                           disabled={disabled}
+                          loading={loading}
                           onClick={handleSecondaryAction}
                         />
                       )}

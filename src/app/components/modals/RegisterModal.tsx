@@ -17,7 +17,6 @@ type RegisterModalProps = {};
 
 const RegisterModal: React.FC<RegisterModalProps> = () => {
   const [loading, setLoading] = useState(false);
-
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
@@ -62,6 +61,7 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
       <Input
         id='email'
         label='Email'
+        type='email'
         disabled={loading}
         errors={errors}
         register={register}
@@ -120,6 +120,7 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
   return (
     <Modal
       disabled={loading}
+      loading={loading}
       isOpen={registerModal.isOpen}
       title='Register'
       actionLabel='Continue'

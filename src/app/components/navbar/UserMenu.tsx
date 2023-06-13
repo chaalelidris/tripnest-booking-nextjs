@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useCallback, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -15,12 +15,14 @@ import useLoginModal from '@/hooks/useLoginModal';
 import useRentModal from '@/hooks/useRentModal';
 
 import { SafeUser } from '@/types';
+import usePreferencesModal from '@/hooks/usePreferencesModal';
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
 }
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const rentModal = useRentModal();
+  const preferencesModal = usePreferencesModal();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
@@ -39,6 +41,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     //open rent modal
     rentModal.onOpen();
   }, [currentUser, loginModal, rentModal, router]);
+
+  const onPreferences = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    //open rent modal
+    preferencesModal.onOpen();
+  }, [currentUser, loginModal, preferencesModal]);
+
+
+
   return (
     <div
       className='
@@ -134,7 +148,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                       onClick={onRent}
                       label='Tripnest my home'
                     />
-                    <hr />
+                    <MenuItem
+                      onClick={onPreferences}
+                      label='My preferences'
+                    />
                     <MenuItem onClick={() => signOut()} label='Logout' />
                   </>
                 ) : (

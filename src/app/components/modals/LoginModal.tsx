@@ -67,6 +67,7 @@ const LoginModal: React.FC<RegisterModalProps> = () => {
       <Input
         id='email'
         label='Email'
+        type='email'
         disabled={loading}
         errors={errors}
         register={register}
@@ -117,6 +118,7 @@ const LoginModal: React.FC<RegisterModalProps> = () => {
   return (
     <Modal
       disabled={loading}
+      loading={loading}
       isOpen={loginModal.isOpen}
       title='Login'
       actionLabel='Login'

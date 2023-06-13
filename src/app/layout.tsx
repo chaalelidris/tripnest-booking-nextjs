@@ -16,6 +16,7 @@ import SearchModal from '@/app/components/modals/SearchModal';
 import RegisterModal from '@/app/components/modals/RegisterModal';
 import GoogleAnalytics from '@/app/components/GoogleAnalytics';
 import Banner from './components/Banner';
+import PreferencesModal from './components/modals/PreferencesModal';
 
 
 export const metadata = {
@@ -45,6 +46,7 @@ export default async function RootLayout({
           <RegisterModal />
           <LoginModal />
           <RentModal />
+          {currentUser && <PreferencesModal currentUser={currentUser} />}
           <SearchModal />
           <div className='relative isolate pb-20'>
             {children}
