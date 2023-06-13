@@ -10,6 +10,7 @@ import { SafeUser } from '@/types';
 /* components */
 import Heading from '@/app/components/Heading';
 import HeartButton from '@/app/components/HeartButton';
+import useWilayas from '@/hooks/useWilayas';
 
 type ListingHeaderProps = {
   title: string;
@@ -17,6 +18,7 @@ type ListingHeaderProps = {
   id: string;
   currentUser?: SafeUser | null;
   locationValue: string;
+  wilayaLocationValue: string;
 };
 
 const ListingHeader: React.FC<ListingHeaderProps> = ({
@@ -25,10 +27,13 @@ const ListingHeader: React.FC<ListingHeaderProps> = ({
   images,
   currentUser,
   locationValue,
+  wilayaLocationValue,
 }) => {
   const { getByValue } = useContries();
+  const { getWilayaByValue } = useWilayas();
 
   const location = getByValue(locationValue);
+  const wilayaLocation = getWilayaByValue(wilayaLocationValue);
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
@@ -46,7 +51,7 @@ const ListingHeader: React.FC<ListingHeaderProps> = ({
     <>
       <Heading
         title={title}
-        subtitle={`${location?.region}, ${location?.label}`}
+        subtitle={`${location?.region}, ${location?.label}, ${wilayaLocation?.label}`}
       />
       <div className='flex justify-end items-center'>
         <HeartButton listingId={id} currentUser={currentUser} />

@@ -9,8 +9,9 @@ const Logo = () => {
       alt='Logo'
       src='/images/logo.png'
       className='hidden md:block cursor-pointer'
-      height={100}
+      style={{ width: "auto", height: "auto" }}
       width={100}
+      height={100}
     />
   );
 };

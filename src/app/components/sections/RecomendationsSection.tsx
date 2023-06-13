@@ -1,13 +1,12 @@
 "use client"
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Glide from "@glidejs/glide";
-import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
 
 import { SafeListing, SafeUser } from "@/types";
-import { it } from "node:test";
+import NextPrev from "../NextPrev";
 
 interface RecommendationsSectionProps {
     className?: string;
@@ -29,8 +28,6 @@ const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
 
 
     useEffect(() => {
-        console.log(glideRef.current);
-
         const glideConfig = {
             perView: 5,
             gap: 32,
@@ -101,14 +98,7 @@ const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
         <div className={`recommendations-section my-6 ${className}`}>
             <Heading title="Recommended" subtitle="The best places for you" />
             <div className="glide" ref={glideRef}>
-                <div className="glide__arrows" data-glide-el="controls">
-                    <button className="glide__arrow glide__arrow--left" data-glide-dir="<">
-                        <div className="text-gray-800">
-                            <BiChevronLeft />
-                        </div>
-                    </button>
-                </div>
-
+            <NextPrev className="justify-end mb-1" />
                 <div className="glide__track" data-glide-el="track">
                     <ul className="glide__slides">
                         {recommendations.map((listing) => (
@@ -119,11 +109,6 @@ const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
                     </ul>
                 </div>
 
-                <div className="glide__arrows" data-glide-el="controls">
-                    <button className="glide__arrow glide__arrow--right" data-glide-dir=">">
-                        <BiChevronRight />
-                    </button>
-                </div>
             </div>
         </div>
     );
