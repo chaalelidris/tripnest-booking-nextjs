@@ -34,7 +34,8 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           router.refresh();
         })
         .catch((error) => {
-          toast.error(error?.response?.data?.error);
+          console.log(error);
+          toast.error("Failed to delete listing");
         })
         .finally(() => {
           setDeletingId('');

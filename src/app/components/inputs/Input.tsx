@@ -1,11 +1,10 @@
 'use client';
 
 import type {
-  FieldErrors,
   FieldValues,
+  FieldErrors,
   UseFormRegister,
 } from 'react-hook-form';
-import { BiDollar } from 'react-icons/bi';
 
 interface InputProps {
   id: string;
@@ -15,7 +14,7 @@ interface InputProps {
   formatPrice?: boolean;
   required?: boolean;
   register: UseFormRegister<FieldValues>;
-  errors: FieldErrors;
+  errors: FieldErrors<FieldValues>;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -96,6 +95,9 @@ const Input: React.FC<InputProps> = ({
       >
         {label}
       </label>
+      {/* {errors[id] && (
+        <span className="text-rose-500 text-sm mt-1">{errors[id]?.message}</span>
+      )} */}
     </div>
   );
 };

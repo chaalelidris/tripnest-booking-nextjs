@@ -1,17 +1,24 @@
-'use client';
+"use client"
+
 import { AiFillGithub } from 'react-icons/ai';
 import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
 import { useCallback, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, FieldValues } from 'react-hook-form';
+import { signIn } from 'next-auth/react';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import useRegisterModal from '@/hooks/useRegisterModal';
+import useLoginModal from '@/hooks/useLoginModal';
+
 import Modal from '@/app/components/modals/Modal';
 import Heading from '@/app/components/Heading';
 import Input from '@/app/components/inputs/Input';
-import { toast } from 'react-hot-toast';
 import Button from '@/app/components/Button';
-import { signIn } from 'next-auth/react';
-import useLoginModal from '@/hooks/useLoginModal';
+import { toast } from 'react-hot-toast';
+
+
 
 type RegisterModalProps = {};
 
@@ -26,9 +33,9 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
     },
   });
 
@@ -56,29 +63,29 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
   }, [loginModal, registerModal]);
 
   const bodyContent = (
-    <div className='flex flex-col gap-4'>
-      <Heading title='Welcome to Tripnest' subtitle='Create an account' />
+    <div className="flex flex-col gap-4">
+      <Heading title="Welcome to Tripnest" subtitle="Create an account" />
       <Input
-        id='email'
-        label='Email'
-        type='email'
+        id="email"
+        label="Email"
+        type="email"
         disabled={loading}
         errors={errors}
         register={register}
         required
       />
       <Input
-        id='name'
-        label='Name'
+        id="name"
+        label="Name"
         disabled={loading}
         errors={errors}
         register={register}
         required
       />
       <Input
-        id='password'
-        type='password'
-        label='Password'
+        id="password"
+        type="password"
+        label="Password"
         disabled={loading}
         errors={errors}
         register={register}
@@ -88,27 +95,27 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
   );
 
   const footerContent = (
-    <div className='flex flex-col gap-4 mt-3'>
+    <div className="flex flex-col gap-4 mt-3">
       <hr />
 
       <Button
         outline
-        label='Continue with Google'
+        label="Continue with Google"
         icon={FcGoogle}
         onClick={() => signIn('google')}
       />
       <Button
         outline
-        label='Continue with Github'
+        label="Continue with Github"
         icon={AiFillGithub}
         onClick={() => signIn('github')}
       />
-      <div className='text-neutral-500 text-center mt-4 font-light'>
-        <div className='flex flex-row items-center gap-2 justify-center'>
+      <div className="text-neutral-500 text-center mt-4 font-light">
+        <div className="flex flex-row items-center gap-2 justify-center">
           <div>Already have an account?</div>
           <button
             onClick={toggle}
-            className='text-neutral-800 cursor-pointer hover:underline'
+            className="text-neutral-800 cursor-pointer hover:underline"
           >
             Log in
           </button>
@@ -122,8 +129,8 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
       disabled={loading}
       loading={loading}
       isOpen={registerModal.isOpen}
-      title='Register'
-      actionLabel='Continue'
+      title="Register"
+      actionLabel="Continue"
       onClose={registerModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
@@ -131,4 +138,5 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
     />
   );
 };
+
 export default RegisterModal;

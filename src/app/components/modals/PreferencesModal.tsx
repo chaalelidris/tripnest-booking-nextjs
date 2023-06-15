@@ -86,6 +86,7 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser }) => {
         if (selectedCategories.length === 0) {
             setShouldOpenModal(true); // Set the flag to open the modal
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
