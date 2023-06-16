@@ -38,8 +38,15 @@ const LoginModal: React.FC<RegisterModalProps> = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setLoading(true);
-    signIn('credentials', {
+
+    // Convert email to lowercase
+    const lowercaseData = {
       ...data,
+      email: data.email.toLowerCase()
+    };
+    
+    signIn('credentials', {
+      ...lowercaseData,
       redirect: false,
     }).then((callback) => {
       setLoading(false);

@@ -6,8 +6,6 @@ import { FcGoogle } from 'react-icons/fc';
 import { useCallback, useState } from 'react';
 import { SubmitHandler, useForm, FieldValues } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 import useRegisterModal from '@/hooks/useRegisterModal';
 import useLoginModal from '@/hooks/useLoginModal';
@@ -42,10 +40,16 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setLoading(true);
 
+    // Convert email to lowercase
+    const lowercaseData = {
+      ...data,
+      email: data.email.toLowerCase()
+    };
+
     axios
-      .post('/api/register', data)
+      .post('/api/register', lowercaseData)
       .then(() => {
-        toast.success('Success🎉');
+        toast.success('Thanks registration success🎉');
         registerModal.onClose();
         loginModal.onOpen();
       })

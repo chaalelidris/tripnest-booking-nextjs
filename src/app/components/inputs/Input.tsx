@@ -4,6 +4,7 @@ import type {
   FieldValues,
   FieldErrors,
   UseFormRegister,
+  FieldError,
 } from 'react-hook-form';
 
 interface InputProps {
@@ -27,6 +28,13 @@ const Input: React.FC<InputProps> = ({
   required,
   type,
 }) => {
+  const error = errors[id] as FieldError | undefined;
+
+  const isEmailType = type === 'email';
+  const isPasswordType = type === 'password';
+
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=])[a-zA-Z\d!@#$%^&*()_\-+=]{8,}$/;
   return (
     <div className='w-full relative'>
       {formatPrice && (
@@ -50,8 +58,22 @@ const Input: React.FC<InputProps> = ({
       <input
         id={id}
         disabled={disabled}
-        {...register(id, { required })}
-        placeholder=' '
+        {...register(id, {
+          ...(required && { required: `${id} is required` }),
+          ...(isEmailType && {
+            pattern: {
+              value: emailRegex,
+              message: 'Invalid email address',
+            },
+          }),
+          ...(isPasswordType && {
+            pattern: {
+              value: passwordRegex,
+              message: 'Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character.',
+            },
+          }),
+        })}
+        placeholder=''
         type={type}
         className={`
                 peer
@@ -67,11 +89,10 @@ const Input: React.FC<InputProps> = ({
                 disabled:opacity-70
                 disabled:cursor-not-allowed
                 ${formatPrice ? 'pl-9' : 'pl-4'}
-                ${
-                  errors[id]
-                    ? 'border-rose-500 focus:border-rose-500'
-                    : 'focus:border-black border-neutral-300'
-                }
+                ${errors[id]
+            ? 'border-rose-500 focus:border-rose-500'
+            : 'focus:border-black border-neutral-300'
+          }
             `}
       />
       <label
@@ -95,9 +116,9 @@ const Input: React.FC<InputProps> = ({
       >
         {label}
       </label>
-      {/* {errors[id] && (
-        <span className="text-rose-500 text-sm mt-1">{errors[id]?.message}</span>
-      )} */}
+      {error && (
+        <span className="text-rose-500 text-sm mt-1">{error.message}</span>
+      )}
     </div>
   );
 };

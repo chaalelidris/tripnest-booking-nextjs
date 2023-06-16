@@ -373,6 +373,8 @@ const RentModal: React.FC = () => {
   }
   return (
     <Modal
+      disabled={loading}
+      loading={loading}
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
