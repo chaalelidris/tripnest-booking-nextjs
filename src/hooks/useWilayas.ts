@@ -63,7 +63,7 @@ const formattedWilayas = wilayas.map((wilaya) => ({
 
 const useWilayas = () => {
 
-  const getAll = () => formattedWilayas;
+  const getAllWilayas = () => formattedWilayas;
 
   const getWilayaByValue = (value: string) => {
     return formattedWilayas.find((item) => item.label === value);
@@ -71,7 +71,7 @@ const useWilayas = () => {
 
 
   return {
-    getAll,
+    getAllWilayas,
     getWilayaByValue,
   };
 };

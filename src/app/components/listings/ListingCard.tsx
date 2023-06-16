@@ -63,9 +63,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
     if (!currentUser) {
       return loginModal.onOpen();
     }
-
+    editRentModal.setListing(data);
     editRentModal.onOpen();
-  }, [loginModal, editRentModal, currentUser]);
+  }, [loginModal, editRentModal, currentUser, data]);
 
   const price = useMemo(() => {
     if (reservation) {
@@ -86,6 +86,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   return (
     <div className='col-span-1 cursor-pointer group'>
+
       <div className='flex flex-col w-full gap-2'>
         <Slider id={data.id} images={imagesArray} currentUser={currentUser} />
         <div className="font-extrabold text-black overflow-ellipsis whitespace-nowrap overflow-hidden text-lg">
@@ -108,6 +109,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
         {onAction && actionLabel && (
           <Button
+            className="transform-gpu hover:scale-95"
             disabled={disabled}
             small
             primary
@@ -118,6 +120,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
         {editLabel && (
           <Button
+            className="transform-gpu hover:scale-95"
             edit
             disabled={disabled}
             small

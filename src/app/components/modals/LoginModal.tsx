@@ -44,7 +44,7 @@ const LoginModal: React.FC<RegisterModalProps> = () => {
       ...data,
       email: data.email.toLowerCase()
     };
-    
+
     signIn('credentials', {
       ...lowercaseData,
       redirect: false,
@@ -97,6 +97,7 @@ const LoginModal: React.FC<RegisterModalProps> = () => {
       <hr />
 
       <Button
+        className='transform-gpu hover:scale-95'
         outline
         label='Continue with Google'
         icon={FcGoogle}
@@ -107,6 +108,7 @@ const LoginModal: React.FC<RegisterModalProps> = () => {
         label='Continue with Github'
         icon={AiFillGithub}
         onClick={() => signIn('github')}
+        className='transform-gpu hover:scale-95'
       />
       <div className='text-neutral-500 text-center mt-4 font-light'>
         <div className='flex flex-row items-center gap-2 justify-center'>

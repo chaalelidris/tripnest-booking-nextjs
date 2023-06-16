@@ -5,7 +5,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-import useRentModal from '@/hooks/useRentModal';
+import useEditRentModal from '@/hooks/useEditRentModal';
 
 /* Next */
 import { useRouter } from 'next/navigation';
@@ -24,6 +24,9 @@ import WilayaSelect from "@/app/components/inputs/WilayaSelect";
 import CategoryInput from '@/app/components/inputs/CategoryInput';
 import CountrySelect from '@/app/components/inputs/CountrySelect';
 import { categories } from '@/app/components/navbar/Categories';
+import { SafeListing } from '@/types';
+import useContries from '@/hooks/useCountries';
+import useWilayas from '@/hooks/useWilayas';
 
 enum STEPS {
   CATEGORY = 0,
@@ -34,15 +37,19 @@ enum STEPS {
   DESCRIPTION = 5,
   PRICE = 6,
 }
-
-const RentModal: React.FC = () => {
+interface IEditRentModal { }
+const EditRentModal: React.FC<IEditRentModal> = () => {
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const rentModal = useRentModal();
+  const editRentModal = useEditRentModal();
 
+  const { getAll, getByValue } = useContries();
+  const { getAllWilayas, getWilayaByValue } = useWilayas();
+
+  const listing: SafeListing | null = editRentModal.listing;
 
   const {
     register,
@@ -53,18 +60,20 @@ const RentModal: React.FC = () => {
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      category: '',
-      lacation: null,
-      wilayaLocation: null,
-      guestCount: 1,
-      bathroomCount: 1,
-      roomCount: 1,
-      images: [],
-      price: 1,
-      title: '',
-      description: '',
+      category: listing?.category,
+      lacation: listing?.locationValue ? getByValue(listing?.locationValue) : null,
+      wilayaLocation: listing?.wilayaLocationValue ? getWilayaByValue(listing?.wilayaLocationValue) : null,
+      guestCount: listing?.guestCount,
+      bathroomCount: listing?.bathroomCount,
+      roomCount: listing?.roomCount,
+      images: listing?.images,
+      price: listing?.price,
+      title: listing?.title,
+      description: listing?.description,
     },
   });
+
+
 
   const category = watch('category');
   const location = watch('location');
@@ -72,7 +81,8 @@ const RentModal: React.FC = () => {
   const guestCount = watch('guestCount');
   const bathroomCount = watch('bathroomCount');
   const roomCount = watch('roomCount');
-  // const imageSrc: string[] = watch('imageSrc');
+  console.log(listing?.category);
+
 
   const Map = useMemo(() => dynamic(() => import('@/app/components/Map'),
     {
@@ -125,7 +135,7 @@ const RentModal: React.FC = () => {
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
-        rentModal.onClose();
+        editRentModal.onClose();
       })
       .catch((err) => {
         toast.error(`Something went wrong ${err}`);
@@ -317,8 +327,8 @@ const RentModal: React.FC = () => {
   }
   return (
     <Modal
-      isOpen={rentModal.isOpen}
-      onClose={rentModal.onClose}
+      isOpen={editRentModal.isOpen}
+      onClose={editRentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
@@ -328,4 +338,4 @@ const RentModal: React.FC = () => {
     />
   );
 };
-export default RentModal;
+export default EditRentModal;

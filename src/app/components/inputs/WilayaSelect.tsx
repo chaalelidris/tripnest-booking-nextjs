@@ -20,14 +20,14 @@ const WilayaSelect: React.FC<WilayaSelectProps> = ({
   value,
   onChange
 }) => {
-  const { getAll } = useWilayas();
+  const { getAllWilayas } = useWilayas();
 
   return (
     <div>
       <Select
         placeholder="Select a wilaya"
         isClearable
-        options={getAll()}
+        options={getAllWilayas()}
         value={value}
         onChange={(value) => onChange(value as WilayaSelectValue)}
         formatOptionLabel={(option: any) => (

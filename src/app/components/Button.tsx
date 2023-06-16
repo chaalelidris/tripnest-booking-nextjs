@@ -70,7 +70,7 @@ const Button: React.FC<ButtonProps> = ({
         rounded-lg
         hover:opacity-80
         transition
-        
+        border-0
         ${outline && 'bg-white border-black text-black'}
         ${edit && 'bg-green-600 border-black text-white'}
         ${primary && 'bg-primary border-primary text-white'}

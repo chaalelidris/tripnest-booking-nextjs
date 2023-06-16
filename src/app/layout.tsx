@@ -6,7 +6,6 @@ import ToastProvider from '@/app/providers/ToasterProvider';
 import getCurrentUser from '@/app/functions/getCurrentUser';
 
 
-
 /* Components */
 import Navbar from '@/app/components/navbar/Navbar';
 import Provider from '@/app/components/Provider';
@@ -17,6 +16,7 @@ import RegisterModal from '@/app/components/modals/RegisterModal';
 import GoogleAnalytics from '@/app/components/GoogleAnalytics';
 import Banner from './components/Banner';
 import PreferencesModal from './components/modals/PreferencesModal';
+import EditRentModal from './components/modals/EditRentModal';
 
 
 export const metadata = {
@@ -46,6 +46,7 @@ export default async function RootLayout({
           <RegisterModal />
           <LoginModal />
           <RentModal />
+          <EditRentModal />
           {currentUser && <PreferencesModal currentUser={currentUser} />}
           <SearchModal />
           <div className='relative isolate pb-20'>
