@@ -149,11 +149,11 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
           return;
         }
         break;
-      /* case STEPS.IMAGES:
+      case STEPS.IMAGES:
         if (!validateStep(step, images.length > 0, 'Please add listing images!')) {
           return;
         }
-        break; */
+        break;
       default:
         break;
     }
