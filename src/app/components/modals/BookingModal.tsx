@@ -103,7 +103,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
           router.push('/trips');
         })
         .catch((error) => {
-          toast.error(error.response?.data?.error);
+          toast.error("The host not fully connected to stripe");
           console.log(error.response?.data?.error);
         })
         .finally(() => {
