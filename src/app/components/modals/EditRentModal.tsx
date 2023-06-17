@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import axios from 'axios';
@@ -20,9 +20,9 @@ import Input from '@/app/components/inputs/Input';
 import Heading from '@/app/components/Heading';
 import Counter from '@/app/components/inputs/Counter';
 import ImageUpload from '@/app/components/inputs/ImageUpload';
-import WilayaSelect from "@/app/components/inputs/WilayaSelect";
+import WilayaSelect, { WilayaSelectValue } from "@/app/components/inputs/WilayaSelect";
 import CategoryInput from '@/app/components/inputs/CategoryInput';
-import CountrySelect from '@/app/components/inputs/CountrySelect';
+import CountrySelect, { CountrySelectValue } from '@/app/components/inputs/CountrySelect';
 import { categories } from '@/app/components/navbar/Categories';
 import { SafeListing } from '@/types';
 import useContries from '@/hooks/useCountries';
@@ -37,8 +37,10 @@ enum STEPS {
   DESCRIPTION = 5,
   PRICE = 6,
 }
+
 interface IEditRentModal { }
 const EditRentModal: React.FC<IEditRentModal> = () => {
+  const [categoryError, setCategoryError] = useState(false)
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -49,7 +51,11 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
   const { getAll, getByValue } = useContries();
   const { getAllWilayas, getWilayaByValue } = useWilayas();
 
-  const listing: SafeListing | null = editRentModal.listing;
+  const listing: SafeListing | null = useMemo(
+    () => editRentModal.listing,
+
+    [editRentModal.listing]
+  )
 
   const {
     register,
@@ -58,20 +64,24 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
     watch,
     formState: { errors },
     reset,
-  } = useForm<FieldValues>({
-    defaultValues: {
-      category: listing?.category,
-      lacation: listing?.locationValue ? getByValue(listing?.locationValue) : null,
-      wilayaLocation: listing?.wilayaLocationValue ? getWilayaByValue(listing?.wilayaLocationValue) : null,
-      guestCount: listing?.guestCount,
-      bathroomCount: listing?.bathroomCount,
-      roomCount: listing?.roomCount,
-      images: listing?.images,
-      price: listing?.price,
-      title: listing?.title,
-      description: listing?.description,
-    },
-  });
+  } = useForm<FieldValues>();
+
+  // Set the initial form values when the component mounts
+  useEffect(() => {
+    setValue('id', String(listing?.id));
+    setValue('category', String(listing?.category));
+    setValue('location', listing?.locationValue ? getByValue(listing?.locationValue) : null);
+    setValue('wilayaLocation', listing?.wilayaLocationValue ? getWilayaByValue(listing?.wilayaLocationValue) : null);
+    setValue('guestCount', listing?.guestCount);
+    setValue('bathroomCount', listing?.bathroomCount);
+    setValue('roomCount', listing?.roomCount);
+    setValue('images', listing?.images);
+    setValue('price', listing?.price);
+    setValue('title', listing?.title);
+    setValue('description', listing?.description);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listing, setValue]);
+
 
 
 
@@ -81,8 +91,6 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
   const guestCount = watch('guestCount');
   const bathroomCount = watch('bathroomCount');
   const roomCount = watch('roomCount');
-  console.log(listing?.category);
-
 
   const Map = useMemo(() => dynamic(() => import('@/app/components/Map'),
     {
@@ -113,48 +121,79 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
     setStep((prev) => prev + 1);
   };
 
+  const validateStep = (step: STEPS, condition: boolean, errorMessage: string) => {
+    if (!condition) {
+      toast.error(errorMessage);
+      if (step === STEPS.CATEGORY) {
+        setCategoryError(true);
+      }
+      return false;
+    }
+    return true;
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    switch (step) {
+      case STEPS.CATEGORY:
+        if (!validateStep(step, category !== '', 'Please pick a category!')) {
+          return;
+        }
+        break;
+      case STEPS.LOCATION:
+        if (!validateStep(step, location !== null, 'Please choose a location!')) {
+          return;
+        }
+        break;
+      case STEPS.WILAYA:
+        if (!validateStep(step, wilayaLocation !== null, 'Please choose a wilaya!')) {
+          return;
+        }
+        break;
+      /* case STEPS.IMAGES:
+        if (!validateStep(step, images.length > 0, 'Please add listing images!')) {
+          return;
+        }
+        break; */
+      default:
+        break;
+    }
+
     if (step !== STEPS.PRICE) {
       return onNext();
     }
 
     setLoading(true);
 
-    let media: ImgType[] = [];
-    if (images.length > 0) {
-      media = await imagesUpload(images);
-    }
+    try {
+      let media: ImgType[] = [];
+      if (images.length > 0) {
+        media = await imagesUpload(images);
+      }
 
-    const res = axios
-      .post('/api/listings', {
+      await axios.put(`/api/listings`, {
         ...data,
         images: media,
-      })
-      .then(() => {
-        //toast.success('Listing created!');
-        router.refresh();
-        reset();
-        setStep(STEPS.CATEGORY);
-        editRentModal.onClose();
-      })
-      .catch((err) => {
-        toast.error(`Something went wrong ${err}`);
-      })
-      .finally(() => {
-        setLoading(false);
-        setImages([])
       });
 
-    toast.promise(res, {
-      loading: 'Creating listing',
-      success: 'Listing created',
-      error: 'Something went wrong ...'
-    })
+      toast.success('Listing updated!');
+      router.refresh();
+      reset();
+      setStep(STEPS.CATEGORY);
+      editRentModal.onClose();
+    } catch (err) {
+      console.log(err);
+      toast.error(`Something went wrong: ${err}`);
+      setStep(STEPS.CATEGORY);
+    } finally {
+      setLoading(false);
+      setImages([]);
+    }
   };
+
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return 'Create';
+      return 'Update';
     }
     return 'Next';
   }, [step]);
@@ -179,8 +218,12 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
             <CategoryInput
               icon={item.icon}
               label={item.label}
-              onClick={(category) => setCustomValue('category', category)}
+              onClick={(category) => {
+                setCategoryError(false);
+                setCustomValue('category', category)
+              }}
               selected={category === item.label}
+              categoryError={categoryError}
             />
           </div>
         ))}
@@ -327,6 +370,8 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
   }
   return (
     <Modal
+      disabled={loading}
+      loading={loading}
       isOpen={editRentModal.isOpen}
       onClose={editRentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

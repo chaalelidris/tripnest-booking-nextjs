@@ -114,9 +114,9 @@ const SearchModal = () => {
       { skipNull: true },
     );
 
-    setStep(STEPS.LOCATION);
     searchModal.onClose();
     router.push(url);
+    setStep(STEPS.LOCATION);
   }, [
     step,
     searchModal,

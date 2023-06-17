@@ -15,8 +15,6 @@ export const imagesUpload = async (images: File[]) => {
         formData.append('upload_preset', uploadPreset);
         formData.append('cloud_name', String(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME));
 
-        console.log(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME);
-        
         const res = await fetch(
           'https://api.cloudinary.com/v1_1/dq5tup69v/upload',
           {

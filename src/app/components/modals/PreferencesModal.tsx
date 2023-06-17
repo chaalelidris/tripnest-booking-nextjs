@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useCallback, useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 import toast from 'react-hot-toast';
 
 import usePreferencesModal from '@/hooks/usePreferencesModal';
@@ -9,10 +10,10 @@ import Modal from '@/app/components/modals/Modal';
 import Heading from '@/app/components/Heading';
 import CategoryInput from '@/app/components/inputs/CategoryInput';
 import { categories } from '@/app/components/navbar/Categories';
-import axios from 'axios';
 import { SafeUser } from '@/types';
 
-interface PreferencesModalFormData {
+
+export interface PreferencesModalFormData {
     categories: string[];
 }
 
@@ -20,13 +21,7 @@ interface PreferencesModalProps {
     currentUser?: SafeUser | null;
 }
 
-const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser }) => {
-    const preferencesModal = usePreferencesModal();
-    const [isLoading, setIsLoading] = useState(false);
-    const [categoryError, setCategoryError] = useState(false);
-    const [shouldOpenModal, setShouldOpenModal] = useState(false); // Flag to track whether to open the modal
-
-
+const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser = null }) => {
     const {
         register,
         handleSubmit,
@@ -41,13 +36,17 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser }) => {
 
     const selectedCategories = watch('categories');
 
+    /* States */
+    const preferencesModal = usePreferencesModal();
+    const [isLoading, setIsLoading] = useState(false);
+    const [categoryError, setCategoryError] = useState(false);
+    const [shouldOpenModal, setShouldOpenModal] = useState(selectedCategories.length === 0); // Flag to track whether to open the modal
+
+
     const setCustomValue = (id: 'categories', value: any) => {
-        setValue(id, value, {
-            shouldDirty: true,
-            shouldTouch: true,
-            shouldValidate: true,
-        });
+        setValue(id, value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
     };
+
 
     const handleCategoryClick = (category: string) => {
         setCategoryError(false);
@@ -80,14 +79,12 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser }) => {
         }
     };
 
-
-
     useEffect(() => {
-        if (selectedCategories.length === 0) {
-            setShouldOpenModal(true); // Set the flag to open the modal
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        setShouldOpenModal(selectedCategories.length === 0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
 
 
 

@@ -103,12 +103,14 @@ const RegisterModal: React.FC<RegisterModalProps> = () => {
       <hr />
 
       <Button
+        className='transform-gpu hover:scale-95'
         outline
         label="Continue with Google"
         icon={FcGoogle}
         onClick={() => signIn('google')}
       />
       <Button
+        className='transform-gpu hover:scale-95'
         outline
         label="Continue with Github"
         icon={AiFillGithub}
