@@ -69,7 +69,7 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser = null 
             toast.success('Thanks submission successful');
             setShouldOpenModal(false);
             preferencesModal.onClose();
-            console.log('Submission successful:', response.data);
+            //console.log('Submission successful:', response.data);
         } catch (error) {
             toast.error('Submission failed');
             console.error('Submission failed:', error);
@@ -123,10 +123,6 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser = null 
             body={bodyContent}
         />
     );
-};
-
-PreferencesModal.defaultProps = {
-    currentUser: null,
 };
 
 export default PreferencesModal;
