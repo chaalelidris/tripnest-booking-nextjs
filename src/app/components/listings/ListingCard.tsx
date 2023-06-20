@@ -86,7 +86,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   return (
     <div className='col-span-1 cursor-pointer group'>
-
       <div className='flex flex-col w-full gap-2'>
         <Slider id={data.id} images={imagesArray} currentUser={currentUser} />
         <div className="font-extrabold text-black overflow-ellipsis whitespace-nowrap overflow-hidden text-lg">
@@ -103,10 +102,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <div className='font-semibold'>{price} DZD</div>
           {!reservation && <div className='font-light'>night</div>}
         </div>
-
       </div>
       <div className="flex flex-col items-center gap-1">
-
         {onAction && actionLabel && (
           <Button
             className="transform-gpu hover:scale-95"

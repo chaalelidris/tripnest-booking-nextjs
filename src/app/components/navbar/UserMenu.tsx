@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback,  } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -120,6 +120,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               <Menu.Items className='absolute right-0 mt-2 w-40 md:w-52 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-red-600 ring-opacity-5 focus:outline-none'>
                 {currentUser ? (
                   <>
+                    <MenuItem className="block md:hidden" onClick={() => router.push("/")} label='Home' /> 
+                    <MenuItem onClick={() => router.push("/listings")} label='All Listings' />
                     <MenuItem
                       onClick={() => router.push('/profile')}
                       label='My Profile'
@@ -156,6 +158,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   </>
                 ) : (
                   <>
+                    <MenuItem className="block md:hidden" onClick={() => router.push("/")} label='Home' />
+                    <MenuItem onClick={() => router.push("/listings")} label='All Listings' />
                     <MenuItem onClick={loginModal.onOpen} label='Login' />
                     <MenuItem onClick={registerModal.onOpen} label='Signup' />
                   </>

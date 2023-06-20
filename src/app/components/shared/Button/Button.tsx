@@ -1,4 +1,3 @@
-import twFocusClass from "@/utils/twFocusClass";
 import Link from "next/link";
 import React, { ButtonHTMLAttributes, FC } from "react";
 
@@ -28,11 +27,10 @@ const Button: FC<ButtonProps> = ({
   targetBlank,
   type,
   loading,
-  onClick = () => { },
+  onClick = () => {},
 }) => {
   const CLASSES =
-    `nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors ${fontSize} ${sizeClass} ${translate} ${className} ` +
-    twFocusClass(true);
+    `nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors ${fontSize} ${sizeClass} ${translate} ${className} `
 
   const _renderLoading = () => {
     return (

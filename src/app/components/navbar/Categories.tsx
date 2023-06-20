@@ -104,7 +104,7 @@ const Categories = () => {
 
   const category = params?.get('category');
 
-  const isMainPage = pathname === '/';
+  const isMainPage = pathname === '/listings';
 
   if (!isMainPage) {
     return null;

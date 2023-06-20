@@ -68,7 +68,7 @@ const Slider: React.FC<SliderProps> = ({ id, images, currentUser }) => {
           <div
             key={i}
             onClick={() => router.push(`/listings/${id}`)}
-            className='aspect-square w-full relative overflow-hidden rounded-xl'
+            className='aspect-w-16 aspect-h-16 w-full relative overflow-hidden rounded-xl'
           >
             <Image
               fill

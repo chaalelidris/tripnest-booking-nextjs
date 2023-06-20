@@ -63,14 +63,15 @@ module.exports = {
         /* primary: '#020570',
         secondary: '#40dbfd', */
       },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      keyframes: {
+        slide: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
       },
-      zIndex: {
-        '2': '2',
-      }
+      animation: {
+        slide: "slide 10s linear infinite",
+      },
     },
   },
   variants: {
@@ -78,5 +79,6 @@ module.exports = {
   },
   plugins: [
     require('tailwind-scrollbar'),
+    require("@tailwindcss/aspect-ratio"),
   ],
 }

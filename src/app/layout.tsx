@@ -1,4 +1,4 @@
-import { Nunito } from 'next/font/google';
+import { Inter  } from 'next/font/google';
 import './globals.css';
 import "../styles/index.scss"
 
@@ -24,9 +24,10 @@ export const metadata = {
   description: 'Tripnest booking your trip home',
 };
 
-const font = Nunito({
+const font = Inter({
   subsets: ['latin'],
-});
+  display: 'swap',
+})
 
 export default async function RootLayout({
   children,
