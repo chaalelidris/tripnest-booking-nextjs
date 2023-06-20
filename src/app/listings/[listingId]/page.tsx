@@ -4,15 +4,23 @@ import getReservations from '@/app/functions/getReservations';
 
 import EmptyState from '@/app/components/EmptyState';
 import ListingClient from './ListingClient';
+import { Metadata } from 'next';
 
 interface IParams {
   listingId?: string;
 }
 
-export const metadata = {
-  title: 'Listing | Tripnest ',
-  description: `Tripnest booking listing `,
+
+
+export async function generateMetadata({ params }: { params: IParams }): Promise<Metadata> {
+  const listing = await getListingById(params);
+
+  return {
+    title: listing?.title,
+    description: listing?.description,
+  }
 }
+
 
 const ListingPage = async ({ params }: { params: IParams }) => {
   const listing = await getListingById(params);

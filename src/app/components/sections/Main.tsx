@@ -22,6 +22,7 @@ const SectionMain: FC<SectionMainProps> = ({
             className={`nc-SectionMain relative ${className}`}
             data-nc-id="SectionMain"
         >
+
             <div className="absolute z-10 inset-x-0 top-[15%] sm:top-[20%] text-center flex flex-col items-center max-w-2xl mx-auto space-y-5 lg:space-y-6 xl:space-y-8">
                 <span className="sm:text-lg md:text-xl font-semibold text-neutral-900">
                     Book your trip house from <strong className="text-primary">Tripnest</strong> platform
@@ -52,6 +53,7 @@ const SectionMain: FC<SectionMainProps> = ({
                     </ButtonPrimary>
                 </div>
             </div>
+            
             <div className="relative aspect-w-6 aspect-h-7 sm:aspect-w-4 sm:aspect-h-3 lg:aspect-w-16 lg:aspect-h-9 xl:aspect-h-8 ">
                 <Image
                     className="absolute inset-0 object-cover rounded-xl"
