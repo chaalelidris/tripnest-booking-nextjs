@@ -39,7 +39,6 @@ const ProfileClient: React.FC<ProfileClientProps> = ({
     formState: {
       errors,
     },
-    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       id: currentUser?.id,
@@ -76,11 +75,6 @@ const ProfileClient: React.FC<ProfileClientProps> = ({
   }
 
 
-
-
-
-
-
   return (
     /* grid */
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -103,7 +97,7 @@ const ProfileClient: React.FC<ProfileClientProps> = ({
         </div>
       </div>
       {/* Second column / update profile */}
-      <div className="sm:col-span-1 mx-4">
+      <div className="col-span-2 mx-4">
         <h2 className="text-3xl font-bold mb-4 mt-4 ">Account Information</h2>
         {isUpdating ? (
           <form onSubmit={handleSubmit(onSubmit)}>

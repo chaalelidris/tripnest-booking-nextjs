@@ -2,9 +2,9 @@
 import EmptyState from "@/app/components/EmptyState";
 
 import getCurrentUser from "@/app/functions/getCurrentUser";
-import ProfileClient from "./ProfileClient";
 import CommonLayout from "../components/containers/CommonLayout";
 import Container from "../components/Container";
+import AccountPass from "../components/profile/AccountPass";
 
 
 export const metadata = {
@@ -32,9 +32,7 @@ const ProfilePage = async () => {
     return (
         <Container>
             <CommonLayout>
-                <ProfileClient
-                    currentUser={currentUser}
-                />
+                <AccountPass />
             </CommonLayout>
         </Container>
 

@@ -26,9 +26,10 @@ const Home = async () => {
     <Container>
       <div className='max-w-screen-2xl mx-auto px-1 sm:px-4 '>
         <SectionMain className='mt-6' onWatchVideoClick={handleWatchVideoClick} />
-        <div className="py-24 my-6 rounded-xl bg-secondary/20">
+        <div className="py-24 my-6 rounded-2xl bg-gradient-to-b from-secondary/20 to-white">
           <SectionHowItWork />
         </div>
+
         <div ref={sectionVideosRef}>
           <SectionVideos />
         </div>
