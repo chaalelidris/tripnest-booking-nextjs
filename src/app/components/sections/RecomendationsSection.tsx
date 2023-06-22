@@ -6,7 +6,7 @@ import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
 
 import { SafeListing, SafeUser } from "@/types";
-import NextPrev from "../NextPrev";
+import NextPrev from "../shared/NextPrev";
 
 interface RecommendationsSectionProps {
     className?: string;

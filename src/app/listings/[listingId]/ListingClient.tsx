@@ -13,6 +13,7 @@ import ListingReservation from '@/app/components/listings/ListingReservation';
 import { categories } from '@/app/components/navbar/Categories';
 
 import { SafeListing, SafeUser, SafeReservation } from '@/types';
+import ListingHeader2 from '@/app/components/listings/ListingHeader2';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -108,7 +109,15 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   const renderListingHeader = () => {
     return (
-      <ListingHeader
+      /* <ListingHeader
+        title={listing.title}
+        images={listing.images}
+        locationValue={listing.locationValue}
+        wilayaLocationValue={listing.wilayaLocationValue}
+        id={listing.id}
+        currentUser={currentUser}
+      /> */
+      <ListingHeader2
         title={listing.title}
         images={listing.images}
         locationValue={listing.locationValue}
