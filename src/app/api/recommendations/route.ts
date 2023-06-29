@@ -1,11 +1,12 @@
 import prisma from '@/libs/prismadb'; // Import your Prisma client
+import { SafePreferences } from '@/types';
 import { Listing } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 
 interface User {
     id: string;
-    preferences: string[];
+    preferences: SafePreferences | null;
     favoriteIds: string[];
 }
 
@@ -14,13 +15,24 @@ export async function POST(req: Request) {
         const { userId } = await req.json();
         const user = await prisma.user.findUnique({
             where: { id: userId },
+            select: {
+                id: true,
+                preferences: true,
+                favoriteIds: true
+            }
         });
 
         if (!user) {
             return NextResponse.json({ message: 'User not found' }, { status: 404 });
         }
 
-        const users = await prisma.user.findMany();
+        const users = await prisma.user.findMany({
+            select: {
+                id: true,
+                preferences: true,
+                favoriteIds: true
+            }
+        });
         const items = await prisma.listing.findMany({
             include: {
                 images: true,
@@ -32,6 +44,7 @@ export async function POST(req: Request) {
         // Calculate user-user similarity using cosine similarity
         const userSimilarities = calculateUserSimilarities(users, items);
 
+
         // Get similar users based on cosine similarity
         const similarUsers = findSimilarUsers(user.id, userSimilarities);
 
@@ -42,7 +55,7 @@ export async function POST(req: Request) {
             ...listing,
             createdAt: listing.createdAt.toISOString(),
             updatedAt: listing.updatedAt?.toISOString(),
-          }));
+        }));
 
         return NextResponse.json({ recommendations: safeRecommendedItems });
     } catch (error) {
@@ -76,6 +89,24 @@ function calculateUserSimilarities(users: User[], items: Listing[]): CosineSimil
 
     return userSimilarities;
 }
+
+function getUserVector(preferences: SafePreferences | null, items: Listing[]): number[] {
+    const userVector: number[] = [];
+
+    for (const item of items) {
+
+        if (preferences?.categories.includes(item.category)
+            && preferences?.location === item.wilayaLocationValue) {
+
+            userVector.push(1);
+        } else {
+            userVector.push(0);
+        }
+    }
+
+    return userVector;
+}
+
 
 function findSimilarUsers(userId: string, userSimilarities: CosineSimilarityMatrix): string[] {
     const userSimilaritiesArray = Object.entries(userSimilarities);
@@ -122,21 +153,7 @@ async function findRecommendedItems(
     return recommendedItems;
 }
 
-function getUserVector(preferences: string[], items: Listing[]): number[] {
 
-    const userVector: number[] = [];
-
-    for (const item of items) {
-        if (preferences.includes(item.category)) {
-            userVector.push(1);
-        } else {
-            userVector.push(0);
-        }
-    }
-
-
-    return userVector;
-}
 
 function calculateCosineSimilarity(vectorA: number[], vectorB: number[]): number {
     const dotProduct = vectorA.reduce((acc, value, index) => acc + value * vectorB[index], 0);

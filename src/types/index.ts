@@ -1,4 +1,4 @@
-import { User, Prisma, Reservation, Review } from '@prisma/client';
+import { User, Prisma, Reservation, Review, Preference } from '@prisma/client';
 
 export type SafeUser = Omit<
   User,
@@ -10,6 +10,9 @@ export type SafeUser = Omit<
   hasWallet: boolean
   balance: number | null;
 };
+
+export type SafePreferences = Preference;
+
 
 export type SafeReview = Omit<Review,
   'createdAt' | 'updatedAt'> & {

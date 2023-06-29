@@ -40,7 +40,6 @@ export default async function getCurrentUser() {
       updatedAt: currentUser.updatedAt.toISOString(),
       emailVerified: currentUser.emailVerified?.toISOString() || null,
       balance
-
     };
   } catch (error: any) {
     return null;

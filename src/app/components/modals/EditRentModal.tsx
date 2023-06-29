@@ -83,8 +83,6 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
   }, [listing, setValue]);
 
 
-
-
   const category = watch('category');
   const location = watch('location');
   const wilayaLocation = watch('wilayaLocation');

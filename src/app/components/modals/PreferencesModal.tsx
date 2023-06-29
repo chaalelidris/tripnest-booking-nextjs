@@ -1,94 +1,134 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-
 import usePreferencesModal from '@/hooks/usePreferencesModal';
 import Modal from '@/app/components/modals/Modal';
 import Heading from '@/app/components/Heading';
 import CategoryInput from '@/app/components/inputs/CategoryInput';
 import { categories } from '@/app/components/navbar/Categories';
-import { SafeUser } from '@/types';
-
-
-export interface PreferencesModalFormData {
-    categories: string[];
-}
+import { SafePreferences } from '@/types';
+import WilayaSelect from '../inputs/WilayaSelect';
+import dynamic from 'next/dynamic';
+import useWilayas from '@/hooks/useWilayas';
 
 interface PreferencesModalProps {
-    currentUser?: SafeUser | null;
+    currentUserPreferences?: SafePreferences | null;
 }
 
-const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser = null }) => {
+enum STEPS {
+    CATEGORY,
+    WILAYA,
+}
+
+const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUserPreferences = null }) => {
+    const [step, setStep] = useState(STEPS.CATEGORY);
+
+    const { getWilayaByValue } = useWilayas();
+
+
     const {
         register,
         handleSubmit,
         setValue,
         watch,
         formState: { errors },
-    } = useForm<PreferencesModalFormData>({
+    } = useForm<FieldValues>({
         defaultValues: {
-            categories: currentUser?.preferences || [],
+            categories: currentUserPreferences?.categories || [],
+            wilayaLocation: getWilayaByValue(String(currentUserPreferences?.location)) || null,
         },
     });
 
-    const selectedCategories = watch('categories');
+    
 
-    /* States */
+    const selectedCategories = watch('categories');
+    const wilayaLocation = watch('wilayaLocation');
+
+    // Dynamically import WilayaMap component based on wilayaLocation
+    const WilayaMap = useMemo(() => dynamic(() => import('@/app/components/Map'), {
+        ssr: false,
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [wilayaLocation]);
+
     const preferencesModal = usePreferencesModal();
     const [isLoading, setIsLoading] = useState(false);
     const [categoryError, setCategoryError] = useState(false);
-    const [shouldOpenModal, setShouldOpenModal] = useState(selectedCategories.length === 0); // Flag to track whether to open the modal
+    const [shouldOpenModal, setShouldOpenModal] = useState(selectedCategories.length === 0);
 
-
-    const setCustomValue = (id: 'categories', value: any) => {
+    // Function to set custom form values
+    const setCustomValue = (id: string, value: any) => {
         setValue(id, value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
     };
 
-
+    // Function to handle category selection
     const handleCategoryClick = (category: string) => {
         setCategoryError(false);
         const newCategories = selectedCategories.includes(category)
-            ? selectedCategories.filter((c) => c !== category)
+            ? selectedCategories.filter((c: any) => c !== category)
             : [...selectedCategories, category];
         setCustomValue('categories', newCategories);
     };
 
-    const submitPreferences = async (data: PreferencesModalFormData) => {
+    const onBack = () => {
+        setStep((value) => value - 1);
+    };
+
+    const onNext = () => {
+        setStep((prev) => prev + 1);
+    };
+
+    const submitPreferences: SubmitHandler<FieldValues> = async (data) => {
+
         try {
             setIsLoading(true);
-            if (selectedCategories.length === 0) {
-                toast.error('Please pick at least one category!');
-                setCategoryError(true);
-                return;
+            if (step === STEPS.CATEGORY) {
+                if (selectedCategories.length === 0) {
+                    toast.error('Please pick at least one category!');
+                    setCategoryError(true);
+                    return;
+                }
+                return onNext();
             }
 
-            const response = await axios.put('/api/preferences', { categories: selectedCategories });
+            const response = await axios.put('/api/preferences', data);
             toast.success('Thanks submission successful');
             setShouldOpenModal(false);
             preferencesModal.onClose();
-            //console.log('Submission successful:', response.data);
+            setStep(STEPS.CATEGORY);
         } catch (error) {
             toast.error('Submission failed');
             console.error('Submission failed:', error);
         } finally {
-
             setIsLoading(false);
         }
     };
 
+    // Determine the label for the main action button based on the current step
+    const actionLabel = useMemo(() => {
+        if (step === STEPS.WILAYA) {
+            return 'Create';
+        }
+        return 'Next';
+    }, [step]);
+
+    // Determine the label for the secondary action button based on the current step
+    const secondaryActionLabel = useMemo(() => {
+        if (step === STEPS.CATEGORY) {
+            return undefined;
+        }
+        return 'Back';
+    }, [step]);
+
     useEffect(() => {
+        // Set shouldOpenModal based on whether there are selected categories
         setShouldOpenModal(selectedCategories.length === 0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
-
-
-
-    const bodyContent = (
+    let bodyContent = (
         <div className="flex flex-col gap-8">
             <Heading
                 title="Which of these best describes your preferences?"
@@ -111,6 +151,26 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser = null 
         </div>
     );
 
+    if (step === STEPS.WILAYA) {
+        let center = wilayaLocation && [wilayaLocation.latitude, wilayaLocation.longitude];
+
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading
+                    title="Choose Your Preferred Wilaya"
+                    subtitle="Select prefered wilaya location to personalize your 
+                    recommendations for preferred destination."
+                />
+                <hr />
+                <WilayaSelect
+                    value={wilayaLocation}
+                    onChange={(value) => setCustomValue('wilayaLocation', value)}
+                />
+                <WilayaMap center={center} zoom={10} />
+            </div>
+        );
+    }
+
     return (
         <Modal
             loading={isLoading}
@@ -118,7 +178,9 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser = null 
             isOpen={preferencesModal.isOpen || shouldOpenModal}
             onClose={preferencesModal.onClose}
             onSubmit={handleSubmit(submitPreferences)}
-            actionLabel="Next"
+            actionLabel={actionLabel}
+            secondaryActionLabel={secondaryActionLabel}
+            secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
             title="Tripnest your trip home"
             body={bodyContent}
         />
@@ -126,3 +188,4 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({ currentUser = null 
 };
 
 export default PreferencesModal;
+

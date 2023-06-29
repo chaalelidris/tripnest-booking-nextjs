@@ -27,13 +27,22 @@ model User {
   updatedAt      DateTime  @updatedAt
   favoriteIds    String[]  @db.ObjectId
 
-  preferences String[] @default([])
+  preferences Preference?
 
   accounts     Account[]
   sessions     Session[]
   listings     Listing[]
   reservations Reservation[]
   Review       Review[]
+}
+
+model Preference {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  categories String[] @default([])
+  location   String?
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @db.ObjectId
 }
 
 model Account {

@@ -1,4 +1,4 @@
-import { Inter  } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import "../styles/index.scss"
 
@@ -17,6 +17,7 @@ import GoogleAnalytics from '@/app/components/GoogleAnalytics';
 import Banner from './components/Banner';
 import PreferencesModal from './components/modals/PreferencesModal';
 import EditRentModal from './components/modals/EditRentModal';
+import getCurrentUserPreferences from './functions/getCurrentUserPreferences';
 
 
 export const metadata = {
@@ -35,6 +36,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
+  const currentUserPreferences = await getCurrentUserPreferences();
+
 
   return (
     <html lang='en'>
@@ -48,7 +51,7 @@ export default async function RootLayout({
           <LoginModal />
           <RentModal />
           <EditRentModal />
-          {currentUser && <PreferencesModal currentUser={currentUser} />}
+          {currentUser && <PreferencesModal currentUserPreferences={currentUserPreferences} />}
           <SearchModal />
           <div className='relative isolate pb-20'>
             {children}
