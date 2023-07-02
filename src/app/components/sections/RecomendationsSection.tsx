@@ -101,8 +101,8 @@ const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
             <NextPrev className="justify-end mb-1" />
                 <div className="glide__track" data-glide-el="track">
                     <ul className="glide__slides">
-                        {recommendations.map((listing) => (
-                            <li className="glide__slide" key={listing.id}>
+                        {recommendations.map((listing,index) => (
+                            <li className="glide__slide" key={index}>
                                 <ListingCard currentUser={currentUser} data={listing} />
                             </li>
                         ))}
