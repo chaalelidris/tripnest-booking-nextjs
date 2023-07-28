@@ -1,4 +1,3 @@
-
 import EmptyState from "@/app/components/EmptyState";
 
 import getCurrentUser from "@/app/functions/getCurrentUser";
@@ -26,8 +25,6 @@ const ProfilePage = async () => {
 
         )
     }
-
-
 
     return (
         <Container>
