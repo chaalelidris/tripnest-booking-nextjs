@@ -41,7 +41,9 @@ export default async function RootLayout({
 
   return (
     <html lang='en'>
-      <GoogleAnalytics GA_TRACKING_ID={process.env.GA_TRACKING_ID!} />
+      <head>
+        <GoogleAnalytics GA_TRACKING_ID={process.env.GA_TRACKING_ID!} />
+      </head>
       <body className={font.className}>
         <Provider>
           <Banner />
