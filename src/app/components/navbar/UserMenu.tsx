@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { Fragment, useCallback,  } from 'react';
-import { AiOutlineMenu } from 'react-icons/ai';
-import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast';
-import { Menu, Transition } from '@headlessui/react';
+import { Fragment, useCallback } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+import { Menu, Transition } from "@headlessui/react";
 
-import Avatar from '../Avatar';
-import MenuItem from './MenuItem';
+import Avatar from "../Avatar";
+import MenuItem from "./MenuItem";
 
-import useRegisterModal from '@/hooks/useRegisterModal';
-import useLoginModal from '@/hooks/useLoginModal';
-import useRentModal from '@/hooks/useRentModal';
+import useRegisterModal from "@/hooks/useRegisterModal";
+import useLoginModal from "@/hooks/useLoginModal";
+import useRentModal from "@/hooks/useRentModal";
 
-import { SafeUser } from '@/types';
-import usePreferencesModal from '@/hooks/usePreferencesModal';
+import { SafeUser } from "@/types";
+import usePreferencesModal from "@/hooks/usePreferencesModal";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -33,14 +33,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       return loginModal.onOpen();
     }
 
-    if (!currentUser.hasWallet) {
-      toast.error("You need to connect stripe before hosting a listing")
-      return router.push('/dashboard')
-    }
+    /* if (!currentUser.hasWallet) {
+      toast.error("You need to connect stripe before hosting a listing");
+      return router.push("/dashboard");
+    }*/
 
     //open rent modal
     rentModal.onOpen();
-  }, [currentUser, loginModal, rentModal, router]);
+  }, [currentUser, loginModal, rentModal]);
 
   const onPreferences = useCallback(() => {
     if (!currentUser) {
@@ -51,17 +51,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     preferencesModal.onOpen();
   }, [currentUser, loginModal, preferencesModal]);
 
-
-
   return (
     <div
-      className='
+      className="
     relative
-  '
+  "
     >
-      <div className='flex flex-row items-center gap-3'>
+      <div className="flex flex-row items-center gap-3">
         <div
-          className='
+          className="
         hidden
         md:block
         text-sm
@@ -75,15 +73,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         overflow-ellipsis 
         whitespace-nowrap 
         overflow-hidden
-        '
+        "
           onClick={onRent}
         >
-          Tripnest your trip home
+          Create listing
         </div>
-        <Menu as='div' className='relative'>
+        <Menu as="div" className="relative">
           <Menu.Button>
             <div
-              className='
+              className="
                           p-4
                           md:py-1
                           md:px-2
@@ -100,68 +98,76 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                           overflow-ellipsis 
                           whitespace-nowrap 
                           overflow-hidden
-                          '
+                          "
             >
               <AiOutlineMenu />
               {currentUser?.name}
-              <div className='hidden md:block'>
+              <div className="hidden md:block">
                 <Avatar src={currentUser?.image} />
               </div>
             </div>
             <Transition
               as={Fragment}
-              enter='transition ease-out duration-100'
-              enterFrom='transform opacity-0 scale-95'
-              enterTo='transform opacity-100 scale-100'
-              leave='transition ease-in duration-75'
-              leaveFrom='transform opacity-100 scale-100'
-              leaveTo='transform opacity-0 scale-95'
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className='absolute right-0 mt-2 w-40 md:w-52 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-red-600 ring-opacity-5 focus:outline-none'>
+              <Menu.Items className="absolute right-0 mt-2 w-40 md:w-52 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-red-600 ring-opacity-5 focus:outline-none">
                 {currentUser ? (
                   <>
-                    <MenuItem className="block md:hidden" onClick={() => router.push("/")} label='Home' /> 
-                    <MenuItem onClick={() => router.push("/listings")} label='All Listings' />
                     <MenuItem
-                      onClick={() => router.push('/profile')}
-                      label='My Profile'
+                      className="block md:hidden"
+                      onClick={() => router.push("/")}
+                      label="Home"
                     />
                     <MenuItem
-                      onClick={() => router.push('/dashboard')}
-                      label='My Dashboard'
+                      onClick={() => router.push("/listings")}
+                      label="All Listings"
                     />
                     <MenuItem
-                      onClick={() => router.push('/trips')}
-                      label='My trips'
+                      onClick={() => router.push("/profile")}
+                      label="My Profile"
                     />
                     <MenuItem
-                      onClick={() => router.push('/favorites')}
-                      label='My favorites'
+                      onClick={() => router.push("/dashboard")}
+                      label="My Dashboard"
                     />
                     <MenuItem
-                      onClick={() => router.push('/reservations')}
-                      label='My reservations'
+                      onClick={() => router.push("/trips")}
+                      label="My trips"
                     />
                     <MenuItem
-                      onClick={() => router.push('/properties')}
-                      label='My properties'
+                      onClick={() => router.push("/favorites")}
+                      label="My favorites"
                     />
                     <MenuItem
-                      onClick={onRent}
-                      label='Tripnest my home'
+                      onClick={() => router.push("/reservations")}
+                      label="My reservations"
                     />
                     <MenuItem
-                      onClick={onPreferences}
-                      label='My preferences'
+                      onClick={() => router.push("/properties")}
+                      label="My properties"
                     />
-                    <MenuItem onClick={() => signOut()} label='Logout' />
+                    <MenuItem onClick={onRent} label="Tripnest my home" />
+                    <MenuItem onClick={onPreferences} label="My preferences" />
+                    <MenuItem onClick={() => signOut()} label="Logout" />
                   </>
                 ) : (
                   <>
-                    <MenuItem className="block md:hidden" onClick={() => router.push("/")} label='Home' />
-                    <MenuItem onClick={() => router.push("/listings")} label='All Listings' />
-                    <MenuItem onClick={loginModal.onOpen} label='Login' />
-                    <MenuItem onClick={registerModal.onOpen} label='Signup' />
+                    <MenuItem
+                      className="block md:hidden"
+                      onClick={() => router.push("/")}
+                      label="Home"
+                    />
+                    <MenuItem
+                      onClick={() => router.push("/listings")}
+                      label="All Listings"
+                    />
+                    <MenuItem onClick={loginModal.onOpen} label="Login" />
+                    <MenuItem onClick={registerModal.onOpen} label="Signup" />
                   </>
                 )}
               </Menu.Items>

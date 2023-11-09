@@ -1,32 +1,36 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import axios from 'axios';
+import { useEffect, useMemo, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import axios from "axios";
 
-import useEditRentModal from '@/hooks/useEditRentModal';
+import useEditRentModal from "@/hooks/useEditRentModal";
 
 /* Next */
-import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
 /* utils */
-import { ImgType, imagesUpload } from '@/libs/utils/ImagesUpload';
+import { ImgType, imagesUpload } from "@/libs/utils/ImagesUpload";
 
 /* components */
-import Modal from '@/app/components/modals/Modal';
-import Input from '@/app/components/inputs/Input';
-import Heading from '@/app/components/Heading';
-import Counter from '@/app/components/inputs/Counter';
-import ImageUpload from '@/app/components/inputs/ImageUpload';
-import WilayaSelect, { WilayaSelectValue } from "@/app/components/inputs/WilayaSelect";
-import CategoryInput from '@/app/components/inputs/CategoryInput';
-import CountrySelect, { CountrySelectValue } from '@/app/components/inputs/CountrySelect';
-import { categories } from '@/app/components/navbar/Categories';
-import { SafeListing } from '@/types';
-import useContries from '@/hooks/useCountries';
-import useWilayas from '@/hooks/useWilayas';
+import Modal from "@/app/components/modals/Modal";
+import Input from "@/app/components/inputs/Input";
+import Heading from "@/app/components/Heading";
+import Counter from "@/app/components/inputs/Counter";
+import ImageUpload from "@/app/components/inputs/ImageUpload";
+import WilayaSelect, {
+  WilayaSelectValue,
+} from "@/app/components/inputs/WilayaSelect";
+import CategoryInput from "@/app/components/inputs/CategoryInput";
+import CountrySelect, {
+  CountrySelectValue,
+} from "@/app/components/inputs/CountrySelect";
+import { categories } from "@/app/components/navbar/Categories";
+import { SafeListing } from "@/types";
+import useContries from "@/hooks/useCountries";
+import useWilayas from "@/hooks/useWilayas";
 
 enum STEPS {
   CATEGORY = 0,
@@ -38,9 +42,9 @@ enum STEPS {
   PRICE = 6,
 }
 
-interface IEditRentModal { }
+interface IEditRentModal {}
 const EditRentModal: React.FC<IEditRentModal> = () => {
-  const [categoryError, setCategoryError] = useState(false)
+  const [categoryError, setCategoryError] = useState(false);
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -55,7 +59,7 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
     () => editRentModal.listing,
 
     [editRentModal.listing]
-  )
+  );
 
   const {
     register,
@@ -68,40 +72,52 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
 
   // Set the initial form values when the component mounts
   useEffect(() => {
-    setValue('id', String(listing?.id));
-    setValue('category', String(listing?.category));
-    setValue('location', listing?.locationValue ? getByValue(listing?.locationValue) : null);
-    setValue('wilayaLocation', listing?.wilayaLocationValue ? getWilayaByValue(listing?.wilayaLocationValue) : null);
-    setValue('guestCount', listing?.guestCount);
-    setValue('bathroomCount', listing?.bathroomCount);
-    setValue('roomCount', listing?.roomCount);
-    setValue('images', listing?.images);
-    setValue('price', listing?.price);
-    setValue('title', listing?.title);
-    setValue('description', listing?.description);
+    setValue("id", String(listing?.id));
+    setValue("category", String(listing?.category));
+    setValue(
+      "location",
+      listing?.locationValue ? getByValue(listing?.locationValue) : null
+    );
+    setValue(
+      "wilayaLocation",
+      listing?.wilayaLocationValue
+        ? getWilayaByValue(listing?.wilayaLocationValue)
+        : null
+    );
+    setValue("guestCount", listing?.guestCount);
+    setValue("bathroomCount", listing?.bathroomCount);
+    setValue("roomCount", listing?.roomCount);
+    setValue("images", listing?.images);
+    setValue("price", listing?.price);
+    setValue("title", listing?.title);
+    setValue("description", listing?.description);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listing, setValue]);
 
+  const category = watch("category");
+  const location = watch("location");
+  const wilayaLocation = watch("wilayaLocation");
+  const guestCount = watch("guestCount");
+  const bathroomCount = watch("bathroomCount");
+  const roomCount = watch("roomCount");
 
-  const category = watch('category');
-  const location = watch('location');
-  const wilayaLocation = watch('wilayaLocation');
-  const guestCount = watch('guestCount');
-  const bathroomCount = watch('bathroomCount');
-  const roomCount = watch('roomCount');
-
-  const Map = useMemo(() => dynamic(() => import('@/app/components/Map'),
-    {
-      ssr: false,
-    }),
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("@/app/components/Map"), {
+        ssr: false,
+      }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
   );
 
-  const WilayaMap = useMemo(() => dynamic(() => import('@/app/components/Map'), {
-    ssr: false
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [wilayaLocation]);
+  const WilayaMap = useMemo(
+    () =>
+      dynamic(() => import("@/app/components/Map"), {
+        ssr: false,
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }),
+    [wilayaLocation]
+  );
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -119,7 +135,11 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
     setStep((prev) => prev + 1);
   };
 
-  const validateStep = (step: STEPS, condition: boolean, errorMessage: string) => {
+  const validateStep = (
+    step: STEPS,
+    condition: boolean,
+    errorMessage: string
+  ) => {
     if (!condition) {
       toast.error(errorMessage);
       if (step === STEPS.CATEGORY) {
@@ -133,22 +153,32 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     switch (step) {
       case STEPS.CATEGORY:
-        if (!validateStep(step, category !== '', 'Please pick a category!')) {
+        if (!validateStep(step, category !== "", "Please pick a category!")) {
           return;
         }
         break;
       case STEPS.LOCATION:
-        if (!validateStep(step, location !== null, 'Please choose a location!')) {
+        if (
+          !validateStep(step, location !== null, "Please choose a location!")
+        ) {
           return;
         }
         break;
       case STEPS.WILAYA:
-        if (!validateStep(step, wilayaLocation !== null, 'Please choose a wilaya!')) {
+        if (
+          !validateStep(
+            step,
+            wilayaLocation !== null,
+            "Please choose a wilaya!"
+          )
+        ) {
           return;
         }
         break;
       case STEPS.IMAGES:
-        if (!validateStep(step, images.length > 0, 'Please add listing images!')) {
+        if (
+          !validateStep(step, images.length > 0, "Please add listing images!")
+        ) {
           return;
         }
         break;
@@ -173,7 +203,7 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
         images: media,
       });
 
-      toast.success('Listing updated!');
+      toast.success("Listing updated!");
       router.refresh();
       reset();
       setStep(STEPS.CATEGORY);
@@ -188,12 +218,11 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
     }
   };
 
-
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return 'Update';
+      return "Update";
     }
-    return 'Next';
+    return "Next";
   }, [step]);
 
   const secondaryActionLabel = useMemo(() => {
@@ -201,24 +230,24 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
       return undefined;
     }
 
-    return 'Back';
+    return "Back";
   }, [step]);
 
   let bodyContent = (
-    <div className='flex flex-col gap-8'>
+    <div className="flex flex-col gap-8">
       <Heading
-        title='Which of these best describes your place?'
-        subtitle='Pick a category'
+        title="Which of these best describes your place?"
+        subtitle="Pick a category"
       />
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-3 overflow-y-auto max-h-[50vh] '>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 overflow-y-auto max-h-[50vh] ">
         {categories.map((item) => (
-          <div key={item.label} className='col-span-1'>
+          <div key={item.label} className="col-span-1">
             <CategoryInput
               icon={item.icon}
               label={item.label}
               onClick={(category) => {
                 setCategoryError(false);
-                setCustomValue('category', category)
+                setCustomValue("category", category);
               }}
               selected={category === item.label}
               categoryError={categoryError}
@@ -231,14 +260,14 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
 
   if (step === STEPS.LOCATION) {
     bodyContent = (
-      <div className='flex flex-col gap-8'>
+      <div className="flex flex-col gap-8">
         <Heading
-          title='Where is your place located?'
-          subtitle='Help guests find you!'
+          title="Where is your place located?"
+          subtitle="Help guests find you!"
         />
         <CountrySelect
           value={location}
-          onChange={(value) => setCustomValue('location', value)}
+          onChange={(value) => setCustomValue("location", value)}
         />
         <Map center={location?.latlng} zoom={4} />
       </div>
@@ -246,60 +275,67 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
   }
 
   if (step === STEPS.WILAYA) {
-    let center = wilayaLocation && [wilayaLocation?.latitude, wilayaLocation?.longitude];
+    let center = wilayaLocation && [
+      wilayaLocation?.latitude,
+      wilayaLocation?.longitude,
+    ];
 
-    location?.label == "Algeria" ? (bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="Where is your wilaya located?"
-          subtitle="Help guests find you!"
-        />
-        <hr />
-        <WilayaSelect
-          value={wilayaLocation}
-          onChange={(value) => setCustomValue('wilayaLocation', value)} />
+    location?.label == "Algeria"
+      ? (bodyContent = (
+          <div className="flex flex-col gap-8">
+            <Heading
+              title="Where is your wilaya located?"
+              subtitle="Help guests find you!"
+            />
+            <hr />
+            <WilayaSelect
+              value={wilayaLocation}
+              onChange={(value) => setCustomValue("wilayaLocation", value)}
+            />
 
-        <WilayaMap center={center} zoom={10} />
-      </div>
-    )) : (bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="Ooops! Currently we are providing rental services only for Algeria country"
-          subtitle=""
-        />
-        <hr />
-        <p className='text-rose-500'>Please click back and select algeria country</p>
-
-      </div>
-    ));
+            <WilayaMap center={center} zoom={10} />
+          </div>
+        ))
+      : (bodyContent = (
+          <div className="flex flex-col gap-8">
+            <Heading
+              title="Ooops! Currently we are providing rental services only for Algeria country"
+              subtitle=""
+            />
+            <hr />
+            <p className="text-rose-500">
+              Please click back and select algeria country
+            </p>
+          </div>
+        ));
   }
 
   if (step === STEPS.INFO) {
     bodyContent = (
-      <div className='flex flex-col gap-8'>
+      <div className="flex flex-col gap-8">
         <Heading
-          title='Share some basics about your place'
-          subtitle='What amenities do you have'
+          title="Share some basics about your place"
+          subtitle="What amenities do you have"
         />
         <Counter
-          title='Guests'
-          subtitle='How many guests would you allow?'
+          title="Guests"
+          subtitle="How many guests would you allow?"
           value={guestCount}
-          onChange={(value) => setCustomValue('guestCount', value)}
+          onChange={(value) => setCustomValue("guestCount", value)}
         />
         <hr />
         <Counter
-          title='Rooms'
-          subtitle='How many rooms do you have?'
+          title="Rooms"
+          subtitle="How many rooms do you have?"
           value={roomCount}
-          onChange={(value) => setCustomValue('roomCount', value)}
+          onChange={(value) => setCustomValue("roomCount", value)}
         />
         <hr />
         <Counter
-          title='Bathrooms'
-          subtitle='How many bathrooms do you have?'
+          title="Bathrooms"
+          subtitle="How many bathrooms do you have?"
           value={bathroomCount}
-          onChange={(value) => setCustomValue('bathroomCount', value)}
+          onChange={(value) => setCustomValue("bathroomCount", value)}
         />
         <hr />
       </div>
@@ -308,10 +344,10 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
 
   if (step === STEPS.IMAGES) {
     bodyContent = (
-      <div className='flex flex-col gap-8'>
+      <div className="flex flex-col gap-8">
         <Heading
-          title='Add photos of your place'
-          subtitle='Show guests what your place looks like!'
+          title="Add photos of your place"
+          subtitle="Show guests what your place looks like!"
         />
         <ImageUpload images={images} setImages={setImages} />
       </div>
@@ -320,14 +356,14 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
 
   if (step === STEPS.DESCRIPTION) {
     bodyContent = (
-      <div className='flex flex-col gap-8'>
+      <div className="flex flex-col gap-8">
         <Heading
-          title='How would you describe your place?'
-          subtitle='Short and sweet works best!'
+          title="How would you describe your place?"
+          subtitle="Short and sweet works best!"
         />
         <Input
-          id='title'
-          label='Title'
+          id="title"
+          label="Title"
           disabled={loading}
           register={register}
           errors={errors}
@@ -335,8 +371,8 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
         />
         <hr />
         <Input
-          id='description'
-          label='Description'
+          id="description"
+          label="Description"
           disabled={loading}
           register={register}
           errors={errors}
@@ -348,16 +384,16 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
 
   if (step === STEPS.PRICE) {
     bodyContent = (
-      <div className='flex flex-col gap-8'>
+      <div className="flex flex-col gap-8">
         <Heading
-          title='Now, set your price'
-          subtitle='How much do you charge per night?'
+          title="Now, set your price"
+          subtitle="How much do you charge per night?"
         />
         <Input
-          id='price'
-          label='Price'
+          id="price"
+          label="Price"
           formatPrice
-          type='number'
+          type="number"
           disabled={loading}
           register={register}
           errors={errors}
@@ -376,7 +412,7 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title='Tripnest your trip home'
+      title="Create listing"
       body={bodyContent}
     />
   );
