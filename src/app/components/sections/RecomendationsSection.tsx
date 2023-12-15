@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import Glide from "@glidejs/glide";
@@ -9,109 +9,107 @@ import { SafeListing, SafeUser } from "@/types";
 import NextPrev from "../shared/NextPrev";
 
 interface RecommendationsSectionProps {
-    className?: string;
-    itemClassName?: string;
-    itemPerRow?: number;
-    currentUser?: SafeUser | null;
+  className?: string;
+  itemClassName?: string;
+  itemPerRow?: number;
+  currentUser?: SafeUser | null;
 }
 
 const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
-    className = "",
-    itemClassName = "",
-    itemPerRow = 5,
-    currentUser,
+  className = "",
+  itemClassName = "",
+  itemPerRow = 5,
+  currentUser,
 }) => {
-    const [recommendations, setRecommendations] = useState<SafeListing[]>([]);
-    const glideRef = useRef<HTMLDivElement>(null);
+  const [recommendations, setRecommendations] = useState<
+    (SafeListing & { user: SafeUser })[]
+  >([]);
+  const glideRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const glideConfig = {
+      perView: 5,
+      gap: 32,
+      breakpoints: {
+        1280: {
+          perView: 4.5,
+        },
+        1024: {
+          gap: 20,
+          perView: 3.5,
+        },
+        768: {
+          gap: 20,
+          perView: 2.5,
+        },
+        640: {
+          gap: 20,
+          perView: 1.5,
+        },
+        500: {
+          gap: 20,
+          perView: 1.3,
+        },
+      },
+    };
+    if (glideRef.current) {
+      const glide = new Glide(glideRef.current, glideConfig);
+      glide.mount();
 
+      return () => {
+        glide.destroy();
+      };
+    }
+  });
 
-
-    useEffect(() => {
-        const glideConfig = {
-            perView: 5,
-            gap: 32,
-            breakpoints: {
-                1280: {
-                    perView: 4.5,
-                },
-                1024: {
-                    gap: 20,
-                    perView: 3.5,
-                },
-                768: {
-                    gap: 20,
-                    perView: 2.5,
-                },
-                640: {
-                    gap: 20,
-                    perView: 1.5,
-                },
-                500: {
-                    gap: 20,
-                    perView: 1.3,
-                },
+  useEffect(() => {
+    async function fetchRecommendations() {
+      try {
+        if (currentUser?.id) {
+          const response = await fetch(`/api/recommendations`, {
+            method: "POST",
+            body: JSON.stringify({ userId: currentUser.id }),
+            headers: {
+              "Content-Type": "application/json",
             },
-        };
-        if (glideRef.current) {
-            const glide = new Glide(glideRef.current, glideConfig);
-            glide.mount();
+          });
 
-            return () => {
-                glide.destroy();
-            };
+          if (response.ok) {
+            const { recommendations } = await response.json();
+            setRecommendations(recommendations);
+          } else {
+            throw new Error("Failed to fetch recommendations.");
+          }
         }
-    });
-
-    useEffect(() => {
-        async function fetchRecommendations() {
-            try {
-                if (currentUser?.id) {
-                    const response = await fetch(`/api/recommendations`, {
-                        method: "POST",
-                        body: JSON.stringify({ userId: currentUser.id }),
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    });
-
-                    if (response.ok) {
-                        const { recommendations } = await response.json();
-                        setRecommendations(recommendations);
-                    } else {
-                        throw new Error("Failed to fetch recommendations.");
-                    }
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        fetchRecommendations();
-    }, [currentUser?.id]);
-
-    if (recommendations.length === 0) {
-        return null; // Return null when there are no recommendations
+      } catch (error) {
+        console.error(error);
+      }
     }
 
-    return (
-        <div className={`recommendations-section my-6 ${className}`}>
-            <Heading title="Recommended" subtitle="The best places for you" />
-            <div className="glide" ref={glideRef}>
-            <NextPrev className="justify-end mb-1" />
-                <div className="glide__track" data-glide-el="track">
-                    <ul className="glide__slides">
-                        {recommendations.map((listing,index) => (
-                            <li className="glide__slide" key={index}>
-                                <ListingCard currentUser={currentUser} data={listing} />
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+    fetchRecommendations();
+  }, [currentUser?.id]);
 
-            </div>
+  if (recommendations.length === 0) {
+    return null; // Return null when there are no recommendations
+  }
+
+  return (
+    <div className={`recommendations-section my-6 ${className}`}>
+      <Heading title="Recommended" subtitle="The best places for you" />
+      <div className="glide" ref={glideRef}>
+        <NextPrev className="justify-end mb-1" />
+        <div className="glide__track" data-glide-el="track">
+          <ul className="glide__slides">
+            {recommendations.map((listing, index) => (
+              <li className="glide__slide" key={index}>
+                <ListingCard currentUser={currentUser} data={listing} />
+              </li>
+            ))}
+          </ul>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default RecommendationsSection;

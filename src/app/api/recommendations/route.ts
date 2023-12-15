@@ -1,9 +1,9 @@
 import prisma from "@/libs/prismadb";
 import { SafePreferences } from "@/types";
-import { Listing } from "@prisma/client";
+import { Image, Listing, User } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-interface User {
+interface IUser {
   id: string;
   preferences: SafePreferences | null;
   favoriteIds: string[];
@@ -57,12 +57,6 @@ export async function POST(req: Request) {
       ...listing,
       createdAt: listing.createdAt.toISOString(),
       updatedAt: listing.updatedAt?.toISOString(),
-      user: {
-        ...listing.user,
-        createdAt: listing.user.createdAt.toISOString(),
-        updatedAt: listing.user.updatedAt.toISOString(),
-        emailVerified: listing.user.emailVerified?.toISOString() || null,
-      },
     }));
 
     return NextResponse.json({ recommendations: safeRecommendedItems });
@@ -78,8 +72,11 @@ export async function POST(req: Request) {
 type CosineSimilarityMatrix = Record<string, number[]>;
 
 function calculateUserSimilarities(
-  users: User[],
-  items: Listing[]
+  users: IUser[],
+  items: (Listing & {
+    user: User;
+    images: Image[];
+  })[]
 ): CosineSimilarityMatrix {
   const userSimilarities: CosineSimilarityMatrix = {};
 
@@ -101,7 +98,10 @@ function calculateUserSimilarities(
 
 function getUserVector(
   preferences: SafePreferences | null,
-  items: Listing[]
+  items: (Listing & {
+    user: User;
+    images: Image[];
+  })[]
 ): number[] {
   const userVector: number[] = [];
 
@@ -168,10 +168,18 @@ function findSimilarUsers(
 }
 
 async function findRecommendedItems(
-  user: User,
+  user: IUser,
   similarUsers: string[],
-  items: Listing[]
-): Promise<Listing[]> {
+  items: (Listing & {
+    user: User;
+    images: Image[];
+  })[]
+): Promise<
+  (Listing & {
+    user: User;
+    images: Image[];
+  })[]
+> {
   const userFavorites = new Set(user.favoriteIds);
   const users = await prisma.user.findMany();
 
