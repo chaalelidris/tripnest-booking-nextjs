@@ -1,13 +1,12 @@
-import Container from '@/app/components/Container';
-import ListingCard from '@/app/components/listings/ListingCard';
-import EmptyState from '@/app/components/EmptyState';
+import Container from "@/app/components/Container";
+import ListingCard from "@/app/components/listings/ListingCard";
+import EmptyState from "@/app/components/EmptyState";
 
-import getListings, { IListingParams } from '@/app/functions/getListings';
-import getCurrentUser from '@/app/functions/getCurrentUser';
-import RecommendationsSection from '@/app/components/sections/RecomendationsSection';
+import getListings, { IListingParams } from "@/app/functions/getListings";
+import getCurrentUser from "@/app/functions/getCurrentUser";
+import RecommendationsSection from "@/app/components/sections/RecomendationsSection";
 
-
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 interface HomeProps {
   searchParams: IListingParams;
@@ -16,7 +15,6 @@ interface HomeProps {
 const Home = async ({ searchParams }: HomeProps) => {
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
-
 
   if (listings.length === 0) {
     return <EmptyState showReset />;
@@ -27,17 +25,16 @@ const Home = async ({ searchParams }: HomeProps) => {
       {currentUser && <RecommendationsSection currentUser={currentUser} />}
       <hr />
       <div
-        className='
+        className="
             pt-10
             grid 
             grid-cols-1 
             sm:grid-cols-2 
             md:grid-cols-3 
             lg:grid-cols-4
-            xl:grid-cols-5
-            2xl:grid-cols-6
-            gap-8
-          '
+            gap-x-6
+            gap-y-10
+          "
       >
         {listings.map((listing: any) => (
           <ListingCard

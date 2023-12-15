@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Container from '@/app/components/Container';
-import Categories from './Categories';
-import Logo from './Logo';
-import Search from './Search';
-import UserMenu from './UserMenu';
-import { SafeUser } from '@/types';
+import Container from "@/app/components/Container";
+import Categories from "./Categories";
+import Logo from "./Logo";
+import Search from "./Search";
+import UserMenu from "./UserMenu";
+import { SafeUser } from "@/types";
 
 interface NavbarProps {
   currentUser?: SafeUser | null;
@@ -13,18 +13,18 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   return (
-    <div className='sticky top-0 bg-white w-full z-20'>
-      <div className='py-4 border-b-[1px] '>
+    <div className="sticky top-0 bg-white w-full z-20">
+      <div className="py-4 border-b-[1px] ">
         <Container>
           <div
-            className='
+            className="
             flex
             flex-row
             items-center
             gap-3
             md:gap-0
             justify-between
-          '
+          "
           >
             <Logo />
             <Search />
@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           </div>
         </Container>
       </div>
-      <div className='shadow-sm border-b-[1px]'>
+      <div className="shadow-md border-b-[1px]">
         <Categories />
       </div>
     </div>

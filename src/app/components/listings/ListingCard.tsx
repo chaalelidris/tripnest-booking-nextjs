@@ -1,21 +1,23 @@
-'use client';
+"use client";
 
-import useContries from '@/hooks/useCountries';
-import { SafeListing, SafeReservation, SafeUser } from '@/types';
+import useContries from "@/hooks/useCountries";
+import { SafeListing, SafeReservation, SafeUser } from "@/types";
 
-import { format } from 'date-fns';
-import { useCallback, useMemo } from 'react';
+import { format } from "date-fns";
+import { useCallback, useMemo } from "react";
 
-import Button from '@/app/components/Button';
-import Slider from '@/app/components/Carousel';
+import Button from "@/app/components/Button";
+import Slider from "@/app/components/Carousel";
 
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import useLoginModal from '@/hooks/useLoginModal';
-import useEditRentModal from '@/hooks/useEditRentModal';
-import useWilayas from '@/hooks/useWilayas';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import useLoginModal from "@/hooks/useLoginModal";
+import useEditRentModal from "@/hooks/useEditRentModal";
+import useWilayas from "@/hooks/useWilayas";
 
 type ListingCardProps = {
-  data: SafeListing;
+  data: SafeListing & {
+    user: SafeUser;
+  };
   reservation?: SafeReservation;
   currentUser?: SafeUser | null;
   onAction?: (id: string) => void;
@@ -28,7 +30,7 @@ type ListingCardProps = {
 const ListingCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
-  actionId = '',
+  actionId = "",
   currentUser,
   disabled,
   onAction,
@@ -81,26 +83,27 @@ const ListingCard: React.FC<ListingCardProps> = ({
     const start = new Date(reservation.startDate);
     const end = new Date(reservation.endDate);
 
-    return `${format(start, 'PP')} - ${format(end, 'PP')}`;
+    return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
   return (
-    <div className='col-span-1 cursor-pointer group'>
-      <div className='flex flex-col w-full gap-2'>
+    <div className="col-span-1 cursor-pointer group">
+      <div className="flex flex-col w-full gap-1">
         <Slider id={data.id} images={imagesArray} currentUser={currentUser} />
-        <div className="font-extrabold text-black overflow-ellipsis whitespace-nowrap overflow-hidden text-lg">
+        <div className="font-semibold text-base overflow-ellipsis whitespace-nowrap overflow-hidden text-zinc-900 mt-2">
           {title}
         </div>
-        <div className="font-semibold text-lg">
+
+        <div className="font-medium text-sm text-zinc-500">
           {location?.region}, {location?.label},
-          <span className="font-semibold text-neutral-500"> {wilayaLocation?.label}</span>
+          <span className="font-semibold"> {wilayaLocation?.label}</span>
         </div>
-        <div className='font-light text-neutral-500'>
-          {reservationDate || data.category}
+        <div className="font-light text-neutral-500">
+          {reservationDate || data.user?.name}
         </div>
-        <div className='flex flex-row items-center gap-1'>
-          <div className='font-semibold'>{price} DZD</div>
-          {!reservation && <div className='font-light'>night</div>}
+        <div className="flex flex-row items-center gap-1">
+          <div className="font-semibold text-sm">{price} DZD</div>
+          {!reservation && <div className="font-light">night</div>}
         </div>
       </div>
       <div className="flex flex-col items-center gap-1">

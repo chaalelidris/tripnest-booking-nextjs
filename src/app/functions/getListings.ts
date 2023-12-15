@@ -1,7 +1,7 @@
-import prisma from '@/libs/prismadb';
+import prisma from "@/libs/prismadb";
 
 export interface IListingParams {
-  userId?: string
+  userId?: string;
   guestCount?: number;
   roomCount?: number;
   bathroomCount?: number;
@@ -26,37 +26,37 @@ export default async function getListings(params: IListingParams) {
       category,
     } = params;
 
-    let query: any = {}
+    let query: any = {};
 
     if (userId) {
-      query.userId = userId
+      query.userId = userId;
     }
 
     if (category) {
-      query.category = category
+      query.category = category;
     }
 
     if (roomCount) {
       query.roomCount = {
-        gte: +roomCount
-      }
+        gte: +roomCount,
+      };
     }
 
     if (guestCount) {
       query.guestCount = {
-        gte: +guestCount
-      }
+        gte: +guestCount,
+      };
     }
     if (bathroomCount) {
       query.bathroomCount = {
-        gte: +bathroomCount
-      }
+        gte: +bathroomCount,
+      };
     }
     if (locationValue) {
-      query.locationValue = locationValue
+      query.locationValue = locationValue;
     }
     if (wilayaLocationValue) {
-      query.wilayaLocationValue = wilayaLocationValue
+      query.wilayaLocationValue = wilayaLocationValue;
     }
 
     if (startDate && endDate) {
@@ -66,26 +66,25 @@ export default async function getListings(params: IListingParams) {
             OR: [
               {
                 endDate: { gte: startDate },
-                startDate: { lte: startDate }
+                startDate: { lte: startDate },
               },
               {
                 startDate: { lte: endDate },
-                endDate: { gte: endDate }
-
+                endDate: { gte: endDate },
               },
-
-            ]
-          }
-        }
-      }
+            ],
+          },
+        },
+      };
     }
     const listings = await prisma.listing.findMany({
       where: query,
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
       include: {
         images: true,
+        user: true,
       },
     });
 
