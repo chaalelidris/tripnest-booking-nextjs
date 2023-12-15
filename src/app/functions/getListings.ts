@@ -97,7 +97,6 @@ export default async function getListings(params: IListingParams) {
         createdAt: listing.user.createdAt.toISOString(),
         updatedAt: listing.user.updatedAt.toISOString(),
         emailVerified: listing.user.emailVerified?.toISOString() || null,
-        balance: 0,
       },
     }));
     return safeListings;
