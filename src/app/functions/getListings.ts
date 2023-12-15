@@ -92,6 +92,13 @@ export default async function getListings(params: IListingParams) {
       ...listing,
       createdAt: listing.createdAt.toISOString(),
       updatedAt: listing.updatedAt?.toISOString(),
+      user: {
+        ...listing.user,
+        createdAt: listing.user.createdAt.toISOString(),
+        updatedAt: listing.user.updatedAt.toISOString(),
+        emailVerified: listing.user.emailVerified?.toISOString() || null,
+        balance: 0,
+      },
     }));
     return safeListings;
   } catch (error: any) {
