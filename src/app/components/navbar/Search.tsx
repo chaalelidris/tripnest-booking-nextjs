@@ -35,7 +35,7 @@ const Search = () => {
       if (diffTime === 0) {
         diffTime = 1;
       }
-      return `${diffTime} Duration`;
+      return `${diffTime} Night(s)`;
     }
 
     return "Duration";

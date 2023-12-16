@@ -125,7 +125,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     />
                     <MenuItem
                       onClick={() => router.push("/listings")}
-                      label="All Listings"
+                      label="Browse Listings"
                     />
                     <MenuItem
                       onClick={() => router.push("/profile")}
@@ -133,7 +133,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     />
                     <MenuItem
                       onClick={() => router.push("/dashboard")}
-                      label="My Dashboard"
+                      label="Dashboard"
                     />
                     <MenuItem
                       onClick={() => router.push("/trips")}
@@ -151,7 +151,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                       onClick={() => router.push("/properties")}
                       label="My properties"
                     />
-                    <MenuItem onClick={onRent} label="Tripnest my home" />
+                    <MenuItem onClick={onRent} label="Create listing" />
                     <MenuItem onClick={onPreferences} label="My preferences" />
                     <MenuItem onClick={() => signOut()} label="Logout" />
                   </>

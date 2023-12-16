@@ -114,8 +114,8 @@ const EditRentModal: React.FC<IEditRentModal> = () => {
     () =>
       dynamic(() => import("@/app/components/Map"), {
         ssr: false,
-        // eslint-disable-next-line react-hooks/exhaustive-deps
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [wilayaLocation]
   );
 
