@@ -1,4 +1,6 @@
-import prisma from '@/libs/prismadb';
+import prisma from "@/libs/prismadb";
+import { SafeReservation } from "@/types";
+import { Listing, User } from "@prisma/client";
 
 interface IParams {
   listingId?: string;
@@ -30,11 +32,12 @@ export default async function getReservations(params: IParams) {
         listing: {
           include: {
             images: true,
+            user: true,
           },
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
@@ -44,11 +47,24 @@ export default async function getReservations(params: IParams) {
       startDate: reservation.startDate.toISOString(),
       endDate: reservation.endDate.toISOString(),
       listing: {
-        ...reservation.listing,
+        ...(reservation.listing as Omit<Listing, "createdAt" | "updatedAt">),
         createdAt: reservation.listing.createdAt.toISOString(),
         updatedAt: reservation.listing.updatedAt?.toISOString(),
+        user: {
+          ...(reservation.listing.user as Omit<
+            User,
+            "createdAt" | "updatedAt"
+          >),
+          createdAt: reservation.listing.user.createdAt.toISOString(),
+          updatedAt: reservation.listing.user.updatedAt.toISOString(),
+          emailVerified:
+            reservation.listing.user.emailVerified?.toISOString() || null,
+          hasWallet: true, // Provide a default value or adjust as needed
+          balance: 0, // Provide a default value or adjust as needed
+        },
+        images: reservation.listing.images, // Include images property
       },
-    }));
+    })) as SafeReservation[];
 
     return safeReservations;
   } catch (error: any) {
