@@ -3,22 +3,24 @@ import { eachDayOfInterval, isWithinInterval } from "date-fns";
 
 import getCurrentUser from "@/app/functions/getCurrentUser";
 import prisma from "@/libs/prismadb";
-import { Stripe } from "@/libs/stripe";
 
 export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
-      return NextResponse.error();
+      return NextResponse.json({ message: "Unauthorized", status: 401 });
     }
 
     const body = await request.json();
 
-    const { listingId, totalPrice, startDate, endDate, source } = body;
+    const { listingId, totalPrice, startDate, endDate } = body;
 
     if (!listingId || !totalPrice || !startDate || !endDate) {
-      return NextResponse.error();
+      return NextResponse.json({
+        message: "Please provide all reservation infos",
+        status: 400,
+      });
     }
 
     const listing = await prisma.listing.findUnique({
@@ -54,18 +56,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: `Host not found` }, { status: 500 });
     }
 
-    if (!host.walletId) {
+    /* if (!host.walletId) {
       return NextResponse.json(
         { message: `The host is not connected with Stripe` },
         { status: 500 }
       );
-    }
+    } */
 
     // Check if the startDate and endDate are already reserved
     const dates = eachDayOfInterval({
       start: new Date(startDate),
       end: new Date(endDate),
     });
+
     for (const reservation of listing.reservations) {
       const reservationDates = eachDayOfInterval({
         start: new Date(reservation.startDate),
@@ -82,13 +85,11 @@ export async function POST(request: Request) {
         ) {
           return NextResponse.json(
             { message: `The dates are already reserved` },
-            { status: 500 }
+            { status: 400 }
           );
         }
       }
     }
-
-    await Stripe.charge(totalPrice, source, host.walletId);
 
     await prisma.user.update({
       where: {
@@ -114,8 +115,7 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(listingAndReservation);
-  } catch (error) {
-    //throw new Error("Problem with host payment account !");
-    return NextResponse.json({ error: `${error}` }, { status: 500 });
+  } catch (error: any) {
+    console.error(error);
   }
 }

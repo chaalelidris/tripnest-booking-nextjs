@@ -1,15 +1,15 @@
-'use client';
-import axios from 'axios';
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import Modal from '@/app/components/modals/Modal';
-import Heading from '@/app/components/Heading';
-import { toast } from 'react-hot-toast';
-import { Range } from 'react-date-range';
-import useLoginModal from '@/hooks/useLoginModal';
-import useBookModal from '@/hooks/useBookModal';
-import { useRouter } from 'next/navigation';
-import { format } from 'date-fns';
+"use client";
+import axios from "axios";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import Modal from "@/app/components/modals/Modal";
+import Heading from "@/app/components/Heading";
+import { toast } from "react-hot-toast";
+import { Range } from "react-date-range";
+import useLoginModal from "@/hooks/useLoginModal";
+import useBookModal from "@/hooks/useBookModal";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 type BookingModalProps = {
   totalPrice: number;
@@ -36,45 +36,11 @@ const BookingModal: React.FC<BookingModalProps> = ({
   const bookingModal = useBookModal();
   const router = useRouter();
 
-
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleCreateBooking = async () => {
-    if (!stripe || !elements) {
-      return toast.error("Sorry! We weren't able to connect with Stripe");
-    }
-
-    const cardElement = elements.getElement(CardElement);
-
-    if (cardElement) {
-      const { token: stripeToken, error } = await stripe.createToken(
-        cardElement,
-      );
-
-      if (stripeToken) {
-        axios.post('/api/stripe', {});
-        // createBooking({
-        //   variables: {
-        //     input: {
-        //       id: id,
-        //       source: stripeToken.id,
-        //       checkIn: moment(checkInDate).format("YYYY-MM-DD"),
-        //       checkOut: moment(checkOutDate).format("YYYY-MM-DD"),
-        //     },
-        //   },
-        // });
-      } else {
-        toast.error(
-          error?.message ??
-          "Sorry! We weren't able to book the listing. Please try again later.",
-        );
-      }
-    }
-  };
-
   const onCreateReservation = useCallback(async () => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     if (!stripe || !elements) {
       return toast.error("Sorry! We weren't able to connect with Stripe");
@@ -84,7 +50,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
     if (cardElement) {
       const { token: stripeToken, error } = await stripe.createToken(
-        cardElement,
+        cardElement
       );
       if (isLoading) {
         toast.loading("Creating booking...");
@@ -100,17 +66,16 @@ const BookingModal: React.FC<BookingModalProps> = ({
         .then((response) => {
           toast.success("Listing Reserved🎉");
           setDateRange(initialDateRange);
-          router.push('/trips');
+          router.push("/trips");
         })
         .catch((error) => {
-          toast.error("The host not fully connected to stripe");
+          toast.error("Internal error");
           console.log(error.response?.data?.error);
         })
         .finally(() => {
           setIsLoading(false);
           bookingModal.onClose();
         });
-
     }
   }, [
     isLoading,
@@ -122,14 +87,57 @@ const BookingModal: React.FC<BookingModalProps> = ({
     setDateRange,
     elements,
     stripe,
-    bookingModal
+    bookingModal,
+  ]);
+
+  const onCreateReservationNoPayment = useCallback(async () => {
+    setIsLoading(true);
+
+    if (isLoading) {
+      toast.loading("Creating booking...");
+    }
+    axios
+      .post(`/api/reservations/standard`, {
+        listingId,
+        totalPrice,
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+      })
+      .then(() => {
+        toast.success("Listing Reserved🎉");
+        setDateRange(initialDateRange);
+        router.push("/trips");
+      })
+      .catch((error) => {
+        error.response.request &&
+          toast.error(error.response.request.statusText);
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        bookingModal.onClose();
+      });
+  }, [
+    isLoading,
+    totalPrice,
+    dateRange,
+    listingId,
+    router,
+    initialDateRange,
+    setDateRange,
+    bookingModal,
   ]);
 
   const bodyContent = (
-    <div className='flex flex-col gap-4'>
-      <Heading center title='Book your Reservation'
-        subtitle={`Enter your payment information to bookthe listing from the dates between 
-        ${format(dateRange.startDate!, 'PP')} - ${format(dateRange.endDate!, 'PP')}, inclusive.`}
+    <div className="flex flex-col gap-4">
+      <Heading
+        center
+        title="Book your Reservation"
+        subtitle={`Enter your payment information to book the listing from the dates between 
+        ${format(dateRange.startDate!, "PP")} - ${format(
+          dateRange.endDate!,
+          "PP"
+        )}, inclusive.`}
       />
       <hr />
 
@@ -137,12 +145,16 @@ const BookingModal: React.FC<BookingModalProps> = ({
         <div className="flex items-start">
           <p className="text-gray-700 font-semibold">Nightly rate:</p>
           <p className="ml-auto text-gray-900">
-            {listingPrice} DZD * {dateRange.endDate!.getDate() - dateRange.startDate!.getDate()} nights
+            {listingPrice} DZD *{" "}
+            {dateRange.endDate!.getDate() - dateRange.startDate!.getDate()}{" "}
+            nights
           </p>
         </div>
         <div className="flex items-start">
           <p className="text-gray-700 font-semibold">Tripnest fee:</p>
-          <p className="ml-auto text-gray-900">{Math.ceil(totalPrice * 0.05)} DZD</p>
+          <p className="ml-auto text-gray-900">
+            {Math.ceil(totalPrice * 0.05)} DZD
+          </p>
         </div>
         <div className="flex items-start">
           <p className="text-gray-700 font-semibold">Total price:</p>
@@ -153,31 +165,34 @@ const BookingModal: React.FC<BookingModalProps> = ({
       </div>
 
       <hr />
-      <p className="text-semibold text-center">Total: <span className="font-medium">{totalPrice + Math.ceil(totalPrice * 0.05)} <small>DZD</small></span> </p>
-      <CardElement
-        options={{ hidePostalCode: true }}
-      />
+      <p className="text-semibold text-center">
+        Total:{" "}
+        <span className="font-medium">
+          {totalPrice + Math.ceil(totalPrice * 0.05)} <small>DZD</small>
+        </span>{" "}
+      </p>
+      {/* <CardElement options={{ hidePostalCode: true }} /> */}
     </div>
   );
 
   const footerContent = (
     <div>
       <p className="text-xs text-center mt-10">
-        Test using the credit card number: 4242 4242 4242 4242, a future expiry date,
-        and any 3 digits for the CVC code.
+        By clicking <b>Confirm Reservation</b> you agree to the terms and
+        conditions.
       </p>
     </div>
-  )
+  );
 
   return (
     <Modal
       disabled={!stripe || !elements || isLoading}
       loading={isLoading}
       isOpen={bookingModal.isOpen}
-      title='Book you reservation'
-      actionLabel='Reserve'
+      title="Book you reservation"
+      actionLabel="Confirm Reservation"
       onClose={bookingModal.onClose}
-      onSubmit={onCreateReservation}
+      onSubmit={onCreateReservationNoPayment}
       body={bodyContent}
       footer={footerContent}
     />
