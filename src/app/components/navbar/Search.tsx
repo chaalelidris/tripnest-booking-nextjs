@@ -61,7 +61,7 @@ const Search = () => {
                   hover:shadow-lg
                   transition
                   cursor-pointer
-                  ml-24
+                  md:ml-24
                 "
     >
       <div
